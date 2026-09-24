@@ -1,0 +1,82 @@
+name: Skills-Manager CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'skills-manager/**'
+      - 'CHANGELOG.md'
+      - '.github/workflows/skills-manager.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'skills-manager/**'
+      - 'CHANGELOG.md'
+      - '.github/workflows/skills-manager.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  BUN_VERSION: '1.3.6'
+
+jobs:
+  test:
+    name: Test (bun) - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Volle Historie fuer den Conventional-Commit-Check auf PRs
+          fetch-depth: 0
+
+      - name: Setup Bun ${{ env.BUN_VERSION }}
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint (Biome, skills-manager)
+        run: bunx biome lint skills-manager --max-diagnostics=none
+
+      - name: Typecheck
+        run: bunx tsc --noEmit
+
+      - name: Tests (bun:test, tmp-Fixtures)
+        run: bun test
+
+  changelog:
+    name: Changelog & Conventional Commits
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun ${{ env.BUN_VERSION }}
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Conventional Commits pruefen (seit Basis-Branch)
+        run: bun run skills-manager/scripts/check-commits.ts --base "origin/${{ github.base_ref || 'master' }}"
+
+      - name: CHANGELOG-Aktualisierung pruefen
+        run: bun run skills-manager/scripts/check-changelog.ts --base "origin/${{ github.base_ref || 'master' }}"
