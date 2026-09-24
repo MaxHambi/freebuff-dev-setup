@@ -1,11 +1,84 @@
 # tools-entwicklung
 
-Windows Scheduled Tasks & Watchdogs as code.
+Windows Scheduled Tasks & Watchdogs as code - plus Skills-Manager fuer die
+persoenliche Agent-Skills-Bibliothek.
 
-- `plan.md` – genehmigter Masterplan (Slices T1–T7), verbindlich für die Implementierungs-Sitzung
-- `node-watchdog/` – globaler Node/Electron/esbuild-Watchdog (DryRun-Default, Whitelist, Baum-Kill)
-- `task/` – exportierte Task-XMLs aller eigenen Scheduled Tasks
+| Bereich | Inhalt | Doku |
+|---------|--------|------|
+| `plan.md` | Genehmigter Masterplan (Slices T1–T7), verbindlich fuer die Implementierung; T1 erfuellt (ADR-001 offen) | - |
+| `node-watchdog/` | Globaler Node/Electron/esbuild-Watchdog (DryRun-Default, Whitelist, Baum-Kill, Log-Rotation) | ADR-001 |
+| `skills-manager/` | Analyse, Gruppierung und OpenTUI-Installer fuer `~/.agents/skills` (Slice 1 gemerged, TUI-Slices als Issues #3-#10) | `skills-manager/docs/` |
+| `skills/` | Eigene Agent Skills (Meta-Skill `using-skills` mit Gate + Router + Hooks) | unten, Abschnitt Skills-Verzeichnis |
+| `task/` | Exportierte Task-XMLs aller eigenen Scheduled Tasks (GUI-Backup) | unten, Wiederherstellung |
+| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-005) | `docs/index.md` |
 
+## Skills-Manager (`skills-manager/`)
+
+Bun-basiertes Werkzeug fuer die persoenliche Skill-Bibliothek
+(`%USERPROFILE%.agentsskills`, ueber 1.800 Skills). Slice 1 (Analyse-CLI)
+ist gemerged; die OpenTUI folgt mit den Issues #3-#10.
+
+### Analyse-CLI (Slice 1, gemerged via PR #12)
+
+```powershell
+bun run skills-manager/src/analyze.ts            # Standard-Root analysieren
+bun run skills-manager/src/analyze.ts --root <pfad> --quiet
+```
+
+- Klassifiziert jeden Skill: `stale` (aelter als 6 Monate bzw. Deprecated-Marker),
+  `incompat` (fehlende lokale Skript-/Doc-Referenzen, Binaer-Anteile),
+  `setup` (API-Keys, MCP-Server, requirements.txt/package.json)
+- Erkennt Container-Ordner (libreoffice/, security/, sendblue/) rekursiv
+- Delta-Index mit Move-Erkennung: Folgelauf prueft nur Aenderungen
+- Erstlauf gegen die echte Bibliothek: 1.872 Skills -> 1.144 stale, 94 incompat, 507 setup
+- Artefakte in `skills-manager/src/data/` (gitignored): `skills.json`,
+  `REPORT.md`, `state.json`
+
+### Test-Gates
+
+```powershell
+bun test                                    # 25 Tests gegen tmp-Fixtures
+bunx tsc --noEmit                           # Typcheck
+bun run skills-manager/scripts/check-commits.ts --base origin/master
+bun run skills-manager/scripts/check-changelog.ts --base origin/master
+```
+
+Beide Check-Skripte laufen im CI-Workflow `.github/workflows/skills-manager.yml`
+(test + lint + typecheck auf ubuntu/windows) und erzwingen Conventional
+Commits sowie einen aktuellen `[Unreleased]`-Abschnitt im CHANGELOG.
+
+### Geplante Erweiterungen
+
+| Slice | Inhalt | Issue |
+|-------|--------|-------|
+| 2 | OpenTUI-Gruppenbaum, Beschreibungspanel | #3 |
+| 3 | Multi-Select, Filter, Badges | #4 |
+| 4 | Install-Flow (Pfad-Dialog, Copy-Engine) | #5 |
+| 5 | Mirror-Gruppierung (~/.agents/skills-org/) | #6 |
+| 6 | Delta-Ausbau (Mtime-Heuristik) | #7 |
+| 7 | Watcher & Mirror-Sync | #8 |
+| 8 | Semantische Suche via routed | #9 |
+| 9 | Live-Integration (Watcher-Thread, Rescan) | #10 |
+
+Details: `skills-manager/docs/INDEX.md` (Einstieg), PRD, Architektur,
+API-Referenz und User Guide liegen daneben.
+## Node-Watchdog (`node-watchdog/`)
+
+Globaler Watchdog fuer `node.exe`/`electron.exe`/`esbuild.exe` (Slice T1,
+gemerged via PR #13). Kern: drei Kill-Kriterien - orphan (mit PID-Reuse-
+Schutz ueber Eltern-Startzeit), idle-aged (Alter UND CPU-Zeit), stale-port
+(netstat-Mapping). DryRun ist Default; Kills nur mit `-Apply`.
+
+```powershell
+pwsh -File node-watchdog/node-watchdog.ps1              # DryRun-Report
+pwsh -File node-watchdog/run-tests.ps1                  # Integrationstests (18/22 PASS)
+```
+
+- Whitelist per Substring gegen CommandLine+ExecutablePath (`whitelist.txt`)
+- Selbstschutz (eigene Elternkette), Baum-Kill via `taskkill /T /F`
+- Log-Rotation ab 5 MB (3 Archive)
+- 4 Known-Fails im Harness sind dokumentiert in ADR-001 (Status offen,
+  Verifikation als Issue #14)
 ## Skills-Verzeichnis (`skills/`)
 
 Das Repo versioniert eigene Agent Skills unter `skills/`; Deploy-Ziel ist
@@ -87,6 +160,38 @@ Zwei Meta-Skills arbeiten zusammen und ergänzen sich:
 - Ablauf: Gate prüft (superpowers) → Router wählt (agent-skills) → gefundene
   Skills fehlen? Routed-Fallback → Skill folgt exakt, ist aber kein Gehorsam:
   bei falscher Prämisse verwerfen und ohne weiterarbeiten.
+
+### MCP-Server & Workflows (`.cline/`)
+
+Der routed MCP-Server ist in `.cline/mcp_settings.json` konfiguriert
+(lokale Infrastruktur, repo-unabhaengig):
+
+| Einstellung | Wert |
+|---|---|
+| Server | `routed` (Command `routed mcp`) |
+| Auto-Approve | `route_skill`, `get_skill`, `list_skills` |
+| Manuell freigegeben | `scan_skills` (Index-Rebuild, schreibend) |
+
+Workflow `.cline/workflows/route.md` (`/route <prompt>`): vor fachlicher
+Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
+`path` lesen und befolgen; ohne Treffer direkt arbeiten.
+
+### Eigene und ergaenzte Skills (Stand nach PR #11/#12/#13)
+
+| Skill | Herkunft | Inhalt |
+|---|---|---|
+| `using-skills` | eigenes Repo (`skills/using-skills/`) | Meta-Skill: Gate + Router + Interview + routed-Discovery + Hooks (s. o.) |
+| `powershell-script-engine` | manuell ergaenzt | PowerShell/Windows-Systemtechnik-Experte (Bibliothek) |
+| `powershell-script-authoring` | manuell ergaenzt | PowerShell-Skripte erstellen, pruefen, paketieren |
+| `opentui` | installiert | Terminal-UIs mit OpenTUI (Core/React/Solid, Renderer-APIs) - Grundlage fuer Skills-Manager Slice 2+ |
+| `to-prd`, `to-issues`, `setup-matt-pocock-skills` | installiert (mattpocock/skills) | PRD-/Issue-Workflows mit GitHub-Tracker und Triage-Labels |
+| `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert | Conventional-Commits-, Branch- und PR-Pipeline |
+| `changelog-automation`, `documentation-and-adrs`, `documentation-generation-doc-generate` | installiert | Changelog (Keep a Changelog), ADR- und Doku-Generierung |
+| `interview-style-doc-building`, `brain-to-docs`, `code-documentation-doc-generate` | installiert | Interviewbasierte Doku-Erstellung |
+
+Deploy-Ziel eigener Skills: `%USERPROFILE%.agentsskills<name>`, danach
+`skills-sync.ps1` oder MCP `scan_skills` (siehe ADR-002: `scan_skills` ist
+der massgebliche Indexierungsweg).
 
 ## Deploy & Task-Registrierung (`scripts/`)
 

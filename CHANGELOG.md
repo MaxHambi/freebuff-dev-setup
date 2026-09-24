@@ -59,6 +59,10 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 - **CI-Workflow** (`.github/workflows/skills-manager.yml`): bun test + Biome-Lint +
   Typecheck auf ubuntu/windows sowie Conventional-Commits- und
   CHANGELOG-Drift-Check (bun-Skripte in `skills-manager/scripts/`).
+- **Doku-Ausbau**: README (Skills-Manager, Watchdog, MCP-/Workflows-Details,
+  ergaenzte Skills), ADR-002 bis ADR-005, Doku-Landkarte `docs/index.md`,
+  Session-Verlauf `docs/sessions.md`, ordner-spezifischer Kontext
+  `skills-manager/CLAUDE.md` (+ AGENTS.md-Kopie), Root-AGENTS.md aktualisiert.
 
 ### Fixed
 
