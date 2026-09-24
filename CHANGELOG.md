@@ -39,6 +39,8 @@ und die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `export-tasks`) in der package.json wiederhergestellt, die beim Anlegen des
   Skills-Manager-Projektgeruests verloren gegangen waren – das Pre-Push-Gate
   brach daraufhin zu Recht ab.
+- npm-Lockfile mit den Bun-Abhängigkeiten (`@opentui/core`, `@types/bun`)
+  synchronisiert, damit `npm ci` in der bestehenden CI wieder durchläuft.
 
 ### Security
 - Generierte Daten-Artefakte (`skills-manager/src/data/`) sind gitignored;
