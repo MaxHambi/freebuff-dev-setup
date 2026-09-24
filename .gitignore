@@ -22,6 +22,9 @@ node-watchdog/*.log
 # Lokale Git-Worktrees (isolierte Sitzungen)
 .worktrees/
 
+# Root-CLAUDE.md ist nur ein lokaler Symlink auf AGENTS.md
+/CLAUDE.md
+
 # Skills-Manager: generierte Daten-Artefakte (Index/State sind Laufzeit-Daten)
 skills-manager/src/data/
 skills-manager/data/
