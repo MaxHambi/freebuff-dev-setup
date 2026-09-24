@@ -6,6 +6,36 @@ Windows Scheduled Tasks & Watchdogs as code.
 - `node-watchdog/` – globaler Node/Electron/esbuild-Watchdog (DryRun-Default, Whitelist, Baum-Kill)
 - `task/` – exportierte Task-XMLs aller eigenen Scheduled Tasks
 
+## Skills-Verzeichnis (`skills/`)
+
+Das Repo versioniert eigene Agent Skills unter `skills/`; Deploy-Ziel ist
+`%USERPROFILE%\.agents\skills\<name>\` (Registrierung im routed-Index via
+`skills-sync.ps1` oder MCP `scan_skills`).
+
+### skills/using-skills — Meta-Skill (Gate + Router)
+
+Vereint das 1%-Skill-Gate (using-superpowers), den Phasen-Baum (using-agent-skills)
+und den Interview-Funnel (skill-router); Discovery-Fallback ueber routed MCP.
+
+| Artefakt | Zweck |
+|---|---|
+| `SKILL.md` | Gate → Router → Interview → routed-Discovery → Operating Behaviors; i18n-Regeln (deutsch-englische Trigger-Description) |
+| `references/routing-reference.md` | Vollstaendiger Phasen-Baum, Kategorie-Routing, Interview-Funnel, Lifecycle |
+| `references/routed-mcp.md` | MCP-Tool-Signaturen, Standard-Workflow, CLI-Fallback, Fehlersignaturen |
+| `hooks/route-gate.ps1` | Gate-Enforcement per routed CLI. Exit `0` = kein Skill noetig, `1` = Skill-Treffer einladen, `2` = routed nicht erreichbar |
+| `hooks/skills-sync.ps1` | Snapshot-Diff ueber die Skills-Ordner (`.gemini/config/plugins`, `.agents/skills`, `.claude/skills`) + Registrierung via `routed scan`. Switches: `-Force`, `-HashContent` (SHA-256 statt Zeitstempel+Groesse) |
+
+Hooks ausfuehren:
+
+```powershell
+pwsh -File skills/using-skills/hooks/route-gate.ps1 -Prompt "<task>"
+pwsh -File skills/using-skills/hooks/skills-sync.ps1
+```
+
+State des Syncs: `%APPDATA%\routed\skills-sync.state.json` (nur nach
+erfolgreichem Scan geschrieben). Aenderungen an Skills immer am Deploy-Ziel
+und im Repo pflegen, danach Sync laufen lassen.
+
 ## Wiederherstellung eines Tasks (GUI)
 
 1. Aufgabenplanung öffnen (`taskschd.msc`)
