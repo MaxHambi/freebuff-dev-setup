@@ -60,6 +60,20 @@ git config core.hooksPath scripts/hooks   # Pre-Push-Gate aktivieren
 - DryRun vor Apply: keine destruktive Aktion ohne vorherigen Report-Run
 - Keine Secrets committen (`.env` ignoriert, Vorlage `.env.example`)
 
+## Agent skills
+
+### Issue tracker
+
+Issues leben in GitHub Issues (MaxHambi/tools-entwicklung, `gh` CLI); PRs sind kein Triage-Surface. Siehe `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Fünf kanonische Rollen mit Default-Namen (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). Siehe `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `AGENTS.md` als Vokabular-Quelle, `docs/adr/` für ADRs. Siehe `docs/agents/domain.md`.
+
 ## MCP-Server
 - `routed` (`.cline/mcp_settings.json`): Skill-Routing, läuft repo-unabhängig
 - Workflow `.cline/workflows/route.md`: `/route <prompt>` vor fachlicher Arbeit
