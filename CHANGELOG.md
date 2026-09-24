@@ -30,6 +30,9 @@ und die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Engineering-Skills (/to-prd, /to-issues).
 - **Planungsartefakte**: PRD (#1) und die neun Tracer-Bullet-Slice-Issues
   (#2-#10) lokal unter `skills-manager/docs/` bzw. `.scratch/` gespiegelt.
+- **CI-Workflow** (`.github/workflows/skills-manager.yml`): bun test + Biome-Lint +
+  Typecheck auf ubuntu/windows sowie Conventional-Commits- und
+  CHANGELOG-Drift-Check (bun-Skripte in `skills-manager/scripts/`).
 
 ### Fixed
 - PowerShell-Repo-Scripts (`syntaxcheck`, `deploy`, `install-task`,
