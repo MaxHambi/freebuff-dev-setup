@@ -18,8 +18,6 @@ release/
 # Runtime-Artefakte des Watchdogs (liegen in .tools, nie im Repo)
 node-watchdog/*.log
 
-# Git-Symlink CLAUDE.md nicht doppelt tracken (Root folgt AGENTS.md)
-/CLAUDE.md
 
 # Lokale Git-Worktrees (isolierte Sitzungen)
 .worktrees/

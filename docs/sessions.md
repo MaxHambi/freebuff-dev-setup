@@ -9,6 +9,8 @@ Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
 **Entscheidungen:** ADR-002 (routed `scan_skills` massgeblich), ADR-003 (Worktree master-first, temporaer), ADR-004 (zwei Test-Seams), ADR-005 (Mirror statt Move).
 
+**Konvention:** Alle Ordner-Agent-Dateien heissen AGENTS.md (skills-manager/CLAUDE.md entfernt, Root-CLAUDE.md nur lokaler Symlink).
+
 **Offen:** Skills-Manager-Slices #3-#10 (OpenTUI folgt), #14 ADR-001-Closure, #15 routed-Divergenz, #16 Watchdog-Reviewer-Entscheidungen, #17 skills-sync-Regularisierung, Slices T2-T7 aus plan.md.
 
 ## 2026-09-24 - Planungsphase Skills-Manager

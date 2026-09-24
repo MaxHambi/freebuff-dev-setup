@@ -109,6 +109,14 @@ State des Syncs: `%APPDATA%\routed\skills-sync.state.json` (nur nach
 erfolgreichem Scan geschrieben). Aenderungen an Skills immer am Deploy-Ziel
 und im Repo pflegen, danach Sync laufen lassen.
 
+## Agent-Doku-Konvention (AGENTS.md)
+
+Ordnerebene-Agent-Dateien heissen in diesem Repo **immer** `AGENTS.md` -
+keine `CLAUDE.md` (Root-`CLAUDE.md` ist nur ein lokaler, gitignored Symlink).
+Betroffen: Root-`AGENTS.md` (Konventionen, Commands) und
+`skills-manager/AGENTS.md` (ordner-spezifischer Kontext). Session-Ende:
+Skill `session-docs-guardian` prueft beide als eigene Doku-Ziele.
+
 ## Wiederherstellung eines Tasks (GUI)
 
 1. Aufgabenplanung öffnen (`taskschd.msc`)

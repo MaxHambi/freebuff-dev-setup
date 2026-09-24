@@ -1,6 +1,6 @@
 Apply root AGENTS.md first, then this file.
 
-# skills-manager – Ordner-Kontext
+# skills-manager – Ordner-Kontext (AGENTS.md)
 
 - **Bun-only**: Laufzeit und Tests (`bun test`); Node ist kein Ziel (OpenTUI braucht ≥26.4).
 - **OpenTUI**: Slice 2+ nutzt `@opentui/core` imperativ (`createCliRenderer`, Renderables) – keine React/Solid-Bindings; Layout kompakt (keine Paddings, information-dicht).
@@ -10,4 +10,4 @@ Apply root AGENTS.md first, then this file.
 - **Skripte**: `check-commits.ts`/`check-changelog.ts` sind bewusst dependency-frei (bun stdlib), damit `bunx` sie ohne Install läuft.
 - **State/Migration**: `state.json`-Format nur erweitern, nie umbauen – alte States müssen weiter lesbar bleiben (Move-Erkennung hängt am Hash).
 - Doku-Einstieg: `docs/INDEX.md`; Issue-Map mit Dependencies in `docs/PROCESS.md`.
-- **AGENTS.md = Kopie von CLAUDE.md** (Windows-Git-Symlinks unzuverlaessig): bei Aenderung beides anfassen.
+- **Nur AGENTS.md** (keine CLAUDE.md mehr in diesem Repo - Konvention: AGENTS.md ueberall).
