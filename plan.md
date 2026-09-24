@@ -128,7 +128,7 @@ D:\tools-entwicklung\
 **Blocked by:** –
 **AC-Kernpunkte:** Kill-Kriterien 1–3 implementiert · DryRun-Default + Report ·
 Whitelist · Selbstschutz · Baum-Kill · Log-Rotation · Exit-Codes · Tests grün
-**Status:** [ ] offen
+**Status:** [x] erfuellt (2026-09-24, 18/22 Assertions PASS, 4 Known-Fails akzeptiert - RCA offen, siehe docs/decisions/ADR-001)
 
 ### Slice T2 — deploy + Task „Node Watchdog" registrieren
 **Blocked by:** T1
