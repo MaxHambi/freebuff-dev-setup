@@ -13,6 +13,8 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   (`route_skill`, `get_skill`, `list_skills`, `scan_skills`), Skill-Ablageorte
   (`.gemini`/`.agents`/`.claude`) und Meta-Skill-Gate (superpowers + agent-skills).
 - `.gitignore`: `.worktrees/` für lokale isolierte Sitzungs-Worktrees.
+- README-Abschnitt „Deploy & Task-Registrierung" mit Helper-Referenz
+  (deploy.ps1, install-task.ps1, export-tasks.ps1) und Beispielaufrufen.
 
 ### Infrastructure
 
