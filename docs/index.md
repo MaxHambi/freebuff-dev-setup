@@ -46,4 +46,5 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 | Datei | Zweck |
 |-------|-------|
 | `docs/sessions.md` | Session-Summaries (was wann geliefert wurde) |
+| `docs/worktree-fibel.md` | Worktree-Kurzguide (wann/wie/weg, passend zu ADR-003) |
 | `CHANGELOG.md` | Aenderungen nach Keep a Changelog |

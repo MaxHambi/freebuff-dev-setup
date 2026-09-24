@@ -72,7 +72,7 @@ git config core.hooksPath scripts/hooks   # Pre-Push-Gate aktivieren
 - Skills-Bibliothek `~/.agents/skills` ist NUR LESE-Zugriff fuer den Skills-Manager; kein Umbau, Mirror statt Move (ADR-005)
 - `skills-manager/src/data/` ist gitignored (generierte Artefakte)
 - CHANGELOG `[Unreleased]` bei jedem feat/fix aktualisieren (CI-Drift-Check)
-- Worktrees nur temporaer bei parallelen Sitzungen, nach Merge entfernen (ADR-003)
+- Worktrees nur temporaer bei parallelen Sitzungen, nach Merge entfernen (ADR-003; Anleitung: `docs/worktree-fibel.md`)
 - routed-Indexierung: MCP `scan_skills` ist massgeblich, nicht CLI `routed scan` (ADR-002)
 
 ## Agent skills

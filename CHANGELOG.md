@@ -62,7 +62,10 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 - **Doku-Ausbau**: README (Skills-Manager, Watchdog, MCP-/Workflows-Details,
   ergaenzte Skills), ADR-002 bis ADR-005, Doku-Landkarte `docs/index.md`,
   Session-Verlauf `docs/sessions.md`, ordner-spezifischer Kontext
-  `skills-manager/CLAUDE.md` (+ AGENTS.md-Kopie), Root-AGENTS.md aktualisiert.
+  `skills-manager/AGENTS.md`, Root-AGENTS.md aktualisiert (Konvention:
+  Ordnerebene-Agent-Dateien heissen AGENTS.md, nie CLAUDE.md)
+- **Worktree-Fibel** (`docs/worktree-fibel.md`): Kurzguide zu ADR-003 -
+  Wann Worktree, Benennungsschema, PR-Sequenz, Cleanup, Zustandschecks.
 
 ### Fixed
 
