@@ -20,3 +20,10 @@ node-watchdog/*.log
 
 # Git-Symlink CLAUDE.md nicht doppelt tracken
 CLAUDE.md
+
+# Lokale Git-Worktrees (isolierte Sitzungen)
+.worktrees/
+
+# Skills-Manager: generierte Daten-Artefakte (Index/State sind Laufzeit-Daten)
+skills-manager/src/data/
+skills-manager/data/
