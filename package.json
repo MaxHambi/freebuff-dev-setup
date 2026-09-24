@@ -1,20 +1,26 @@
 {
-	"name": "tools-entwicklung",
+	"name": "tools-entwicklung-skills-manager",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Windows Scheduled Tasks & Watchdogs as code: deploy to %USERPROFILE%\\.tools with task XML backups",
+	"description": "Skills-Manager: Analyse, Gruppierung und OpenTUI-Installer fuer die persoenliche Agent-Skills-Bibliothek",
+	"type": "module",
 	"scripts": {
-		"lint": "biome lint . --max-diagnostics=none",
-		"lint:fix": "biome lint --write . --max-diagnostics=none",
-		"format": "biome format --write . --max-diagnostics=none",
-		"test": "pwsh -NoProfile -File scripts/test.ps1",
-		"syntaxcheck": "pwsh -NoProfile -File scripts/syntaxcheck.ps1",
-		"deploy": "pwsh -NoProfile -File scripts/deploy.ps1",
-		"install-task": "pwsh -NoProfile -File scripts/install-task.ps1",
-		"export-tasks": "pwsh -NoProfile -File scripts/export-tasks.ps1"
+		"analyze": "bun run src/analyze.ts",
+		"analyze:watch": "bun run src/analyze.ts --watch",
+		"group": "bun run src/group.ts",
+		"group:dry": "bun run src/group.ts --dry-run",
+		"tui": "bun run src/tui.ts",
+		"test": "bun test",
+		"lint": "biome lint skills-manager --max-diagnostics=none",
+		"lint:fix": "biome lint --write skills-manager --max-diagnostics=none",
+		"format": "biome format --write skills-manager"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.6"
+		"@biomejs/biome": "2.3.6",
+		"@types/bun": "latest"
 	},
-	"packageManager": "npm@10.9.0"
+	"packageManager": "npm@10.9.0",
+	"dependencies": {
+		"@opentui/core": "^0.5.12"
+	}
 }
