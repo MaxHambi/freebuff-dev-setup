@@ -1,0 +1,22 @@
+.history
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log
+*.log.*
+*.tsbuildinfo
+release/
+.freebuff/
+.idea
+.vscode
+.env
+.env.*
+!.env.example
+
+# Runtime-Artefakte des Watchdogs (liegen in .tools, nie im Repo)
+node-watchdog/*.log
+
+# Git-Symlink CLAUDE.md nicht doppelt tracken
+CLAUDE.md

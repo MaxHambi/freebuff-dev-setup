@@ -1,0 +1,23 @@
+#!/bin/sh
+# Local quality gate: mirrors the CI checks before every push.
+# GitHub branch protection may be unavailable on private free-plan repos,
+# so this hook enforces the same gate locally (lint, syntax, tests).
+
+echo "pre-push: running quality gate (lint, powershell checks)..."
+
+npm run lint --silent || {
+	echo "pre-push: lint failed - push aborted. Fix the issues and retry." >&2
+	exit 1
+}
+
+npm run syntaxcheck --silent || {
+	echo "pre-push: powershell syntaxcheck failed - push aborted." >&2
+	exit 1
+}
+
+npm test --silent || {
+	echo "pre-push: tests failed - push aborted." >&2
+	exit 1
+}
+
+echo "pre-push: quality gate passed."
