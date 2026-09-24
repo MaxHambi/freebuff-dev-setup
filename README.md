@@ -88,6 +88,38 @@ Zwei Meta-Skills arbeiten zusammen und ergänzen sich:
   Skills fehlen? Routed-Fallback → Skill folgt exakt, ist aber kein Gehorsam:
   bei falscher Prämisse verwerfen und ohne weiterarbeiten.
 
+## Deploy & Task-Registrierung (`scripts/`)
+
+Die Helper bilden die Pipeline Repo → Runtime → Task-Registrierung → XML-Backup.
+Reihenfolge: erst `deploy`, dann `install-task`, dann `export-tasks`.
+
+| Helper | Zweck |
+|---|---|
+| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `node-monitor`, `maintenance`, `routed-watch`, `ruflo-policy-rotate`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
+| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NodeProcessMonitor`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`). Prüft die Skript-Existenz im Runtime-Ziel und zeigt die fertige Task-Aktion; Trigger/Intervalle werden je Slice (T2–T6) ergänzt. |
+| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`), inkl. `Ruflo-PolicyLedger-Rotate-workspace`. Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). |
+
+Beispielaufrufe:
+
+```powershell
+# 1) Runtime-Kopien nach %USERPROFILE%\.tools spiegeln (bestehende Dateien bleiben erhalten)
+pwsh -File scripts/deploy.ps1
+
+# Repo-Stand durchsetzen (alle Zieldateien ueberschreiben)
+pwsh -File scripts/deploy.ps1 -Force
+
+# 2) Task registrieren - Aktion zeigt auf den Runtime-Pfad, nicht ins Repo
+pwsh -File scripts/install-task.ps1 -Task "Node Watchdog"
+
+# 3) Task-Definition als XML sichern (Backup fuer GUI-Import)
+pwsh -File scripts/export-tasks.ps1
+```
+
+Konventionen: Runtime-Pfade zeigen immer auf `%USERPROFILE%\.tools`, nie ins Repo.
+Die exportierten XMLs enthalten absolute Pfade dieses Rechners und dienen nur als
+Backup - nie als Installationsquelle. Destruktive Schritte (Überschreiben mit
+`-Force`, Task-Neuregistrierung) erst nach einem Report-/DryRun-Lauf ausführen.
+
 ## Qualitätsgate
 
 `npm run lint` (Biome) · `npm run syntaxcheck` (PS-Parser) · `npm test`

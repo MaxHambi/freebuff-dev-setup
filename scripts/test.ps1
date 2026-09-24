@@ -9,9 +9,10 @@ Set-StrictMode -Version Latest
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 
-# 1) Watchdog-DryRun muss lauffaehig sein, sobald das Skript existiert.
+# 1) Watchdog-DryRun nur auf Windows ausfuehren (Get-CimInstance ist Windows-only).
 $watchdog = Join-Path $repoRoot 'node-watchdog\node-watchdog.ps1'
-if (Test-Path $watchdog) {
+$isWindowsPlatform = [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Win32NT
+if ($isWindowsPlatform -and (Test-Path $watchdog)) {
 	$output = & pwsh -NoProfile -File $watchdog 2>&1
 	if ($LASTEXITCODE -ne 0) {
 		Write-Host "FAIL: Watchdog-DryRun brach mit Exit $LASTEXITCODE ab." -ForegroundColor Red
@@ -21,6 +22,9 @@ if (Test-Path $watchdog) {
 	Write-Host 'OK   node-watchdog.ps1 DryRun laeuft (kein Kill ohne -Apply).'
 } else {
 	Write-Host 'SKIP node-watchdog.ps1 noch nicht vorhanden (Slice T1 offen).'
+}
+if (-not $isWindowsPlatform) {
+	Write-Host 'SKIP node-watchdog.ps1 DryRun (nur Windows - Get-CimInstance nicht verfuegbar).'
 }
 
 Write-Host 'Testlauf abgeschlossen.'

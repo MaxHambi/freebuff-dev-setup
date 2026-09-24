@@ -1,0 +1,15 @@
+# whitelist.txt - Substring-Muster (case-insensitive) gegen CommandLine UND
+# ExecutablePath eines Prozesses. Zeilen mit # sind Kommentare.
+# Prozesse, die auf ein Muster matchen, werden vom Watchdog nie beendet
+# (Override: -IncludeWhitelisted).
+
+# Beispiele - an eigene Projekte anpassen:
+# C:\Tools\mein-daemon\node.exe
+# --max-old-space-size=4096
+# mein-kritischer-service.js
+
+# Der Watchdog selbst und das eigene Monitoring duerfen nie ins Visier geraten:
+node-monitor
+node-watchdog
+# Tooling, das auf Dev-Ports lauschen darf:
+# vite.config.ts
