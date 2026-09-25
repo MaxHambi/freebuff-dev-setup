@@ -54,6 +54,11 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Infrastructure
 
+- AI Blueprint 0.12.5 (Adapter freebuff) eingerichtet und per /onboard
+  auf den echten Stack gesetzt: Commands (bun test, syntaxcheck, Gates,
+  Deploy-Pipeline), Coding-Standards (Bun/TS + PowerShell statt
+  Next.js-Defaults), Branching/Commits (master, Conventional Commits,
+  Codebuff-Attribution); blueprint-CLI 1.10.0 global installiert.
 - Projektgerüst nach plan.md: Slices T1–T7 (Watchdog-Suite, Migration der
   Scheduled Tasks, XML-Backups in `task/`), CI (Biome-Lint + PowerShell-
   Syntaxcheck auf ubuntu/windows), Pre-Push-Gate `scripts/hooks/pre-push`.

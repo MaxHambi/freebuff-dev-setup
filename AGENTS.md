@@ -1,95 +1,132 @@
-# AGENTS.md – tools-entwicklung
+# AGENTS.md
 
-## Projekt
-Windows-Tasks & Watchdogs als Code: Scheduled Tasks werden hier versioniert,
-nach `%USERPROFILE%\.tools\` deployt und als exportierte Task-XML in `task\`
-gesichert (GUI-Wiederherstellung möglich). Referenzplan: `plan.md` (Slices T1–T7).
+Instructions for AI coding agents working in this project. This is the cross-tool
+entry point: Codex, Cursor, GitHub Copilot, Gemini CLI, Aider, Zed, Windsurf, and
+others read `AGENTS.md`. Claude Code reads `CLAUDE.md`, which imports this file, so
+there is a single source of truth.
 
-## Struktur
-- `node-watchdog/` – Watchdog-Suite (Kill-Kriterien: orphan, idle-aged, stale port); T1 gemerged, Known-Fails in ADR-001
-- `skills-manager/` – Analyse/Klassifizierung/Delta-Index der Skill-Bibliothek (Bun); OpenTUI-Slices als Issues #3–#10
-- `skills/` – repo-eigene Agent Skills (`using-skills` Meta-Skill mit Gate-/Sync-Hooks)
-- `node-monitor/`, `maintenance/`, `routed-watch/`, `ruflo-policy-rotate/` – migrierte Tasks (Slices T3–T6 offen)
-- `task/` – exportierte Task-XMLs (Backup/Wiederherstellung)
-- `scripts/` – Deploy- & Registrierungs-Helper
-- `docs/decisions/` – ADRs (002–005); Doku-Einstieg: `docs/index.md`, `skills-manager/docs/INDEX.md`
+## What this is
 
-## PowerShell-Konventionen
-- Skripte: `pwsh`-kompatibel (PS 7), aber Task-Aktion nutzt Windows-PowerShell 5.1 → keine PS-7-only Features im Task-Pfad
-- `Set-StrictMode -Version Latest` + `$ErrorActionPreference = 'Stop'` in jedem Skript
-- Kommentare auf Deutsch, keine Emojis in Logausgaben
-- Manuelles Testen immer mit DryRun-Parametern vor `-Apply`
+`tools-entwicklung` - Windows Scheduled Tasks & Watchdogs as code, plus der
+Skills-Manager (Analyse-CLI fuer `~/.agents/skills`, ueber 1.800 Skills) und
+eigene Agent Skills (`skills/using-skills`). Landkarten: `README.md`
+(Komponenten), `docs/index.md` (Doku), `docs/issue-fibel.md` und
+`docs/worktree-fibel.md` (Prozess).
 
-## Git Workflow & Versioning (oberste Regel)
-- Vor jedem Commit/Push/Branch/Release gilt der Skill **git-workflow-and-versioning**
-- Trunk-Based: `master` immer deploybar; kurze Branches (`feature/*`, `fix/*`, `chore/*`)
-- Atomic Commits (~100 Zeilen): Formatierung nie mit Feature-Änderungen mischen
-- Commit-Format: `<type>: <why-spezifische Beschreibung>` mit `feat|fix|refactor|test|docs|chore`
-- Kein Force-Push auf `master`; nie Logs, Task-XMLs mit Maschinenpfaden outside `task/`, oder Secrets committen
+This project is built with the **AI Blueprint**, a workflow layer, not an
+app skeleton. To start a new project, scaffold the app first in an empty folder
+(create-next-app, Vite, etc.), then overlay these files on top. Never run a
+framework scaffolder inside a directory that already holds the blueprint files
+(`AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/`, `blueprint/`); it fails
+because the directory isn't empty.
 
-## Commit Attribution
-AI commits MUST include:
-```
-Co-Authored-By: Codebuff <noreply@codebuff.com>
-```
+The workflow is defined by the local skills and context files below.
 
-## Git Identity (nach frischem Clone)
-```bash
-git config --global user.name "MaxHambi"
-git config --global user.email "181495919+MaxHambi@users.noreply.github.com"
-gh auth setup-git
-git config core.hooksPath scripts/hooks   # Pre-Push-Gate aktivieren
-```
+## Read these for full context
 
-## File-Scoped Commands
-| Task | Command |
-|------|---------|
-| Lint (alles) | `npm run lint` |
-| Lint einzelne Datei | `npx biome lint <pfad>` |
-| Format | `npm run format` |
-| PowerShell-Syntaxcheck | `pwsh -NoProfile -Command "[void][ScriptBlock]::Create((Get-Content -Raw '<pfad>'))"` |
-| Watchdog-DryRun | `pwsh -File node-watchdog/node-watchdog.ps1` |
-| Watchdog-Tests | `pwsh -File node-watchdog/run-tests.ps1` |
-| Task-Registrierung | `pwsh -File scripts/install-task.ps1 -Task <name>` |
-| Tests (Repo) | `npm test` |
-| Tests (Skills-Manager) | `bun test` |
-| Typecheck (Skills-Manager) | `bunx tsc --noEmit` |
-| Analyse-CLI | `bun run skills-manager/src/analyze.ts` |
-| Changelog-Drift-Check | `bun run skills-manager/scripts/check-changelog.ts --base origin/master` |
-| Commit-Format-Check | `bun run skills-manager/scripts/check-commits.ts --base origin/master` |
+- `blueprint/context/project-overview.md` - the project's source of truth
+- `blueprint/context/coding-standards.md` - conventions to follow
+- `blueprint/context/ai-interaction.md` - how to work with the user on this project
+- `blueprint/context/current-feature.md` - the one feature, fix, or rollback being built right now
+- `docs/issue-fibel.md` - Issue-Layouts, Label-Statusuebergaenge und Handoff-Regeln (Schwester der Worktree-Fibel)
 
-## CI
-- `.github/workflows/ci.yml`: Lint (Biome) + PowerShell-Syntaxcheck, ubuntu & windows Matrix
-- `.github/workflows/skills-manager.yml`: bun test/lint/typecheck + Conventional-Commits- und CHANGELOG-Drift-Check (nur bei skills-manager-Pfaden)
-- Pre-Push-Hook `scripts/hooks/pre-push` erzwingt Lint/Test lokal
+## Workflow
 
-## Key Conventions
-- Lint/Format ausschließlich **Biome** (`biome.json`); keine ESLint-/Prettier-Konfigs
-- Task-XMLs in `task/` enthalten absolute Pfade → nur als Backup, nie als Installationsquelle
-- Runtime-Pfade zeigen auf `%USERPROFILE%\.tools\`, nicht ins Repo
-- DryRun vor Apply: keine destruktive Aktion ohne vorherigen Report-Run
-- Keine Secrets committen (`.env` ignoriert, Vorlage `.env.example`)
-- Skills-Bibliothek `~/.agents/skills` ist NUR LESE-Zugriff fuer den Skills-Manager; kein Umbau, Mirror statt Move (ADR-005)
-- `skills-manager/src/data/` ist gitignored (generierte Artefakte)
-- CHANGELOG `[Unreleased]` bei jedem feat/fix aktualisieren (CI-Drift-Check)
-- Worktrees nur temporaer bei parallelen Sitzungen, nach Merge entfernen (ADR-003; Anleitung: `docs/worktree-fibel.md`)
-- routed-Indexierung: MCP `scan_skills` ist massgeblich, nicht CLI `routed scan` (ADR-002)
+Build one feature, fix, or rollback at a time, behind review gates. Each step's instructions
+are plain markdown skills any capable agent can read and follow. The workflow is
+exposed through tool-specific adapters:
 
-## Agent skills
+- Codex: `.agents/skills/<skill>/SKILL.md`
+- Claude Code: `.claude/skills/<skill>/SKILL.md`
+- GitHub Copilot: `AGENTS.md` plus `.agents/skills/<skill>/SKILL.md`
+- Freebuff: `AGENTS.md` plus `.agents/skills/<skill>/SKILL.md`
 
-### Issue tracker
+Unused adapters can be removed. Codex, GitHub Copilot, and Freebuff share `.agents/`.
+Codex-only, Copilot-only, or Freebuff-only projects can delete `CLAUDE.md` and `.claude/`.
+Claude Code-only projects can delete `.agents/`, but should keep `AGENTS.md`
+because `CLAUDE.md` imports it.
 
-Issues leben in GitHub Issues (MaxHambi/tools-entwicklung, `gh` CLI); PRs sind kein Triage-Surface. Siehe `docs/agents/issue-tracker.md`.
+When changing shared workflow behavior, update the matching skill in both
+adapter folders so Codex, Claude Code, and GitHub Copilot stay aligned.
 
-### Triage labels
+Core skills:
 
-Fünf kanonische Rollen mit Default-Namen (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). Siehe `docs/agents/triage-labels.md`.
+- `onboard` - tune commands, standards, visibility, ignore rules, and tool adapters after overlaying the Blueprint onto a freshly scaffolded or early project
+- `discovery` - optional deep, multi-turn planning conversation that drafts the two user-owned plans only after review and approval; direct plan writing remains fully supported
+- `doctor` - read-only Blueprint health check for setup, adapters, plans, overview freshness, and workflow drift
+- `adopt` - bootstrap the Blueprint into an existing brownfield app with shipped features
+- `overview` - distill the two planning docs into `blueprint/context/project-overview.md`
+- `brief` - read-only briefing on an upcoming build-plan feature (scope, dependencies, size) before you spec it
+- `feature` - turn a build-plan item into a spec, or propose a reviewed plan addition for a genuinely new feature
+- `debug` - reproduce and isolate a failure without editing code, then hand the evidence to `fix` or `implement`
+- `fix` - document an ad-hoc bug or change into `blueprint/context/current-feature.md`
+- `tests` - add or normalize unit testing and turn on the test gate
+- `ci` - explicitly set up one project-specific Verify command and matching automatic GitHub checks
+- `implement` - build the current spec one small, reviewed step at a time
+- `check` - prove the current spec against the running app
+- `try` - read-only manual review guide: where to go, what to click, what to expect
+- `audit` - branch-aware or full-project review across all concerns or a focused quality, security, performance, or tests lens; records findings with durable IDs and statuses in `blueprint/context/findings.md`, where open or fixed P0/P1 findings block `complete`
+- `rollback` - plan a safe reversal of a completed feature from its archive and exact git commit, with later-dependency review before code changes
+- `complete` - run the final safety pass, log features, fixes, or rollbacks under `blueprint/history/`, then merge with approval
+- `release` - optional Render or Vercel deployment readiness, local config, env review, and smoke-test planning
+- `prototype` - optional, pre-build static mockups to lock the look
+- `status` - read-only progress summary, workflow drift warning, and suggested next action
 
-### Domain docs
+In Codex, invoke these as skills (`$onboard`, `$discovery`, `$overview`, `$feature`,
+`$implement`, and so on) or ask naturally, such as "run the overview." In Claude
+Code, use the slash commands (`/onboard`, `/discovery`, `/overview`, `/feature`,
+and so on). In Freebuff, ask naturally, such as "run the overview" or
+"implement the current feature" - Freebuff reads the matching `.agents/skills/`
+SKILL.md files and follows them. In tools without native skills, follow the
+matching `SKILL.md` manually. The conventions in `blueprint/context/` apply
+however a step is invoked. `/discovery` is never required: users may write detailed plans directly
+or develop them through any conversation before running `/overview`.
 
-Single-context: `AGENTS.md` als Vokabular-Quelle, `docs/adr/` für ADRs. Siehe `docs/agents/domain.md`.
+Optional explicit-only skill: `autopilot` can run one bounded spec/build/check
+and targeted-audit pass when directly invoked. It may create checkpoint commits
+on the feature or fix branch after passing steps, repair confirmed P0/P1 findings
+within scope, and rerun affected checks. It stops before `/complete`, merge, push,
+deploy, or destructive actions.
 
-## MCP-Server
-- `routed` (`.cline/mcp_settings.json`): Skill-Routing, läuft repo-unabhängig; Auto-Approve: `route_skill`, `get_skill`, `list_skills`; `scan_skills` manuell (Index-Rebuild, massgeblicher Weg laut ADR-002)
-- Workflow `.cline/workflows/route.md`: `/route <prompt>` vor fachlicher Arbeit
-- Session-Ende: Skill `session-docs-guardian` ausfuehren (Doku-Audit + Session-Summary); Hook-Registrierung siehe `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`
+Deployment is also explicit. `/release` can prepare local Render or Vercel config
+and run readiness checks, but it must stop before deploy, remote service changes,
+push, or publish unless the user gives a separate yes in the current chat.
+
+## Automatic verification
+
+Automatic GitHub checks are a separate explicit setup. `/onboard` and `/adopt`
+only report existing checks and point to `/ci` or `$ci` when none exist. Running
+`/ci` inspects the real project and defines one `Verify` command from checks that
+already exist. Use this order when available: typecheck, tests, then build. Never
+invent a test runner or another check just to fill the command.
+
+For JavaScript and TypeScript projects, prefer a package script such as `verify`
+and use the detected package manager. For other stacks, use the native task
+runner or exact combined command. Record the exact command under Commands below.
+
+The optional `.github/workflows/verify.yml` must run that same command for pull
+requests and pushes to the default branch. Preserve existing workflows, use the
+project's real runtime and install command, and grant only `contents: read` by
+default. This setup does not add local git hooks, coverage, browser tests,
+security scans, or version matrices. Those remain later project choices.
+
+GitHub branch protection or a ruleset can require the check after the repository
+is pushed, but that is a separate remote setting. Missing automatic GitHub
+checks do not make the Blueprint unusable.
+
+## Commands
+
+Bun/TypeScript-Teil (skills-manager) und PowerShell-Operations-Teil:
+
+- Tests: `bun test` (25 Tests gegen tmp-Fixtures) - Test-Gate ist aktiv
+- Lint: `npx biome lint skills-manager --max-diagnostics=none`
+- Typecheck: `bunx tsc --noEmit`
+- PowerShell-Syntaxcheck: `npm run syntaxcheck` (alle Repo-PS-Skripte)
+- Analyse-CLI: `bun run skills-manager/src/analyze.ts [--root <pfad>] [--quiet]`
+- Doku-Gates (CI-identisch): `bun run skills-manager/scripts/check-commits.ts --base origin/master` und `check-changelog.ts --base origin/master`
+- Watchdog-Integrationstests (nur Windows): `pwsh -File node-watchdog/run-tests.ps1`
+- Deploy-Pipeline (Reihenfolge): `npm run deploy` → `npm run install-task` → `npm run export-tasks`
+
+Quality-Gate: `scripts/hooks/pre-push` (Lint + Syntaxcheck + Tests) laeuft
+bei jedem Push (`core.hooksPath=scripts/hooks` ist gesetzt). Conventional
+Commits und CHANGELOG `[Unreleased]` sind CI-pflichtig (Drift-Checks).
