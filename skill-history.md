@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## documentation-generation-doc-generate + interview-style-doc-building + code-documentation-doc-generate + brain-to-docs - 2026-09-25 05:46
+- **Kontext/Ausloeser:** Doku-Refresh in master: 10 neue Skills in die README-Tabelle (gm mit #20-Verweis nach Nutzerantwort), routed 2.864, USER_GUIDE auf ADR-006-Stand
+- **Umgebung:** Branch `master` @ `1ced8e6`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** Commit auf master, Gate+CI laufen
+
+
 ## skill-writer (evaluation-path + description-optimization) - 2026-09-25 05:41
 - **Kontext/Ausloeser:** Audit von session-docs-guardian: Depth-Rubrik 5x pass/1x partial, Should-/Should-not-Trigger-Sets geprueft; Description verbessert (bilinguale Trigger, Artefaktliste inkl. AGENTS.md, Not-for-Grenze, Hook-Verweis) und Docs-only-Staging-Regel ergaenzt
 - **Umgebung:** Branch `master` @ `4e82fcf`, Host: MaxHambi
