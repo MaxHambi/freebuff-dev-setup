@@ -137,6 +137,25 @@ Session-Hook: `.claude/settings.json` registriert `scripts/skill-history-log.ps1
 als PostToolUse-Hook (Matcher `Skill`); das Hook-JSON liefert Skill-Name und
 Argumente, `-FromHookJson` parst sie. Hook-Fehler blockieren die Session nie.
 
+### Hook-Landkarte
+
+Welcher Hook lebt wo, was loest ihn aus, welcher ist (noch) nicht aktiv:
+
+| Hook | Ort | Ausloeser | Status |
+|------|-----|-----------|--------|
+| `scripts/hooks/pre-push` (Quality-Gate) | Git `core.hooksPath=scripts/hooks` | `git push` | **aktiv** - Lint, PowerShell-Syntaxcheck, bun-Tests |
+| `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **aktiv** - schreibt `skill-history.md` + eigenen Commit |
+| `context-trim/analyze.js` | `~/.claude/settings.json` (User) | PostToolUse, Matcher `Write\|Edit` | aktiv (externes Tool, nicht Teil des Repos) |
+| `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **nicht registriert** (offener Follow-up; Anleitung: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`) |
+| `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | manuell - bewusst keine Session-Auto-Registrierung |
+| `node-watchdog.ps1` | Windows Scheduled Tasks (Slices T2+, `plan.md`) | Zeitplan | Betrieb statt Hook |
+
+Hinweis: **`.freebuff/` bietet kein Hook-Format** - der Ordner traegt nur
+die `project-id` und `skill-extensions/` (Sitzungs-Scratch, nie Quelle der
+Wahrheit, siehe Worktree-Fibel). Hook-Registrierung fuer Freebuff-Sessions
+laeuft ueber `.claude/settings.json` im Repo bzw. `~/.claude/settings.json`
+fuer den Nutzer.
+
 ## Wiederherstellung eines Tasks (GUI)
 
 1. Aufgabenplanung öffnen (`taskschd.msc`)

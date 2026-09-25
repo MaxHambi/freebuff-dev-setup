@@ -27,7 +27,9 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   (Kontext, Branch@Commit, Quelle, Ergebnis) und versioniert jeden Eintrag
   als eigenen Commit mit dem Label `chore(skill-history):`; registrierbar
   als Session-Hook via `.claude/settings.json` (PostToolUse, Matcher
-  `Skill`, `-FromHookJson` parst Skill-Name/Argumente, Fehler blockieren nie).
+  `Skill`, `-FromHookJson` parst Skill-Name/Argumente, Fehler blockieren nie);
+  README enthaelt die Hook-Landkarte (welcher Hook wo registriert ist -
+  `.freebuff/` bietet bewusst kein Hook-Format).
 - Meta-Skill `using-skills` (`skills/using-skills/`): vereint using-superpowers
   (1%-Gate), using-agent-skills (Phasen-Baum, Operating Behaviors) und
   skill-router (Interview-Funnel); Skill-Discovery ueber routed MCP
