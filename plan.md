@@ -1,6 +1,6 @@
-# plan.md – Tools-Entwicklung (Tasks & Watchdogs)
+# plan.md – Freebuff-Dev-Setup (Tasks & Watchdogs)
 
-> **Dauerhafte Referenz** für das Repo `D:\tools-entwicklung`.
+> **Dauerhafte Referenz** für das Repo `D:\freebuff-dev-setup`.
 > Der Plan wurde am 2026-09-24 genehmigt. Die **Implementierung erfolgt in einer
 > neuen Sitzung** mit diesem Repo als Arbeitsverzeichnis – dieses Dokument ist
 > die verbindliche Vorgabe dafür.
@@ -28,7 +28,7 @@ Entwicklung erfolgt **hier im Repo**, Runtime-Kopien liegen danach unter
 
 ### Repo (Entwicklung)
 ```
-D:\tools-entwicklung\
+D:\freebuff-dev-setup\
 ├── node-watchdog\            Watchdog-Suite (Scripts, Tests, Doku)
 ├── node-monitor\             Migrations-Quelle: D:\workspace\scripts\node-monitor
 ├── maintenance\              npm-cleanup.ps1 · tooling-cleanup.ps1 · run-hidden.vbs
@@ -173,4 +173,5 @@ XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
 | Datum | Ereignis |
 |---|---|
 | 2026-09-24 | Plan genehmigt (inkl. Erweiterung: alle bestehenden Tasks konsolidieren, XML-Backups in `task\`). |
-| 2026-09-24 | Repo `D:\tools-entwicklung` angelegt; Implementierung in neuer Sitzung. |
+| 2026-09-24 | Repo angelegt (seit 2026-09-25: `D:reebuff-dev-setup`); Implementierung in neuer Sitzung. |
+| 2026-09-25 | Ordner + Repo auf `freebuff-dev-setup` umbenannt (Issues #21-#26); Doku/Configs umgestellt. |

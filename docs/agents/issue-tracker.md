@@ -1,7 +1,7 @@
 # Issue Tracker: GitHub
 
-Issues für dieses Repo (`MaxHambi/tools-entwicklung`) leben in **GitHub Issues**:
-https://github.com/MaxHambi/tools-entwicklung/issues
+Issues für dieses Repo (`MaxHambi/freebuff-dev-setup`) leben in **GitHub Issues**:
+https://github.com/MaxHambi/freebuff-dev-setup/issues
 
 ## Konventionen
 

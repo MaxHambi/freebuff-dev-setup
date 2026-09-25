@@ -5,7 +5,7 @@ Frage der Fibel: Wann ist ein Worktree nötig, wie heißt er, wann stirbt er?
 
 ## 1. Wann wird ein Worktree angelegt?
 
-Default ist **immer der Haupt-Checkout** (`D:/tools-entwicklung` auf `master`).
+Default ist **immer der Haupt-Checkout** (`D:/freebuff-dev-setup` auf `master`).
 Ein Worktree unter `.worktrees/<topic>` wird nur angelegt, wenn **mindestens
 eines** davon zutrifft:
 

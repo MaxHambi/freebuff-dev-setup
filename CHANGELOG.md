@@ -9,6 +9,16 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Changed
 
+- **Projekt-Umbenennung: `tools-entwicklung` → `freebuff-dev-setup`** (Issues #21-#26) -
+  GitHub-Repo (`MaxHambi/freebuff-dev-setup`, Weiterleitung aktiv), lokale
+  Remote-URL, Ordner `D:reebuff-dev-setup`, Doku-/Config-Dateien,
+  package-Name `freebuff-dev-setup-skills-manager` und 23 PS1-Skripte in
+  `.freebuff/skill-extensions/` umgestellt. Claude-Code-Harness-Verweise
+  (`CLAUDE.md`-Symlink, `~/.claude.json`, Rules-Identity `maxhambi:claude:*`)
+  bleiben bewusst unveraendert. MemPalace-Palast frisch initialisiert (Wing
+  `freebuff_dev_setup`, 707 Drawers; Backup unter
+  `D:\mempalace\palace-backup-20260925`).
+
 - **Skills-Manager: TUI-Eigenbau verworfen (ADR-006)** - die OpenTUI-Slices
   (#3-#10) sind eingestellt; [skill-manager](https://github.com/abubakarsiddik31/skill-manager)
   (Baum, Multi-Select, Install, Suche) und [SkillSpector](https://github.com/NVIDIA/SkillSpector)

@@ -1,4 +1,4 @@
-# Doku-Landkarte: tools-entwicklung
+# Doku-Landkarte: freebuff-dev-setup
 
 Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 

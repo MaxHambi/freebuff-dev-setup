@@ -1,5 +1,5 @@
 {
-	"name": "tools-entwicklung-skills-manager",
+	"name": "freebuff-dev-setup-skills-manager",
 	"version": "0.1.0",
 	"private": true,
 	"description": "Skills-Manager: Analyse-CLI (Scan, Klassifizierung, Delta-Index) fuer die persoenliche Agent-Skills-Bibliothek",

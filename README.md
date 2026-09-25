@@ -1,4 +1,4 @@
-# tools-entwicklung
+# freebuff-dev-setup
 
 Windows Scheduled Tasks & Watchdogs as code - plus Skills-Manager fuer die
 persoenliche Agent-Skills-Bibliothek.
