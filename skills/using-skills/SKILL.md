@@ -37,6 +37,7 @@ Something broke?              -> systematic-debugging
 Reviewing code?               -> code-review-and-quality
 Committing/branching?         -> git-workflow-and-versioning
 Docs/ADRs?                    -> documentation-and-adrs
+Skill design/authoring?       -> skill-designer (Skill erstellen/verbessern/strukturieren)
 Deploying/launching?          -> shipping-and-launch
 None fit or not installed?    -> routed discovery (Step 4)
 ```

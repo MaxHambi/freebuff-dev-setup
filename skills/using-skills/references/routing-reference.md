@@ -30,6 +30,8 @@ Task kommt rein
     ├── CI/CD? ────────────────────────────→ ci-cd-and-automation
     ├── Deprecation/Migration? ────────────→ deprecation-and-migration
     ├── Docs/ADRs? ────────────────────────→ documentation-and-adrs
+    ├── Skill erstellen/verbessern/strukturieren?
+    │                                      → skill-designer
     ├── Logs/Metrics/Alerts? ──────────────→ observability-and-instrumentation
     └── Deploy/Launch? ────────────────────→ shipping-and-launch
 ```
@@ -52,6 +54,7 @@ Nicht installiert oder keine Sektion passt? -> routed-Discovery
 | DevOps/Infra | docker-expert / cloud-spezifisch | git-pushing, using-git-worktrees |
 | Marketing/SEO | seo-fundamentals + seo-audit | copywriting, launch-strategy |
 | Planung/Architektur | plan-writing | software-architecture, concise-planning |
+| Skill-Design/Autoring | skill-designer | skill-writer (nur bei explizitem Namen, Deep-Dive-Referenz) |
 | Autonom/parallel | subagent-driven-development | dispatching-parallel-agents |
 | Dokumente | docx-official / pdf-official / xlsx-official / pptx-official | - |
 
