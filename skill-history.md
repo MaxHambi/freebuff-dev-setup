@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## github-project-management + team-collaboration-issue - 2026-09-25 05:27
+- **Kontext/Ausloeser:** /gm-Skill: Issue #20 angelegt (Supply-Chain-Pinning, Gate-Konflikt zu using-skills, .gitignore fuer .gm/); Duplikat-Bereinigung in ~/.claude/skills - 7 Installer-Kopien (gm, gm-continue, polaris-*, wfgy-method, fifth-dimension-engine, agent-memory) und veraltete github-workflow-automation-Kopie durch Symlinks ersetzt (Write-through verifiziert, Backup unter ~/.claude/skills-backup)
+- **Umgebung:** Branch `master` @ `72ea791`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** Issue #20 ready-for-agent; Konvention '.agents/skills als Single Source' wiederhergestellt - verbleibende echte Kopien in .claude/skills sind Claude-eigene Skills ohne .agents-Gegenstueck
+
+
 ## git-pr-workflows-git-workflow + git-pr-workflows-pr-enhance - 2026-09-25 05:16
 - **Kontext/Ausloeser:** ADR-006-PR #18: Branch, Conventional Commits, Pre-Push-Gate, pr-enhance-Description, Squash-Merge
 - **Umgebung:** Branch `master` @ `c48c663`, Host: MaxHambi
