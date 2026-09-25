@@ -1,6 +1,9 @@
 # Architektur: Skills-Manager
 
-Stand: Slice 1 (Analyse-CLI). Die Dokumentation wächst mit jedem Slice.
+Stand: Slice 1 (Analyse-CLI). **ADR-006 (2026-09-25):** Die geplanten
+TUI-Slices sind verworfen (extern: [skill-manager](https://github.com/abubakarsiddik31/skill-manager),
+[SkillSpector](https://github.com/NVIDIA/SkillSpector)); verbleibend sind
+Analyse-CLI, optionaler SkillSpector-Scan und Mirror-Gruppierung (Backlog).
 
 ## Überblick
 
@@ -52,9 +55,9 @@ alles andere fällt auf `unknown` zurück.
 
 ## Abhängigkeiten
 
-- **Bun ≥ 1.3** als Laufzeit und Testrunner (Node.js ist wegen der
-  OpenTUI-Mindestversion 26.4 bewusst kein Ziel).
-- **@opentui/core** ist bereits installiert (für Slice 2+); Slice 1 nutzt es nicht.
+- **Bun ≥ 1.3** als Laufzeit und Testrunner (Node.js ist bewusst kein Ziel).
+- **@opentui/core** ist noch installiert (historisch aus der TUI-Planung,
+  ADR-006); der Code nutzt es nicht.
 - Keine YAML-/Markdown-Parsing-Libraries: bewusste Eigenimplementierung, da die
   Frontmatter-Varianten der realen Bibliothek (quoted/unquoted/mehrzeilig/CRLF)
   sonst Nacharbeit erfordern würden.
@@ -70,8 +73,11 @@ alles andere fällt auf `unknown` zurück.
 - **Move-Erkennung**: Ein neuer Schlüssel mit bekanntem Hash ist ein Rename, kein
   Add – Flags und Klassifizierung bleiben erhalten.
 
-## Geplante Erweiterungen (Issues)
+## Erweiterungen nach ADR-006
 
-- #3 TUI-Baum (OpenTUI), #4 Multi-Select/Filter/Badges, #5 Install-Flow (Copy-Engine)
-- #6 Mirror-Gruppierung (Buckets + routed-Fallback), #7 Delta-Ausbau (Mtime-Heuristik)
-- #8 Watcher + Mirror-Sync, #9 semantische Suche via routed, #10 Live-Integration
+- Verworfen (`wontfix`): #3 TUI-Baum, #4 Multi-Select/Filter/Badges,
+  #5 Install-Flow, #8 Watcher, #9 semantische Suche, #10 Live-Integration
+- Erfüllt: #2 Analyse-CLI und #7 Delta-Index (beide PR #12)
+- Backlog: #6 Mirror-Gruppierung (Buckets + routed-Fallback, low priority)
+- Neu: SkillSpector-Integration als optionale Risk-Scan-Quelle
+  (ai-improvement-Issue, TDD)

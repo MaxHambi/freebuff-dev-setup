@@ -2,6 +2,8 @@
 
 #1
 
+> **Superseded (ADR-006, 2026-09-25):** Nicht gebaut - [skill-manager](https://github.com/abubakarsiddik31/skill-manager) liefert Baum, Navigation und Beschreibungsansicht. Issue #3 als wontfix geschlossen.
+
 ## What to build
 
 Tracer Bullet für die TUI: Ein OpenTUI-Renderer (Bun, imperatives Core – keine React/Solid-Bindings) zeigt die analysierten Skills als klappbaren Gruppenbaum: Gruppenzeilen mit Zähler, darunter die Skills. Pfeiltasten bewegen die Markierung, Enter/Rechts klappt eine Gruppe auf/zu, Enter auf einem Skill zeigt dessen Beschreibung plus Metadaten (Gruppe, Risk, Hinzufügedatum, Badges) dauerhaft überhalb der Baumliste an.

@@ -21,6 +21,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/decisions/ADR-003-one-worktree-per-issue.md` | Worktree-Strategie: master-first, temporaer, Issue-first | Accepted |
 | `docs/decisions/ADR-004-skills-manager-testing-seams.md` | Zwei Test-Seams (Lib + TUI-Renderer) | Accepted |
 | `docs/decisions/ADR-005-mirror-not-move.md` | Skills-Bibliothek: Mirror statt Umbau | Accepted |
+| `docs/decisions/ADR-006-externe-skill-manager-tools.md` | TUI-Eigenbau verworfen: skill-manager + SkillSpector statt Slices #3–#10 | Accepted |
 
 ## Skills-Manager (`skills-manager/`)
 
@@ -28,8 +29,8 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 
 | Datei | Zielgruppe |
 |-------|------------|
-| `docs/PRD.md` | Stakeholder - Problem, 33 User Stories, Decisions |
-| `docs/PROCESS.md` | Contributor - Issue-Map #2–#10, Git-Workflow pro Issue |
+| `docs/PRD.md` | Stakeholder - Problem, Analyse-CLI-Scope (nach ADR-006) |
+| `docs/PROCESS.md` | Contributor - Issue-Map mit Status nach ADR-006, Git-Workflow |
 | `docs/ARCHITECTURE.md` | Contributor - Module, Datenfluss, Regeln |
 | `docs/API.md` | Contributor - Lib-Signaturen |
 | `docs/USER_GUIDE.md` | Nutzer - CLI, Badges, Troubleshooting |

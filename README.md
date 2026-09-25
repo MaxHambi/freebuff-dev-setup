@@ -7,7 +7,7 @@ persoenliche Agent-Skills-Bibliothek.
 |---------|--------|------|
 | `plan.md` | Genehmigter Masterplan (Slices T1–T7), verbindlich fuer die Implementierung; T1 erfuellt (ADR-001 offen) | - |
 | `node-watchdog/` | Globaler Node/Electron/esbuild-Watchdog (DryRun-Default, Whitelist, Baum-Kill, Log-Rotation) | ADR-001 |
-| `skills-manager/` | Analyse, Gruppierung und OpenTUI-Installer fuer `~/.agents/skills` (Slice 1 gemerged, TUI-Slices als Issues #3-#10) | `skills-manager/docs/` |
+| `skills-manager/` | Analyse-CLI fuer `~/.agents/skills` (Slice 1 gemerged; TUI-Slices via ADR-006 verworfen) | `skills-manager/docs/` |
 | `skills/` | Eigene Agent Skills (Meta-Skill `using-skills` mit Gate + Router + Hooks) | unten, Abschnitt Skills-Verzeichnis |
 | `task/` | Exportierte Task-XMLs aller eigenen Scheduled Tasks (GUI-Backup) | unten, Wiederherstellung |
 | `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-005) | `docs/index.md` |
@@ -16,7 +16,10 @@ persoenliche Agent-Skills-Bibliothek.
 
 Bun-basiertes Werkzeug fuer die persoenliche Skill-Bibliothek
 (`%USERPROFILE%.agentsskills`, ueber 1.800 Skills). Slice 1 (Analyse-CLI)
-ist gemerged; die OpenTUI folgt mit den Issues #3-#10.
+ist gemerged; die TUI-Slices sind via ADR-006 verworfen - die externen
+Tools [skill-manager](https://github.com/abubakarsiddik31/skill-manager)
+(Baum, Multi-Select, Install, Suche) und [SkillSpector](https://github.com/NVIDIA/SkillSpector)
+(Security-Scan, Risk-Score) uebernehmen die Funktionen.
 
 ### Analyse-CLI (Slice 1, gemerged via PR #12)
 
@@ -47,21 +50,18 @@ Beide Check-Skripte laufen im CI-Workflow `.github/workflows/skills-manager.yml`
 (test + lint + typecheck auf ubuntu/windows) und erzwingen Conventional
 Commits sowie einen aktuellen `[Unreleased]`-Abschnitt im CHANGELOG.
 
-### Geplante Erweiterungen
+### Stand nach ADR-006 (2026-09-25)
 
-| Slice | Inhalt | Issue |
-|-------|--------|-------|
-| 2 | OpenTUI-Gruppenbaum, Beschreibungspanel | #3 |
-| 3 | Multi-Select, Filter, Badges | #4 |
-| 4 | Install-Flow (Pfad-Dialog, Copy-Engine) | #5 |
-| 5 | Mirror-Gruppierung (~/.agents/skills-org/) | #6 |
-| 6 | Delta-Ausbau (Mtime-Heuristik) | #7 |
-| 7 | Watcher & Mirror-Sync | #8 |
-| 8 | Semantische Suche via routed | #9 |
-| 9 | Live-Integration (Watcher-Thread, Rescan) | #10 |
+| Slice | Issue | Status |
+|-------|-------|--------|
+| 1 Analyse-CLI | #2 | erledigt (PR #12) |
+| 2-4, 8-9 TUI-Funktionen | #3-#5, #8-#10 | wontfix - extern: skill-manager + SkillSpector |
+| 5 Mirror-Gruppierung | #6 | Backlog (low priority) |
+| 6 Delta-Index | #7 | erledigt (PR #12) |
 
-Details: `skills-manager/docs/INDEX.md` (Einstieg), PRD, Architektur,
-API-Referenz und User Guide liegen daneben.
+Naechste Aufgabe: SkillSpector-Integration als optionale Risk-Scan-Quelle
+(ai-improvement-Issue, TDD). Details: `skills-manager/docs/INDEX.md`
+(Einstieg), PRD, Architektur, API-Referenz und User Guide liegen daneben.
 ## Node-Watchdog (`node-watchdog/`)
 
 Globaler Watchdog fuer `node.exe`/`electron.exe`/`esbuild.exe` (Slice T1,
@@ -211,7 +211,7 @@ Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
 | `using-skills` | eigenes Repo (`skills/using-skills/`) | Meta-Skill: Gate + Router + Interview + routed-Discovery + Hooks (s. o.) |
 | `powershell-script-engine` | manuell ergaenzt | PowerShell/Windows-Systemtechnik-Experte (Bibliothek) |
 | `powershell-script-authoring` | manuell ergaenzt | PowerShell-Skripte erstellen, pruefen, paketieren |
-| `opentui` | installiert | Terminal-UIs mit OpenTUI (Core/React/Solid, Renderer-APIs) - Grundlage fuer Skills-Manager Slice 2+ |
+| `opentui` | installiert | Terminal-UIs mit OpenTUI (Core/React/Solid, Renderer-APIs) - historisch (TUI via ADR-006 verworfen, Dep bleibt bis Backlog-Entscheid) |
 | `to-prd`, `to-issues`, `setup-matt-pocock-skills` | installiert (mattpocock/skills) | PRD-/Issue-Workflows mit GitHub-Tracker und Triage-Labels |
 | `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert | Conventional-Commits-, Branch- und PR-Pipeline |
 | `changelog-automation`, `documentation-and-adrs`, `documentation-generation-doc-generate` | installiert | Changelog (Keep a Changelog), ADR- und Doku-Generierung |

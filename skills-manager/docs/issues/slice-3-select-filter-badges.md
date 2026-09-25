@@ -2,6 +2,8 @@
 
 #1
 
+> **Superseded (ADR-006, 2026-09-25):** Nicht gebaut - Multi-Select via [skill-manager](https://github.com/abubakarsiddik31/skill-manager), Risk-Bewertung via [SkillSpector](https://github.com/NVIDIA/SkillSpector) statt Badges. Issue #4 als wontfix geschlossen.
+
 ## What to build
 
 Die TUI wird interaktiv: Badges in der Baumliste, Filter, Multi-Select.

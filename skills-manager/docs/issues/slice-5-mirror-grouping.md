@@ -2,6 +2,8 @@
 
 #1
 
+> **Backlog (ADR-006, 2026-09-25):** Offen, low priority - kein externes Aequivalent (thematische Gruppenkopie fuer den Datei-Explorer). Issue #6 bleibt offen; Bedarf entscheidet, ob gebaut wird.
+
 ## What to build
 
 Baut den thematischen Gruppen-Mirror: Ein CLI-Lauf (`--dry-run` zuerst) ordnet jeden Skill über Keyword-Buckets in fester Priorität einer Gruppe zu (KI-Agents, Cloud/DevOps, Backend/API, Web-Frontend, Game/3D, Automation/SaaS, Content/SEO, Security, Testing, Data/ML, Datenbank, Mobile, Business, Docs/Wiki, Meta-Skills, Health, Personas, Sonstige – erster Treffer gewinnt) und kopiert die kompletten Skill-Ordner nach `~/.agents/skills-org/<gruppe>/<skill>/`.

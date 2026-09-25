@@ -2,6 +2,8 @@
 
 #1
 
+> **Erfuellt (PR #12, 2026-09-24):** Hash-basierter Delta-Index mit Move-Erkennung, alle vier Deltas (add/change/delete/rename) getestet. Ehrlicher Rest: Der Scan liest weiterhin jede SKILL.md vollstaendig - "nur Deltas neu analysieren" als Perf-Ziel nicht vollstaendig umgesetzt, bei 1.872 Skills unkritisch. Issue #7 als completed geschlossen.
+
 ## What to build
 
 Macht die Analyse inkrementell – Grundlage für das Aufräumen im laufenden Betrieb: Eine State-Datei hält pro Skill einen Inhalts-Hash des SKILL.md plus Mtime und Größe. Ein Rescan vergleicht nur Deltas: unveränderte Skills werden nicht neu analysiert, neue analysiert und aufgenommen, geänderte neu klassifiziert, gelöschte entfernt.

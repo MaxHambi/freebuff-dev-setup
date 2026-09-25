@@ -2,6 +2,8 @@
 
 #1
 
+> **Superseded (ADR-006, 2026-09-25):** Nicht gebaut - folgt aus der Einstellung der TUI-Entwicklung. Issue #10 als wontfix geschlossen.
+
 ## What to build
 
 Finaler Zusammenschluss: Die TUI bekommt den Watcher (Slice 7) als Hintergrund-Thread (`--watch` ist Default, abschaltbar), einen manuellen Rescan und die Feinschliffe.

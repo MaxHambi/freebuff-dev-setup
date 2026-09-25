@@ -2,6 +2,8 @@
 
 #1
 
+> **Superseded (ADR-006, 2026-09-25):** Nicht gebaut - Install aus GitHub-Collections via [skill-manager](https://github.com/abubakarsiddik31/skill-manager). Issue #5 als wontfix geschlossen.
+
 ## What to build
 
 Schließt den Kreis bis zur echten Projekt-Nutzung: `i` in der TUI öffnet einen Pfad-Dialog (OpenTUI Input, Default: aktuelles Arbeitsverzeichnis). Nach Eingabe erscheint eine Bestätigung mit Anzahl der ausgewählten Skills und dem Zielpfad. Nach Bestätigung wird die reine Copy-Engine ausgeführt: der komplette Skill-Ordner jedes ausgewählten Skills wird **kopiert** (nicht verschoben) in `<ziel>/<skill-name>/`. Die Bibliothek bleibt unangetastet.
