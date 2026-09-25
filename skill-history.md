@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## team-collaboration-issue + github-project-management - 2026-09-25 05:16
+- **Kontext/Ausloeser:** Issue-Bereinigung nach ADR-006: #3-#5/#8-#10 wontfix, #7 completed, #1 superseded, #6 Backlog; SkillSpector-Issue #19 angelegt
+- **Umgebung:** Branch `master` @ `5fe9601`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** Issue-Map sauber: 6x wontfix, 2x completed/superseded, #6 + #14-#17 offen; #19 ready-for-agent
+
+
 ## review-swarm — 2026-09-25 11:20
 - **Kontext/Auslöser:** Nach Arbeitsaufnahme Read-Only-Review über die zuletzt gemergten PRs #11 (using-skills), #12 (Skills-Manager Slice 1) und #13 (node-watchdog T1) mit vier Rollen (Intent/Regression, Security/Privacy, Performance/Reliability, Contracts/Coverage).
 - **Umgebung:** Branch `master` @ `17817ca`, Host: MaxHambi
