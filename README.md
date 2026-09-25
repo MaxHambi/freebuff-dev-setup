@@ -117,6 +117,26 @@ Betroffen: Root-`AGENTS.md` (Konventionen, Commands) und
 `skills-manager/AGENTS.md` (ordner-spezifischer Kontext). Session-Ende:
 Skill `session-docs-guardian` prueft beide als eigene Doku-Ziele.
 
+## Skill-History (`skill-history.md`)
+
+Changelog jeder Skill-Ausfuehrung in dieser Session/Repo - ein Eintrag pro
+gestartetem Skill (Kontext, Branch@Commit, Quelle, Ergebnis), neuester oben.
+Jeder Eintrag wird als eigener Commit mit dem Label `chore(skill-history):`
+versioniert, damit Skill-Nutzung und Code-Aenderungen getrennt bleiben.
+
+```powershell
+# Manuell protokollieren:
+pwsh -File scripts/skill-history-log.ps1 -SkillName "<name>" `
+     -Detail "<kontext>" -Ergebnis "<fazit>"
+
+# Nur Eintrag, kein Commit:
+pwsh -File scripts/skill-history-log.ps1 -SkillName "<name>" -NoCommit
+```
+
+Session-Hook: `.claude/settings.json` registriert `scripts/skill-history-log.ps1`
+als PostToolUse-Hook (Matcher `Skill`); das Hook-JSON liefert Skill-Name und
+Argumente, `-FromHookJson` parst sie. Hook-Fehler blockieren die Session nie.
+
 ## Wiederherstellung eines Tasks (GUI)
 
 1. Aufgabenplanung öffnen (`taskschd.msc`)

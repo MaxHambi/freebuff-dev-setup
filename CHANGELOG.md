@@ -9,6 +9,12 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
+- Skill-History-Workflow (`skill-history.md` + `scripts/skill-history-log.ps1`):
+  protokolliert jede Skill-Ausfuehrung als Eintrag im Changelog-Stil
+  (Kontext, Branch@Commit, Quelle, Ergebnis) und versioniert jeden Eintrag
+  als eigenen Commit mit dem Label `chore(skill-history):`; registrierbar
+  als Session-Hook via `.claude/settings.json` (PostToolUse, Matcher
+  `Skill`, `-FromHookJson` parst Skill-Name/Argumente, Fehler blockieren nie).
 - Meta-Skill `using-skills` (`skills/using-skills/`): vereint using-superpowers
   (1%-Gate), using-agent-skills (Phasen-Baum, Operating Behaviors) und
   skill-router (Interview-Funnel); Skill-Discovery ueber routed MCP

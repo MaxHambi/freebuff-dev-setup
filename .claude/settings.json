@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File scripts/skill-history-log.ps1 -FromHookJson",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
