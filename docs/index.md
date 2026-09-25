@@ -11,6 +11,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/agents/issue-tracker.md` | GitHub Issues als Tracker, `gh`-Workflows |
 | `docs/agents/triage-labels.md` | Label-Vokabular (`ready-for-agent` etc.) |
 | `docs/agents/domain.md` | Domain-Vokabular und Consumer-Regeln |
+| `docs/issue-fibel.md` | Issue-Layouts, Label-Statusuebergaenge, Handoff-Regeln (Schwester der Worktree-Fibel) |
 
 ## Architektur-Entscheidungen (ADRs)
 
