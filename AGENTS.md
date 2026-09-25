@@ -13,6 +13,10 @@ eigene Agent Skills (`skills/using-skills`). Landkarten: `README.md`
 (Komponenten), `docs/index.md` (Doku), `docs/issue-fibel.md` und
 `docs/worktree-fibel.md` (Prozess).
 
+**Namenskonvention:** Ordnerebene-Agent-Dateien heissen in diesem Repo immer
+`AGENTS.md` - nie `CLAUDE.md`. Das Root-`CLAUDE.md` ist nur ein lokaler,
+gitignoreter Symlink auf `AGENTS.md`.
+
 This project is built with the **AI Blueprint**, a workflow layer, not an
 app skeleton. To start a new project, scaffold the app first in an empty folder
 (create-next-app, Vite, etc.), then overlay these files on top. Never run a
