@@ -16,7 +16,8 @@ $taskNames = @(
 	'NpmCleanup',
 	'ToolingCleanup',
 	'RoutedWatch',
-	'Ruflo-PolicyLedger-Rotate-workspace'
+	'Ruflo-PolicyLedger-Rotate-workspace',
+	'MemoryIngest'
 )
 
 $exported = 0

@@ -41,7 +41,17 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 | Datei | Zweck |
 |-------|-------|
 | `plan.md` | Masterplan Slices T1–T7 (T1 erfuellt, Rest offen) |
-| `README.md` | Deploy-Pipeline, Watchdog, Skills-Architektur, MCP-Details |
+| `README.md` | Deploy-Pipeline, Watchdog, Memory-Ingest, Skills-Architektur, MCP-Details |
+
+## Betrieb (Memory-Ingest)
+
+| Datei | Zweck |
+|-------|-------|
+| `memory-ingest/lib.ts` | Pure Kernlogik (Transcript-Komposition, Export-Planung, State) - ADR-004-Test-Seam |
+| `memory-ingest/export.ts` | CLI: inkrementeller Session-Export (read-only DB, Live-Schutz, State) |
+| `memory-ingest/ingest.ps1` | Orchestrator: export → `mempalace mine` → optionaler Such-Selbsttest |
+| `memory-ingest/test/lib.test.ts` | 16 Unit-Tests gegen tmp-Fixtures |
+| `README.md` (Abschnitt "Memory-Ingest") | Betrieb, Live-Schutz, Idempotenz, Wartung |
 
 ## Verlauf
 

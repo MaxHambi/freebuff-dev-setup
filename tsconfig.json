@@ -17,5 +17,5 @@
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true
 	},
-	"include": ["skills-manager/src/**/*.ts", "*.config.ts"]
+	"include": ["skills-manager/src/**/*.ts", "memory-ingest/**/*.ts", "*.config.ts"]
 }

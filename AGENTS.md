@@ -122,13 +122,15 @@ checks do not make the Blueprint unusable.
 
 Bun/TypeScript-Teil (skills-manager) und PowerShell-Operations-Teil:
 
-- Tests: `bun test` (25 Tests gegen tmp-Fixtures) - Test-Gate ist aktiv
-- Lint: `npx biome lint skills-manager --max-diagnostics=none`
+- Tests: `bun test` (41 Tests gegen tmp-Fixtures) - Test-Gate ist aktiv
+- Lint: `npx biome lint skills-manager --max-diagnostics=none` und `npx biome lint memory-ingest --max-diagnostics=none`
 - Typecheck: `bunx tsc --noEmit`
 - PowerShell-Syntaxcheck: `npm run syntaxcheck` (alle Repo-PS-Skripte)
 - Analyse-CLI: `bun run skills-manager/src/analyze.ts [--root <pfad>] [--quiet]`
 - Doku-Gates (CI-identisch): `bun run skills-manager/scripts/check-commits.ts --base origin/master` und `check-changelog.ts --base origin/master`
 - Watchdog-Integrationstests (nur Windows): `pwsh -File node-watchdog/run-tests.ps1`
+- Memory-Ingest (Session -> Palast): `pwsh -File memory-ingest/ingest.ps1` (DryRun: `-DryRun`; Task `MemoryIngest` via `install-task.ps1 -Register`) - Details in README-Abschnitt "Memory-Ingest"
+- MemPalace-Diagnose (Consent/Binary/Suche): `pwsh -File memory-ingest/check-mempalace.ps1` (Exit 0/1/2)
 - Deploy-Pipeline (Reihenfolge): `npm run deploy` → `npm run install-task` → `npm run export-tasks`
 
 Quality-Gate: `scripts/hooks/pre-push` (Lint + Syntaxcheck + Tests) laeuft

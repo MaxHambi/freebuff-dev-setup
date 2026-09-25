@@ -7,6 +7,25 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Added
+
+- **Memory-Ingest-Workflow (`memory-ingest/`)**: wiederverwendbare Pipeline,
+  die neue Freebuff-Sessions nach Abschluss inkrementell ins Palast-
+  Gedächtnis einspeist. Export-Schritt (Bun/TS, read-only gegen die App-DB,
+  `lib.ts` als pure Test-Seam nach ADR-004, 16 Unit-Tests gegen tmp-Fixtures)
+  mit Live-Schutz per Staleness-Fenster (30 min - die laufende Session wird
+  nie exportiert), Mindest-Nachrichtenzahl und State-basiertem Inkrement
+  (`memory-ingest-state.json` neben dem Export-Ordner, damit `mine` ihn nicht
+  mitliest). Orchestrator `ingest.ps1` (export → `mempalace mine --mode
+  convos` → optionaler Such-Selbsttest, Transcript-Log mit Rotation).
+  Export-Ordner bewusst = Legacy-Pfad `D:/mempalace/exports/freebuff-legacy-
+  sessions`, damit `mine` pro Quellpfad idempotent bleibt (Live-Lauf: 894
+  Drawers, kein Duplikat-Schwall). Scheduled Task `MemoryIngest` (taeglich
+  04:30 + 4 h) als Runtime-Kopie unter `~/.tools` registriert; XML-Backup in
+  `task/MemoryIngest.xml`. `install-task.ps1` kann jetzt wirklich registrieren
+  (`-Register` via schtasks, Trigger-Map), `deploy.ps1` ueberschreibt
+  Runtime-Logs nie.
+
 ### Changed
 
 - **Projekt-Umbenennung: `tools-entwicklung` → `freebuff-dev-setup`** (Issues #21-#26) -
