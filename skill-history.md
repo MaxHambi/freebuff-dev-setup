@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## onboard (AI Blueprint) - 2026-09-25 05:53
+- **Kontext/Ausloeser:** Blueprint 0.12.5 Overlay (AGENTS.md, .agents/, blueprint/) eingecheckt; onboard: Commands/Standards/ai-interaction auf Bun+PowerShell-Stack gesetzt, Attribution-Regel korrigiert; blueprint-CLI 1.10.0 mit @latest nachgezogen (Installer-Versions-Bug)
+- **Umgebung:** Branch `master` @ `8d187ba`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** e15e9a2 + Namenskonvention-Nachtrag; Visibility: Commit; naechster Schritt laut Skill: /overview
+
+
 ## documentation-generation-doc-generate + interview-style-doc-building + code-documentation-doc-generate + brain-to-docs - 2026-09-25 05:46
 - **Kontext/Ausloeser:** Doku-Refresh in master: 10 neue Skills in die README-Tabelle (gm mit #20-Verweis nach Nutzerantwort), routed 2.864, USER_GUIDE auf ADR-006-Stand
 - **Umgebung:** Branch `master` @ `1ced8e6`, Host: MaxHambi
