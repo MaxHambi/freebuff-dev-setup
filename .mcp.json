@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mempalace": {
+      "command": "C:\\Users\\Max Hambi\\.local\\bin\\mempalace-mcp.exe",
+      "args": []
+    }
+  }
+}
