@@ -35,3 +35,7 @@ skills-manager/data/
 # MemPalace per-project files (issue #185)
 mempalace.yaml
 entities.json
+
+# Freebuff MCP-Server-Registrierung (projekt-lokal, maschinenspezifische Pfade;
+# Entscheidung 26.09.2026: bewusst nicht im Team-Repo - siehe Mem-Palace.md FAQ)
+.mcp.json
