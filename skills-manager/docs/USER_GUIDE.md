@@ -1,6 +1,8 @@
 # User Guide: Skills-Manager
 
-Anleitung fuer die Nutzung des Analyse-CLIs (Stand: Slice 1). Die TUI folgt mit Slice 2+.
+Anleitung fuer die Nutzung des Analyse-CLIs (Stand: Slice 1, nach ADR-006 -
+die TUI-Slices sind verworfen; Baum/Multi-Select/Install/Suche liefert
+das externe [skill-manager](https://github.com/abubakarsiddik31/skill-manager)).
 
 ## Voraussetzungen
 
@@ -82,7 +84,9 @@ npx biome lint skills-manager  # Lint
 | Zahlen wirken zu hoch bei `stale` | Die Bibliothek ist zwischen Februar und Juli 2026 befüllt worden; bei Stichtags-Überschreitung rutscht der ganze Jahrgang. Schwelle liegt in `classify.ts` (`STALE_MONTHS = 6`) |
 | Ich will den Zustand zurücksetzen | `skills-manager/src/data/state.json` löschen – der nächste Lauf ist wieder ein Voll-Scan |
 
-## Nächste Schritte
+## Ausblick
 
-- Slice 2 (Issue #3): TUI mit Gruppenbaum und Beschreibungspanel
+- Issue #19: SkillSpector als optionale Risk-Scan-Quelle (Risk-Score
+  fuer die 928 Skills mit `risk: unknown`)
 - Slice 5 (Issue #6): thematischer Mirror unter `~/.agents/skills-org/`
+  (Backlog, low priority)

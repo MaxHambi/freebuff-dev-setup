@@ -172,7 +172,7 @@ die Wartung erfolgt außerhalb des Repos.
 - Installiert unter `%LOCALAPPDATA%\Programs\Routed\bin\routed.cmd`, Version
   wird mit `routed --version` geprüft.
 - Indexiert Skills über alle Tool-Hosts hinweg in einer lokalen SQLite-DB
-  (`routed scan_skills` → Stand: >2800 Skills).
+  (`routed scan_skills` → Stand: 2.864 Skills, 2026-09-25).
 - **MCP-Tools** (konfiguriert in `.cline/mcp_settings.json`, Server `routed`):
   `route_skill` (Prompt → bester Skill), `get_skill` (SKILL.md nach ID/Name),
   `list_skills` (Index durchsuchen), `scan_skills` (Index neu aufbauen).
@@ -234,7 +234,13 @@ Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
 | `to-prd`, `to-issues`, `setup-matt-pocock-skills` | installiert (mattpocock/skills) | PRD-/Issue-Workflows mit GitHub-Tracker und Triage-Labels |
 | `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert | Conventional-Commits-, Branch- und PR-Pipeline |
 | `changelog-automation`, `documentation-and-adrs`, `documentation-generation-doc-generate` | installiert | Changelog (Keep a Changelog), ADR- und Doku-Generierung |
-| `interview-style-doc-building`, `brain-to-docs`, `code-documentation-doc-generate` | installiert | Interviewbasierte Doku-Erstellung |
+| `interview-style-doc-building`, `brain-to-docs`, `code-documentation-doc-generate` | installiert | Interviewbasierte Doku-Erstellung (eine Frage pro Antwort, Patch statt Overwrite; README+ADR aus Vision) |
+| `skill-designer` (+ `skill-writer` als Deep-Referenz) | installiert | Canonical-Workflow fuer Skill-Authoring; skill-writer liefert evaluation-path und description-optimization |
+| `session-docs-guardian` | in Sitzung erstellt (nicht im Repo) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` noch nicht registriert (siehe Hook-Landkarte) |
+| `gm`, `gm-continue` | installiert - **Eval offen (Issue #20)** | Verb-Daemon-Treiber mit eigener Runtime (`agentplug-runner.exe`, `plugkit.wasm`); Nutzung erst nach Eval-Empfehlung |
+| `wfgy-method`, `polaris-protocol`, `polaris-goal-compiler`, `fifth-dimension-engine` | installiert | WFGY 5.0 Reasoning-Disziplin: Drift-Reduktion, Goal-Compiler, Problem-Routen |
+| `agent-memory` | installiert | TencentDB Agent Memory (MemoryCore/MemoryHub/MemoryProxy/MemoryPanel) - persistenter Cross-Session-Speicher |
+| `aihubmixapi` | installiert | AIHubMix-API-Integration: SDK-Code, Modellwahl, Live-Quellen |
 
 Deploy-Ziel eigener Skills: `%USERPROFILE%.agentsskills<name>`, danach
 `skills-sync.ps1` oder MCP `scan_skills` (siehe ADR-002: `scan_skills` ist

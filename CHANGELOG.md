@@ -30,6 +30,11 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   `Skill`, `-FromHookJson` parst Skill-Name/Argumente, Fehler blockieren nie);
   README enthaelt die Hook-Landkarte (welcher Hook wo registriert ist -
   `.freebuff/` bietet bewusst kein Hook-Format).
+- Doku-Refresh (2026-09-25): README-Skills-Tabelle um 10 neue Skills
+  ergaenzt (session-docs-guardian, skill-designer/skill-writer, gm/gm-continue
+  mit Issue-#20-Eval-Verweis, WFGY-Suite, agent-memory, aihubmixapi),
+  routed-Indexstand auf 2.864 aktualisiert, Hook-Landkarte ergaenzt,
+  USER_GUIDE auf ADR-006-Stand gebracht.
 - Meta-Skill `using-skills` (`skills/using-skills/`): vereint using-superpowers
   (1%-Gate), using-agent-skills (Phasen-Baum, Operating Behaviors) und
   skill-router (Interview-Funnel); Skill-Discovery ueber routed MCP
