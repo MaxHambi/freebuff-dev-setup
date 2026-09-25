@@ -23,6 +23,9 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/decisions/ADR-004-skills-manager-testing-seams.md` | Zwei Test-Seams (Lib + TUI-Renderer) | Accepted |
 | `docs/decisions/ADR-005-mirror-not-move.md` | Skills-Bibliothek: Mirror statt Umbau | Accepted |
 | `docs/decisions/ADR-006-externe-skill-manager-tools.md` | TUI-Eigenbau verworfen: skill-manager + SkillSpector statt Slices #3–#10 | Accepted |
+| `docs/decisions/ADR-007-memory-ingest-scheduled-task.md` | Memory-Ingest als Scheduled Task (Staleness-Live-Schutz, State-Inkrement, Idempotenz am Quellpfad) | Accepted |
+| `docs/decisions/ADR-008-mempalace-cli-fallback-diagnose.md` | MemPalace ohne MCP-Consent: CLI-/STDIO-Fallback + Diagnose-Gate (Exit 0/1/2) | Accepted |
+| `docs/decisions/ADR-009-mcp-json-projektlokal.md` | `.mcp.json` bleibt projekt-lokal: gitignore + Index-Entfernung statt Team-Commit | Accepted |
 
 ## Skills-Manager (`skills-manager/`)
 
