@@ -38,6 +38,10 @@ Reviewing code?               -> code-review-and-quality
 Committing/branching?         -> git-workflow-and-versioning
 Docs/ADRs?                    -> documentation-and-adrs
 Skill design/authoring?       -> skill-designer (Skill erstellen/verbessern/strukturieren)
+Implementing (TDD-Standard)?  -> tdd-workflows (red/green/refactor) + tdd-orchestrator
+Commit/PR-Workflow?           -> git-pr-workflows-git-workflow (+ -pr-enhance)
+Issue fixen/triagen?          -> team-collaboration-issue
+Boards/Sprints verwalten?     -> github-project-management
 Deploying/launching?          -> shipping-and-launch
 None fit or not installed?    -> routed discovery (Step 4)
 ```

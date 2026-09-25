@@ -19,8 +19,11 @@ Task kommt rein
     │   ├── Besserer Kontext noetig? ──────→ context-engineering
     │   ├── Doku-verifizierter Code? ──────→ source-driven-development
     │   └── Hohes Risiko/unklarer Code? ───→ doubt-driven-development
-    ├── Tests schreiben/laufen? ───────────→ test-driven-development
+    ├── Tests schreiben/laufen? ───────────→ tdd-workflows (Standard-Stack: red -> green -> refactor,
+    │   │                                    orchestriert durch tdd-orchestrator; klassisch:
+    │   │                                     test-driven-development)
     │   └── Browser-basiert? ──────────────→ browser-testing-with-devtools
+    ├── Repo-/Skill-Entwicklung (Standard-Stack)? ─→ siehe Standard-Stacks unten
     ├── Etwas kaputt? ─────────────────────→ systematic-debugging
     ├── Code-Review? ──────────────────────→ code-review-and-quality
     │   ├── Zu komplex? ───────────────────→ code-simplification
@@ -47,7 +50,7 @@ Nicht installiert oder keine Sektion passt? -> routed-Discovery
 | Frontend-Feature/UI | frontend-design / senior-fullstack | react-patterns, ui-ux-pro-max |
 | Backend/API | backend-dev-guidelines | api-patterns, database-design |
 | Debugging | systematic-debugging | test-fixing, clean-code |
-| Tests/TDD | tdd | playwright-skill, testing-patterns |
+| Tests/TDD | tdd-workflows (red -> green -> refactor, tdd-orchestrator) | playwright-skill, testing-patterns |
 | 3rd-Party-Integration | domänenspezifisch (stripe-integration, clerk-auth, ...) | file-uploads, analytics-tracking |
 | AI/LLM/Agents | ai-agents-architect | rag-engineer, prompt-engineer, langgraph |
 | Security/Pentest | ethical-hacking-methodology + pentest-checklist | burp-suite-testing, top-web-vulnerabilities |
@@ -60,6 +63,26 @@ Nicht installiert oder keine Sektion passt? -> routed-Discovery
 
 Regeln: max. 1 primär + 2 sekundär, upstreamesten Skill zuerst wählen,
 bei vager Idee brainstorming statt direkt builder.
+
+## Standard-Stacks (diese Bibliothek)
+
+Feste Kombinationen für wiederkehrende Arbeitsarten; der Phase-Baum routet
+dorthin, Detail-Ketten stehen in den Skills selbst.
+
+| Arbeitsart | Stack in Reihenfolge |
+|---|---|
+| Repo-/Code-Entwicklung | `git-pr-workflows-git-workflow` (Orchestrierung) -> `tdd-workflows` red/green/refactor + `tdd-orchestrator` -> `git-pr-workflows-pr-enhance` (PR-Qualitaet) |
+| Issue-Arbeit | `team-collaboration-issue` (Triage/Root-Cause/TDD im Issue) -> Implementation wie oben -> PR via Stack oben |
+| Skill-Entwicklung | `skill-designer` (kanonisch) -> skill-writer nur bei explizitem Namen (Deep-Dive-Referenz) |
+| Projekt-Organisation | `github-project-management` (Boards/Sprints/Triage) |
+
+Flags des Git-Stacks: `--conventional` (Standard annehmen), `--feature-branch`
+(Default), `--draft-pr`, `--no-push`; nicht ohne Auftrag: `--skip-tests`.
+Beschraenkung: `git-pr-workflows-git-workflow` und `github-project-management`
+referenzieren Swarm-/Task-Tools (Task-Tool, ruv-swarm, claude-flow); diese
+Agenten fehlen in der Regel - dann die Phasen ohne Subagent-Dispatch direkt
+ausfuehren (Review -> Tests -> Conventional Commits -> PR), die Schrittlogik
+bleibt identisch.
 
 ## Interview-Funnel (wenn das Ziel vage ist)
 
