@@ -24,7 +24,9 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   04:30 + 4 h) als Runtime-Kopie unter `~/.tools` registriert; XML-Backup in
   `task/MemoryIngest.xml`. `install-task.ps1` kann jetzt wirklich registrieren
   (`-Register` via schtasks, Trigger-Map), `deploy.ps1` ueberschreibt
-  Runtime-Logs nie.
+  Runtime-Logs nie. Entscheidungen dokumentiert als ADR-007 (Scheduled Task
+  statt manuellem Mining), ADR-008 (CLI-/STDIO-Fallback + Diagnose-Gate ohne
+  MCP-Consent) und ADR-009 (`.mcp.json` projekt-lokal).
 
 ### Changed
 
