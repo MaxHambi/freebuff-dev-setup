@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## skill-writer (evaluation-path + description-optimization) - 2026-09-25 05:41
+- **Kontext/Ausloeser:** Audit von session-docs-guardian: Depth-Rubrik 5x pass/1x partial, Should-/Should-not-Trigger-Sets geprueft; Description verbessert (bilinguale Trigger, Artefaktliste inkl. AGENTS.md, Not-for-Grenze, Hook-Verweis) und Docs-only-Staging-Regel ergaenzt
+- **Umgebung:** Branch `master` @ `4e82fcf`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** SKILL.md aktualisiert, routed-Index neu gescannt (2864 Skills)
+
+
 ## github-project-management + team-collaboration-issue - 2026-09-25 05:27
 - **Kontext/Ausloeser:** /gm-Skill: Issue #20 angelegt (Supply-Chain-Pinning, Gate-Konflikt zu using-skills, .gitignore fuer .gm/); Duplikat-Bereinigung in ~/.claude/skills - 7 Installer-Kopien (gm, gm-continue, polaris-*, wfgy-method, fifth-dimension-engine, agent-memory) und veraltete github-workflow-automation-Kopie durch Symlinks ersetzt (Write-through verifiziert, Backup unter ~/.claude/skills-backup)
 - **Umgebung:** Branch `master` @ `72ea791`, Host: MaxHambi
