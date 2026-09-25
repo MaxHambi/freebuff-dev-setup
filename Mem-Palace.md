@@ -18,7 +18,7 @@
 | **XDG-Config** | `~/.config/mempalace/config.json` → `{ "palace_path": "D:\\mempalace\\palace" }`; hier landen auch `entity_languages` und Update-Einstellungen |
 | **Topologie** | Shared-brain **Hub-Vorbereitung** (dieser Rechner besitzt den Palast); `mempalace serve` läuft aktuell **nicht** — erst starten, wenn ein Client aus dem Netz kommt |
 | **Agent-Identity** | `maxhambi:freebuff:freebuff-dev-setup` (Freebuff) und `maxhambi:claude:*` (Claude Code, unveraendert) — host:harness:project, lowercase |
-| **Corpus** | `D:\freebuff-dev-setup` — 100 Dateien, **707 Drawers** (Wing `freebuff_dev_setup`, frisch initialisiert 25.09.2026 nach dem /mempalace-Skill) |
+| **Corpus** | `D:\freebuff-dev-setup` — 100 Dateien, **893 Drawers** (Wing `freebuff_dev_setup`; 707 nach Rebuild 25.09.2026 + 186 aus Legacy-Session-Mining) |
 | **Update-Checks** | Wöchentlich, Installer `uv-tool` registriert (`mempalace update configure --enable --installer uv-tool`) |
 
 ### Struktur im Palast (Wing `freebuff_dev_setup`)
@@ -26,14 +26,44 @@
 | Room | Drawers | Quelle |
 |---|---|---|
 | skills | 538 | `skills/` (Spiegel der Skill-Bibliothek) |
+| milestone | 129 | Legacy-Session-Mining (Verlauf/Meilensteine alter Sitzungen) |
 | documentation | 72 | `docs/` |
 | blueprint | 72 | `blueprint/` |
+| problem | 39 | Legacy-Session-Mining (Probleme/Fehler aus alten Sitzungen) |
+| decision | 18 | Legacy-Session-Mining (Entscheidungen/Regeln aus alten Sitzungen) |
 | task | 14 | `task/` |
 | general | 6 | Rest |
 | scripts | 4 | `scripts/` |
 | node_watchdog | 1 | `node-watchdog/` |
 
-> **Fresh rebuild 25.09.2026 (/mempalace-Skill):** Der fruehere Palast (Wings `tools_entwicklung` + `freebuff_dev_setup` gemischt, 1378 Drawers) wurde gesichert nach `D:\mempalace\palace-backup-20260925` und komplett neu initialisiert. Der alte Wing `tools_entwicklung` existiert nicht mehr. Backup-Loeschung ist eine spaetere manuelle Entscheidung.
+### Legacy-Session-Mining (25.09.2026, automatisiert seit 26.09.2026)
+
+Die 5 Freebuff-Desktop-Sessions des Projekts liegen in
+`~/.config/freebuff-desktop/projects/tools-entwicklung-b9df0048-1507-46ad-b826-4e4f4094d4e5/desktop-v2.db`
+(der Ordnername traegt noch den alten Projektnamen; die UUID ist identisch mit
+dem neuen Projekt, `project.json` zeigt bereits auf `D:\freebuff-dev-setup`).
+
+Export-Pipeline (read-only, App-Daten bleiben unangetastet):
+
+1. `bun run D:\mempalace\exports\export-freebuff-sessions.ts` — liest die DB
+   read-only, extrahiert nur `kind:"text"`-Parts und schreibt je Thread ein
+   Markdown-Transcript nach `D:\mempalace\exports\freebuff-legacy-sessions\`.
+   Die live laufende Session wird uebersprungen (Liste `SKIP_THREAD_IDS`
+   im Skript). 4 Threads, 176 Nachrichten exportiert.
+2. `mempalace mine "D:\mempalace\exports\freebuff-legacy-sessions" --mode convos
+   --extract general --wing freebuff_dev_setup --agent maxhambi` — 186 Drawers
+   (129 milestone, 39 problem, 18 decision). Verifiziert per `mempalace search
+   "skill designer eval ranking"` (trifft decision-Drawer aus der Session).
+
+**Automatisiert seit 26.09.2026 (Repo: `memory-ingest/`):** Scheduled Task
+`MemoryIngest` (taeglich 04:30 + 4 h) fuehrt `memory-ingest/ingest.ps1` aus:
+inkrementeller Export neuer/veraenderter Threads aus der Desktop-DB
+(Live-Schutz 30 min, min. 2 Nachrichten, State in
+`D:\mempalace\exports\memory-ingest-state.json`) → `mempalace mine` auf den
+Legacy-Ordner (idempotent). Details/README-Abschnitt "Memory-Ingest" im Repo;
+Unit-Tests `bun test memory-ingest`.
+
+> **Fresh rebuild 25.09.2026 (/mempalace-Skill):** Der fruehere Palast (Wings `tools_entwicklung` + `freebuff_dev_setup` gemischt, 1378 Drawers) wurde gesichert nach `D:\mempalace\palace-backup-20260925` und komplett neu initialisiert. Der alte Wing `tools_entwicklung` existiert nicht mehr. **Backup am 25.09.2026 geloescht** — vorher verifiziert: Logstream leer (0 Events), Tunnels nur automatisch gespiegelte Entity-Rooms, kein uniqer Inhalt; die fortfuehrenden Erinnerungen stammen jetzt aus dem Legacy-Session-Mining (siehe oben), nicht aus dem Backup.
 Die Room-Zuordnung steuert **`mempalace.yaml` im Repo-Root** (Verzeichnis →
 Room + Keywords). Dort kann ich Rooms ergänzen/ändern (siehe §4).
 
@@ -42,7 +72,7 @@ Room + Keywords). Dort kann ich Rooms ergänzen/ändern (siehe §4).
 | Harness | Registrierung | Status |
 |---|---|---|
 | **Claude Code** | `claude mcp add mempalace -- mempalace-mcp` (project-scoped `D:\tools-entwicklung`, Eintrag in `~/.claude.json`) | ✔ live verifiziert (✔ Connected) |
-| **Freebuff** | `D:\freebuff-dev-setup\.mcp.json` → `"mempalace": { "command": "C:\\Users\\Max Hambi\\.local\\bin\\mempalace-mcp.exe" }` | ⏳ Datei angelegt; **Freebuff-Restart + Consent** nötig, dann Tool-Liste prüfen |
+| **Freebuff** | `D:\freebuff-dev-setup\.mcp.json` → `"mempalace": { "command": "C:\\Users\\Max Hambi\\.local\\bin\\mempalace-mcp.exe" }` | ⏳ Restart 26.09.2026 erfolgt; **Consent fehlt weiterhin** — `~/.freebuff/mcp.json` enthält keinen mempalace-Eintrag (nur supabase/rayrun/synapse/routed/claimidx), `search_mcp_tools` listet den Server nicht. Binary selbst OK (Smoke-Test: initialize + tools/list = **45 Tools**). Nächster Schritt: Consent-Prompt in der Freebuff-UI bestätigen, dann erneut prüfen |
 | **Rules-Block** | `~/.claude/CLAUDE.md` → `<!-- mempalace-shared-brain -->`-Block (88 Zeilen, gerendert mit `mempalace rules --host maxhambi --harness claude --project tools-entwicklung`) | ✔ installiert |
 | **Rules-Block (Freebuff)** | `AGENTS.md` (Projekt-Root) → `<!-- mempalace-shared-brain -->`-Block (88 Zeilen, gerendert mit `mempalace rules --host maxhambi --harness freebuff --project freebuff-dev-setup`) | ✔ installiert |
 
@@ -169,16 +199,30 @@ Vor Convos-Mining `mempalace split` (Mega-Transcripte splitten). Subagent-
 Transcripts sind bewusst ausgeschlossen (`--include-subagents` zum
 Einschließen). Windows-ONNX-Fall: `--max-chunks-per-file` senken.
 
+**Wie komme ich an alte Freebuff-Sessions?**
+Die Thread-/Message-Daten liegen read-only abrufbar in
+`~/.config/freebuff-desktop/projects/tools-entwicklung-b9df0048-…/desktop-v2.db`
+(5 Threads, 187 Messages). Fuer durchsuchbares Gedaechtnis: Export-Skript
+`D:\mempalace\exports\export-freebuff-sessions.ts` laufen lassen (neue Threads
+landen automatisch mit drin, die live Session bleibt uebersprungen) und dann
+`mempalace mine … --mode convos --extract general` (idempotent — bereits
+gefilte Dateien werden uebersprungen).
+
 **Kostet die Suche was / geht was nach draußen?**
 Nein/Nein. Suche & Mining sind lokal, kein API-Key. Nur die opt-in
 LLM-Verfeinerung sendet Inhalte — bei Cloud-Endpunkten (siehe
 LLM-VERFEINERUNG.md, Abschnitt Datenschutz).
 
 **Freebuff sieht mempalace nicht — was fehlt?**
-Freebuff-Restart + Consent-Prompt für den Server aus `.mcp.json`
-bestätigen; danach in der Session `search_mcp_tools` mit „mempalace"
-prüfen. Die `.mcp.json` liegt untracked im Repo — beim nächsten Commit
-entscheiden: committen (Team) oder in `.gitignore`.
+Standard-Diagnose: `pwsh -File memory-ingest/check-mempalace.ps1` — prüft
+Consent-State (`~/.freebuff/mcp.json`), Binary-Smoke (STDIO, 45 Tools) und
+Palast-Suche in einem Lauf. Exit 0 = alles grün, Exit 2 = nur Consent fehlt
+(CLI-Fallback ist der Weg), Exit 1 = harter Fehler. Consent-Prompt für den
+Server aus `.mcp.json` in der Freebuff-UI bestätigen, dann Exit 0 erwarten.
+Entscheidung 26.09.2026: `.mcp.json` bleibt **lokal** — steht in
+`.gitignore` und ist aus dem Index entfernt (`git rm --cached`); die Datei
+liegt weiter im Repo-Ordner, wird aber nie committet (maschinenspezifische
+Pfade).
 
 **Wie aktualisiere ich MemPalace?**
 `uv tool upgrade mempalace`, danach ggf. `mempalace migrate` (Chroma-
