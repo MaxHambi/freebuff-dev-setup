@@ -22,7 +22,7 @@
 | 9 TUI-Live-Integration | #10 | wontfix | folgt aus der Einstellung der TUI |
 
 Nachtrag (2026-09-25): SkillSpector-Integration als neue
-ai-improvement-Aufgabe (`ready-for-agent`, TDD-Methodik) angelegt.
+ai-improvement-Aufgabe angelegt: **Issue #19** (`ready-for-agent`, TDD-Methodik).
 
 ## Workflow pro Issue (git-pr-workflows-git-workflow)
 
