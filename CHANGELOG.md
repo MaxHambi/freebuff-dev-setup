@@ -9,7 +9,7 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
-- **Memory-Ingest-Workflow (`memory-ingest/`)**: wiederverwendbare Pipeline,
+- **Memory-Ingest-Workflow (`memory-ingest/`)**: wiederverwendbare Session-Ingest-Pipeline,
   die neue Freebuff-Sessions nach Abschluss inkrementell ins Palast-
   Gedächtnis einspeist. Export-Schritt (Bun/TS, read-only gegen die App-DB,
   `lib.ts` als pure Test-Seam nach ADR-004, 16 Unit-Tests gegen tmp-Fixtures)
