@@ -7,6 +7,19 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Changed
+
+- **Skills-Manager: TUI-Eigenbau verworfen (ADR-006)** - die OpenTUI-Slices
+  (#3-#10) sind eingestellt; [skill-manager](https://github.com/abubakarsiddik31/skill-manager)
+  (Baum, Multi-Select, Install, Suche) und [SkillSpector](https://github.com/NVIDIA/SkillSpector)
+  (Security-Scan, Risk-Score) uebernehmen die Funktionen. Slice 6
+  (Delta-Index, #7) gilt als erfuellt (PR #12); Slice 5 (Mirror-Gruppierung,
+  #6) bleibt als Backlog offen. package.json: tote Script-Eintrage
+  (`group`, `group:dry`, `tui`, `analyze:watch`) entfernt; PRD, PROCESS,
+  ARCHITECTURE und Slice-Dokumente auf den neuen Stand gebracht. Die
+  Analyse-CLI bleibt Kernstueck; SkillSpector-Integration als neues
+  ai-improvement-Issue (TDD) angelegt.
+
 ### Added
 
 - Skill-History-Workflow (`skill-history.md` + `scripts/skill-history-log.ps1`):

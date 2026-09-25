@@ -2,6 +2,8 @@
 
 #1
 
+> **Superseded (ADR-006, 2026-09-25):** Nicht gebaut - Suche via [skill-manager](https://github.com/abubakarsiddik31/skill-manager); routed bleibt ueber MCP (`route_skill`) erreichbar. Issue #9 als wontfix geschlossen.
+
 ## What to build
 
 Semantische Suche in der TUI: `/` öffnet eine Suchleiste (OpenTUI Input), die Eingabe wird an `routed route "<query>" --json` geschickt (über die installierte routed-CLI via PowerShell, Fehler werden abgefangen). Die zurückgegebenen Skill-Treffer werden im Baum hervorgehoben (z. B. Relevanz-Rang als Zahl), Nicht-Treffer ausgegraut; die Ansicht ist ein Overlay-Modus, der mit Esc verlassen wird und den normalen Baum unbeschädigt zurücklässt. Suche funktioniert gruppenübergreifend über alle Skills des Index.

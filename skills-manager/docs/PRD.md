@@ -1,4 +1,19 @@
-# PRD: Skills-Manager – Analyse, Gruppierung & OpenTUI-Installer
+# PRD: Skills-Manager – Analyse-CLI (v2, nach ADR-006)
+
+> **Hinweis (2026-09-25, ADR-006):** Die ursprüngliche Planung sah eine
+> OpenTUI-Terminal-App vor (Gruppenbaum, Multi-Select, Install-Flow,
+> Suche, Watcher-Live). Diese Teile sind verworfen: Die funktionalen
+> Entsprechungen werden heute durch
+> [abubakarsiddik31/skill-manager](https://github.com/abubakarsiddik31/skill-manager)
+> (Baum, Multi-Select, Install, Suche, Enable/Disable) und
+> [NVIDIA/SkillSpector](https://github.com/NVIDIA/SkillSpector)
+> (Security-Scan, Risk-Score) abgedeckt. Die User Stories 1–15 und
+> 20–33 der ursprünglichen Fassung sind damit gegenstandslos. Verbleibender
+> Scope sind die Analyse-CLI (unten) und – als Backlog – die Mirror-
+> Gruppierung (Stories 16–19).
+
+Slices und Implementierungsstand: siehe `PROCESS.md` (Issue-Map) und
+`docs/issues/` (Slice-Dokumente mit Superseded-Vermerken nach ADR-006).
 
 ## Problem Statement
 
@@ -11,7 +26,7 @@ In der persönlichen Skill-Bibliothek unter dem globalen Skills-Ordner liegen ü
 
 ## Solution
 
-Ein Skills-Manager als Terminal-Anwendung (OpenTUI auf Bun), der die Bibliothek als klappbaren Gruppenbaum mit Status-Badges zeigt, Multi-Select per Leertaste erlaubt, bei Enter die Skill-Beschreibung überhalb der Liste anzeigt und mit `i` ausgewählte Skills in ein vom Nutzer angegebenes Projekt kopiert. Ein Hintergrund-Watcher registriert Änderungen am Skills-Ordner und hält Analyse-Index, Gruppen-Mirror und den Routed-Skill-Index automatisch aktuell. Der lokale `routed` MCP liefert semantische Suche und Kategorisierungs-Fallback.
+Ein Skills-Manager als **Analyse-CLI** (Bun), der die Bibliothek scannt, jeden Skill klassifiziert (`stale` / `incompat` / `needs-setup`) und einen maschinenlesbaren Index plus lesbaren Report erzeugt. Ein Delta-Index mit Hash-basierter Move-Erkennung hält Folgelauf beim laufenden Aufräumen aktuell. Die interaktiven Teile (Baum, Multi-Select, Install, Suche) sind nach ADR-006 extern abgedeckt (skill-manager, SkillSpector); die optionale Anreicherung mit SkillSpector-Risk-Scans ist als ai-improvement-Issue angelegt.
 
 ## User Stories
 
@@ -51,8 +66,7 @@ Ein Skills-Manager als Terminal-Anwendung (OpenTUI auf Bun), der die Bibliothek 
 
 ## Implementation Decisions
 
-- **Runtimes:** Bun (≥1.3.0, lokal 1.3.6) als Laufzeit; Node.js-Pfad wird nicht unterstützt (lokaler Node 24 liegt unter der OpenTUI-Mindestversion 26.4).
-- **UI-Framework:** OpenTUI Core imperativ (`createCliRenderer`, Renderables), keine React/Solid-Bindings – weniger Abhängigkeiten, kompakteres Layout gemäß OpenTUI-Terminal-Defaults (keine Paddings, information-dicht).
+- **Runtimes:** Bun (≥1.3.0, lokal 1.3.6) als Laufzeit; Node.js-Pfad wird nicht unterstützt.
 - **Module:** Analyse/Klassifizierung (pure Funktionen), Gruppierung (Buckets + routed-Fallback), Mirror-Sync (kopieren/entfernen/ersetzen), Delta-Index (Hash-und-Mtime-State), Install (Copy mit Bestätigung), TUI (Baum, Badges, Dialoge), Watcher (fs.watch mit Debounce).
 - **Klassifizierung:** stale = `date_added` älter als 6 Monate oder Deprecated-Marker im Text; incompatible = fehlende lokale Skript-Referenzen, Binär-Encoding, tote Links, unvollständige Ordner; needs-setup = API-Key-/MCP-/pip-Erwähnung oder vorhandene `requirements.txt`/`package.json`. Badges werden farbig gerendert (stale gelb, incompat rot, setup blau, risk critical/offensive rot).
 - **Gruppen:** Keyword-Buckets in fester Priorität (KI-Agents, Cloud/DevOps, Backend/API, Web-Frontend, Game/3D, Automation/SaaS, Content/SEO, Security, Testing, Data/ML, Datenbank, Mobile, Business, Docs/Wiki, Meta-Skills, Health, Personas, Sonstige); erster Treffer gewinnt; Bucket-lose und mehrdeutige Skills gehen als semantischer Fallback an `routed route --json`. Container-Ordner bleiben Sondergruppen.
@@ -65,21 +79,26 @@ Ein Skills-Manager als Terminal-Anwendung (OpenTUI auf Bun), der die Bibliothek 
 ## Testing Decisions
 
 - Gute Tests prüfen nur externes Verhalten: Given eine tmp-Fixture-Ordnerstruktur, liefert die Funktion das erwartete Ergebnis (Index-Inhalt, Klassifizierung, Zielordner nach Sync/Install) – keine internen Aufrufe.
-- **Seams:** (1) Die puren Lib-Funktionen (Analyse, Gruppierung, Sync, Install, Delta-Index) mit injiziertem Skills-Root, getestet gegen tmp-Fixtures; (2) die TUI als Renderer-Tests über das OpenTUI-Test-Utility: gerenderte Frames für Baum/Badges/Selektion/Beschreibungspanel prüfen. Das sind bewusst zwei Seams; die TUI-Renderer-Tests wurden auf User-Wunsch zusätzlich aufgenommen.
+- **Seams:** Die puren Lib-Funktionen (Analyse, Delta-Index) mit injiziertem Skills-Root, getestet gegen tmp-Fixtures (ADR-004). Der ursprüngliche zweite Seam (TUI-Renderer-Tests) ist nach ADR-006 obsolet.
 - Watcher-Verhalten wird als Delta-Index-Test geführt (Skill hinzufügen/ändern/löschen/umbenennen → korrekter neuer State), nicht als Timing-Test auf fs.watch.
 - Kein Prior-Art im Repo; die PowerShell-Testskripte des Repos decken diesen TypeScript-Teil nicht ab. Lint läuft über Biome (`npm run lint`).
 
-## Out of Scope
+## Abgrenzung / Out of Scope
 
+- **OpenTUI/TUI aller Art** (nach ADR-006 durch skill-manager ersetzt).
 - Node.js-Unterstützung (nur Bun).
 - Aktives Aufräumen/Ändern/Löschen der Original-Bibliothek durch das Tool.
-- Löschen oder Umbenennen von Skills aus der TUI heraus.
-- SSH-Server-Betrieb der TUI, QR-Codes, Audio, 3D (OpenTUI-Features ohne Anwendungsfall hier).
 - Automatisches Aktualisieren von Skills gegen Remote-Quellen (Upstream-Repos).
-- GUI/Web-Frontend.
+- Security-Scanning in Eigenregie (SkillSpector deckt das ab; die eigene
+  Integration als optionale Risk-Scan-Quelle ist als Issue angelegt).
 
 ## Further Notes
 
-- Analysedaten vom ersten Scan: 1.858 gültige Skills in 1.863 Ordnern, 5 Ordner ohne SKILL.md, 1.621 mit `date_added` (Februar–Juli 2026), 928 Risikofeld `unknown`, 87 Skills mit kaputten lokalen Skript-Referenzen, 569 mit API-Key-Erwähnung, 226 mit MCP-Setup-Hinweis.
-- Der lokale Routed-Dienst hat bereits 2.843 Skills über alle Hosts indexiert und bringt eigene `scan`/`reindex`/`watch`-Befehle mit; wir triggern diese, statt Indexierung zu duplizieren.
-- Der Skills-Ordner wird parallel zum Projekt aktiv aufgeräumt – deshalb ist die Delta-/Watch-Fähigkeit Kernanforderung und nicht nice-to-have.
+- Analysedaten vom ersten Scan (PR #12): 1.872 gültige Skills, 1.144 stale,
+  94 incompat, 507 setup; Delta-Test live bestätigt (+2 für neu ergänzte
+  PowerShell-Skills).
+- 928 Skills haben `risk: unknown` – SkillSpector kann hier eine objektive
+  Risk-Bewertung nachliefern (Integration als Issue angelegt).
+- Der Skills-Ordner wird weiterhin manuell gesichtet und aufgeräumt – der
+  Delta-Index der Analyse-CLI ist dafür die verbleibende Kernanforderung;
+  ein Watcher ist nicht mehr geplant (ADR-006).
