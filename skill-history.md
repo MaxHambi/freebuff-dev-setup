@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## git-pr-workflows-git-workflow + git-pr-workflows-pr-enhance - 2026-09-25 05:16
+- **Kontext/Ausloeser:** ADR-006-PR #18: Branch, Conventional Commits, Pre-Push-Gate, pr-enhance-Description, Squash-Merge
+- **Umgebung:** Branch `master` @ `c48c663`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** PR #18 gemerged (d35353e), CI 6/6 gruen, Master synchron
+
+
 ## team-collaboration-issue + github-project-management - 2026-09-25 05:16
 - **Kontext/Ausloeser:** Issue-Bereinigung nach ADR-006: #3-#5/#8-#10 wontfix, #7 completed, #1 superseded, #6 Backlog; SkillSpector-Issue #19 angelegt
 - **Umgebung:** Branch `master` @ `5fe9601`, Host: MaxHambi
