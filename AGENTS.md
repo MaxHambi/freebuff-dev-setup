@@ -33,6 +33,7 @@ The workflow is defined by the local skills and context files below.
 - `blueprint/context/ai-interaction.md` - how to work with the user on this project
 - `blueprint/context/current-feature.md` - the one feature, fix, or rollback being built right now
 - `docs/issue-fibel.md` - Issue-Layouts, Label-Statusuebergaenge und Handoff-Regeln (Schwester der Worktree-Fibel)
+- `docs/mempalace-regeln.md` - verbindliche MemPalace-Regeln (Recall-Protokoll, Drawer-/KG-Konvention, Ingest, Diagnose)
 
 ## Workflow
 
@@ -132,6 +133,7 @@ Bun/TypeScript-Teil (skills-manager) und PowerShell-Operations-Teil:
 - Memory-Ingest (Session -> Palast): `pwsh -File memory-ingest/ingest.ps1` (DryRun: `-DryRun`; Task `MemoryIngest` via `install-task.ps1 -Register`) - Details in README-Abschnitt "Memory-Ingest"
 - MemPalace-Diagnose (Consent/Binary/Suche): `pwsh -File memory-ingest/check-mempalace.ps1` (Exit 0/1/2)
 - Deploy-Pipeline (Reihenfolge): `npm run deploy` → `npm run install-task` → `npm run export-tasks`
+- **Verify (kanonisches Gate, alles oben zusammen):** `npm run verify` - der Pre-Push-Hook (`scripts/hooks/pre-push`) ruft genau diesen Befehl
 
 Quality-Gate: `scripts/hooks/pre-push` (Lint + Syntaxcheck + Tests) laeuft
 bei jedem Push (`core.hooksPath=scripts/hooks` ist gesetzt). Conventional
