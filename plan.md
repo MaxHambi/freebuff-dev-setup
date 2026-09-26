@@ -30,6 +30,7 @@ Entwicklung erfolgt **hier im Repo**, Runtime-Kopien liegen danach unter
 ```
 D:\freebuff-dev-setup\
 ├── node-watchdog\            Watchdog-Suite (Scripts, Tests, Doku)
+├── memory-ingest\            Memory-Ingest: Session → Palast (ADR-007, Ergänzung 2026-09-26)
 ├── node-monitor\             Migrations-Quelle: D:\workspace\scripts\node-monitor
 ├── maintenance\              npm-cleanup.ps1 · tooling-cleanup.ps1 · run-hidden.vbs
 ├── routed-watch\             watch-wrapper.ps1 (Quelle: %LOCALAPPDATA%\Routed)
@@ -93,6 +94,11 @@ D:\freebuff-dev-setup\
 `run-hidden.vbs` ist geteilt (NpmCleanup + ToolingCleanup) und wandert mit in
 `maintenance\`; beide Tasks zeigen danach auf den neuen Pfad.
 
+**Ergänzung außerhalb des Plans (2026-09-26):** Scheduled Task `MemoryIngest`
+(`memory-ingest/`, Session → Palast, ADR-007) ist registriert und Ready
+(XML-Backup in `task\`). Er gehört nicht zur Migrations-Matrix und ist im
+Deploy-Task-Map/Export bereits verdrahtet.
+
 ## Vorgehen (Reihenfolge)
 
 1. **Implementierung:** Watchdog-Skript + Whitelist + Tests (Pester oder
@@ -134,37 +140,37 @@ Whitelist · Selbstschutz · Baum-Kill · Log-Rotation · Exit-Codes · Tests gr
 **Blocked by:** T1
 **AC-Kernpunkte:** Runtime-Kopie in `.tools\node-watchdog\` · Task alle 10 Min ·
 Start-ScheduledTask → LastTaskResult 0 · XML in `task\`
-**Status:** [ ] offen
+**Status:** [ ] offen — Abgleich 2026-09-26: Runtime-Kopie `.tools\node-watchdog\` existiert, Task **nicht registriert**, XML fehlt
 
 ### Slice T3 — Migration NpmCleanup + ToolingCleanup (+ run-hidden.vbs)
 **Blocked by:** –
 **AC-Kernpunkte:** Scripts nach `.tools\maintenance\` · beide Tasks auf neue
 Pfade re-registriert · Logs erscheinen · XMLs in `task\`
-**Status:** [ ] offen
+**Status:** [ ] offen — Abgleich 2026-09-26: Tasks Ready, laufen aber weiterhin auf `%LOCALAPPDATA%\Maintenance\` (Migration nicht gezogen); XMLs zeigen den Alt-Zustand
 
 ### Slice T4 — Migration RoutedWatch
 **Blocked by:** –
 **AC-Kernpunkte:** Task gestoppt vor Move · Wrapper nach `.tools\routed-watch\` ·
 re-registriert und läuft wieder · XML in `task\`
-**Status:** [ ] offen
+**Status:** [ ] offen — Abgleich 2026-09-26: Task Ready, Wrapper weiterhin `%LOCALAPPDATA%\Routed\` (Migration nicht gezogen)
 
 ### Slice T5 — Migration NodeProcessMonitor
 **Blocked by:** –
 **AC-Kernpunkte:** Suite nach `.tools\node-monitor\` · Task aus Runtime-Pfad
 neu registriert (war previously unregistered) · XML in `task\`
-**Status:** [ ] offen
+**Status:** [ ] offen — Abgleich 2026-09-26: unverändert (weder Task noch Runtime-Kopie vorhanden)
 
 ### Slice T6 — Migration Ruflo-PolicyLedger-Rotate
 **Blocked by:** –
 **AC-Kernpunkte:** `.mjs` + referenzierte Helfer nach `.tools\ruflo-policy-rotate\`
 · Pfad-Referenzen im Script angepasst · Task re-registriert · XML in `task\`
-**Status:** [ ] offen
+**Status:** [ ] offen — Abgleich 2026-09-26: Task Ready, läuft weiterhin auf `D:\workspace\scripts\` (Migration nicht gezogen)
 
 ### Slice T7 — Gesamtverifikation + Report
 **Blocked by:** T2–T6
 **AC-Kernpunkte:** alle Tasks `Ready`/läuft · `LastTaskResult 0` ·
 XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
-**Status:** [ ] offen
+**Status:** [ ] offen (blocked by T2–T6; MemoryIngest als Ergänzung bereits auf diesem Stand: Ready, Result 0, XML vorhanden)
 
 ---
 
@@ -175,3 +181,4 @@ XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
 | 2026-09-24 | Plan genehmigt (inkl. Erweiterung: alle bestehenden Tasks konsolidieren, XML-Backups in `task\`). |
 | 2026-09-24 | Repo angelegt (seit 2026-09-25: `D:reebuff-dev-setup`); Implementierung in neuer Sitzung. |
 | 2026-09-25 | Ordner + Repo auf `freebuff-dev-setup` umbenannt (Issues #21-#26); Doku/Configs umgestellt. |
+| 2026-09-26 | Abgleich Repo ↔ Betrieb: MemoryIngest als Ergänzung registriert (Ready, Result 0, XML in `task\`); T2–T6 liegen noch vor der Migration (Tasks zeigen auf Alt-Pfade, Node Watchdog/NodeProcessMonitor fehlen); XML-Backups in `task\` spiegeln den Ist-Zustand. Gate-Scope: `npm run lint` + CI linten jetzt auch `memory-ingest`. |

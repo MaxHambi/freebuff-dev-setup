@@ -7,8 +7,8 @@
 	"scripts": {
 		"analyze": "bun run src/analyze.ts",
 		"test": "bun test",
-		"lint": "biome lint skills-manager --max-diagnostics=none",
-		"lint:fix": "biome lint --write skills-manager --max-diagnostics=none",
+		"lint": "biome lint skills-manager memory-ingest --max-diagnostics=none",
+		"lint:fix": "biome lint --write skills-manager memory-ingest --max-diagnostics=none",
 		"format": "biome format --write skills-manager",
 		"syntaxcheck": "pwsh -NoProfile -File scripts/syntaxcheck.ps1",
 		"deploy": "pwsh -NoProfile -File scripts/deploy.ps1",

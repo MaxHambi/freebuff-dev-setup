@@ -8,6 +8,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 |-------|-------|
 | `AGENTS.md` (Root) | Konventionen, Commands, Attribution - verbindlich |
 | `skills-manager/AGENTS.md` | Ordner-Kontext Skills-Manager (Bun-only, Test-Seams, State-Regeln) |
+| `memory-ingest/AGENTS.md` | Ordner-Kontext Memory-Ingest (Read-only-Contract, Live-Schutz, State-Regel, Idempotenz) |
 | `docs/agents/issue-tracker.md` | GitHub Issues als Tracker, `gh`-Workflows |
 | `docs/agents/triage-labels.md` | Label-Vokabular (`ready-for-agent` etc.) |
 | `docs/agents/domain.md` | Domain-Vokabular und Consumer-Regeln |
