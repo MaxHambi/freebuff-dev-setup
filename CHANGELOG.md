@@ -9,6 +9,18 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
+- **Repo-Ordnungsrunde (2026-09-26):** `npm run verify` als kanonisches
+  Quality-Gate (Lint + tsc + Syntaxcheck + Tests + Doku-Gates; der
+  Pre-Push-Hook ruft genau diesen Befehl). Issue-Mirror `docs/issues/`
+  (repo-weite Issues #28–#32 gespiegelt; Repo = Quell der Wahrheit).
+  GitHub-Hygiene: Repo-Beschreibung/Topics aktualisiert, Issue-Template
+  nach Issue-Fibel (`task-fibel.yml`), PR-Template mit Handoff-Muster,
+  Dependabot-Config vom leeren Template auf `npm` gefixt. MemPalace-
+  Integration auditert und erweitert: L0-Identity repariert, Logstream-
+  Sweep dokumentiert (CLI ohne `--preview`), idempotenter Repo-Re-Mine
+  (899 → 1003 Drawers), Befunde in `docs/mempalace-audit-2026-09-26.md`,
+  verbindliche Agenten-Regeln in `docs/mempalace-regeln.md`.
+
 - **Memory-Ingest-Workflow (`memory-ingest/`)**: wiederverwendbare Session-Ingest-Pipeline,
   die neue Freebuff-Sessions nach Abschluss inkrementell ins Palast-
   Gedächtnis einspeist. Export-Schritt (Bun/TS, read-only gegen die App-DB,

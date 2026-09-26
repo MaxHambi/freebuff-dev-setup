@@ -1,0 +1,57 @@
+name: Task (Issue-Fibel)
+description: Neues Issue nach den drei kanonischen Layouts der docs/issue-fibel.md (Slice, Nacharbeit, Umbrella)
+labels: ["needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Layouts laut `docs/issue-fibel.md` (Abschnitt 2). Labels sind der
+        Zustand: `needs-triage` (Default) → `needs-info` / `ready-for-agent`
+        / `ready-for-human` / `wontfix`. Schliess-Kommentare erklaeren immer
+        das Warum.
+
+  - type: dropdown
+    id: layout
+    attributes:
+      label: Layout
+      description: Slice/Implementierung hat einen Parent und checkbare AC; Umbrella nur fuer Planungssichten.
+      options:
+        - "Slice/Implementierung (Parent, What to build, Acceptance Criteria, Blocked by)"
+        - "Nacharbeit/Evaluierung (Ausgangslage, Warum, Checkliste, Nicht-Ziele)"
+        - "Umbrella/PRD (Problem Statement, User Stories, Out of Scope)"
+    validations:
+      required: true
+
+  - type: input
+    id: parent
+    attributes:
+      label: Parent / Blocked by
+      description: "Echte Issue-Nummern, Komma-getrennt (leer = kein Blocker). Blocker zuerst anlegen."
+      placeholder: "#28, #29"
+    validations:
+      required: false
+
+  - type: textarea
+    id: what
+    attributes:
+      label: Was zu tun ist (What to build / Ausgangslage)
+      description: "Belegte Fakten statt Vermutungen; Quellenpfade und Verifikationsbefehle nennen."
+    validations:
+      required: true
+
+  - type: textarea
+    id: ac
+    attributes:
+      label: Acceptance Criteria / Checkliste
+      description: "Einzeln checkbar - ein AFK-Agent (ready-for-agent) muss daraus allein arbeiten koennen."
+      placeholder: "- [ ] ... "
+    validations:
+      required: true
+
+  - type: textarea
+    id: outofscope
+    attributes:
+      label: Nicht-Ziele (optional)
+      description: "Bewusst ausgeschlossener Scope, verhindert Scope-Creep."
+    validations:
+      required: false
