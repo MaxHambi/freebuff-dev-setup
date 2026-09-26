@@ -1,16 +1,21 @@
 # freebuff-dev-setup
 
 Windows Scheduled Tasks & Watchdogs as code - plus Skills-Manager fuer die
-persoenliche Agent-Skills-Bibliothek.
+persoenliche Agent-Skills-Bibliothek und Memory-Ingest fuer das
+MemPalace-Gedaechtnis.
+
+**Inhalt:** [Skills-Manager](#skills-manager-skills-manager) · [Node-Watchdog](#node-watchdog-node-watchdog) · [Memory-Ingest](#memory-ingest-memory-ingest) · [Skills-Verzeichnis](#skills-verzeichnis-skills) · [Lokale Skill-Architektur](#lokale-skill-architektur) · [Deploy & Task-Registrierung](#deploy--task-registrierung-scripts-) · [Qualitätsgate](#qualitätsgate)
 
 | Bereich | Inhalt | Doku |
 |---------|--------|------|
-| `plan.md` | Genehmigter Masterplan (Slices T1–T7), verbindlich fuer die Implementierung; T1 erfuellt (ADR-001 offen) | - |
+| `plan.md` | Masterplan (Slices T1–T7): T1 erfuellt, T2–T6 offen (Abgleich 2026-09-26 im Plan - Alt-Tasks laufen noch auf den urspruenglichen Pfaden) | - |
 | `node-watchdog/` | Globaler Node/Electron/esbuild-Watchdog (DryRun-Default, Whitelist, Baum-Kill, Log-Rotation) | ADR-001 |
 | `skills-manager/` | Analyse-CLI fuer `~/.agents/skills` (Slice 1 gemerged; TUI-Slices via ADR-006 verworfen) | `skills-manager/docs/` |
+| `memory-ingest/` | Session → Palast-Ingest (Scheduled Task `MemoryIngest`, Staleness-Live-Schutz, State-Inkrement, Diagnose-Script) | ADR-007, README-Abschnitt unten |
 | `skills/` | Eigene Agent Skills (Meta-Skill `using-skills` mit Gate + Router + Hooks) | unten, Abschnitt Skills-Verzeichnis |
 | `task/` | Exportierte Task-XMLs aller eigenen Scheduled Tasks (GUI-Backup) | unten, Wiederherstellung |
-| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-005) | `docs/index.md` |
+| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-009) | `docs/index.md` |
+| `scripts/` | Deploy-/Registrierungs-Helper + Quality-Gate (`npm run verify`) | unten, Deploy & Task-Registrierung |
 
 ## Skills-Manager (`skills-manager/`)
 
@@ -312,7 +317,8 @@ pwsh -File scripts/deploy.ps1
 pwsh -File scripts/deploy.ps1 -Force
 
 # 2) Task registrieren - Aktion zeigt auf den Runtime-Pfad, nicht ins Repo
-pwsh -File scripts/install-task.ps1 -Task "Node Watchdog"
+pwsh -File scripts/install-task.ps1 -Task "Node Watchdog"          # Vorschau
+pwsh -File scripts/install-task.ps1 -Task MemoryIngest -Register   # echtes Anlegen/Update
 
 # 3) Task-Definition als XML sichern (Backup fuer GUI-Import)
 pwsh -File scripts/export-tasks.ps1

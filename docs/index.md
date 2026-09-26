@@ -61,6 +61,9 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 
 | Datei | Zweck |
 |-------|-------|
+| `docs/issues/` | Issue-Mirror: Bodies der repo-weiten Issues (Repo = Quell der Wahrheit, GitHub = Tracker) |
+| `docs/mempalace-regeln.md` | Verbindliche MemPalace-Regeln fuer Agenten (Recall, Drawer, KG, Ingest) |
+| `docs/mempalace-audit-2026-09-26.md` | MemPalace-Integrations-Audit (Befunde + Reparaturen, Stand 26.09.2026) |
 | `docs/sessions.md` | Session-Summaries (was wann geliefert wurde) |
 | `docs/worktree-fibel.md` | Worktree-Kurzguide (wann/wie/weg, passend zu ADR-003) |
 | `CHANGELOG.md` | Aenderungen nach Keep a Changelog |
