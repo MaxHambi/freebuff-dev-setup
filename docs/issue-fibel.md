@@ -51,9 +51,20 @@ Die fuenf kanonischen Labels (Vokabular: `docs/agents/triage-labels.md`):
 | `wontfix` | Wird nicht umgesetzt - **immer mit Grund im Schliess-Kommentar** | Maintainer |
 
 Label-Wechsel = Statusuebergang: `needs-triage` → `needs-info` →
-`ready-for-agent` → (Arbeit, PR) → geschlossen. `ready-for-agent` heisst:
+`ready-for-agent` → (Arbeit, PR, Label `in-review`) → geschlossen.
+`ready-for-agent` heisst:
 alle Fakten stehen im Body, keine muendlichen Zusaetze - ein AFK-Agent
 muss daraus allein arbeiten koennen.
+
+**Board-Spiegel ist automatisiert:** Der Workflow
+`.github/workflows/project-mirror.yml` spiegelt diese Zustaende in den
+Board-Status des Dashboards - neue Issues landen auf Backlog,
+`ready-for-*` auf Ready, `in-review` auf In review, Schliessen auf Done.
+Voraussetzung: Repo-Secret `PROJECTS_PAT` (Classic PAT, `repo` +
+`project`); der Default-Workflow-Token darf keine ProjectV2-Mutationen.
+Das manuelle Moven im Board bleibt erlaubt, wird aber beim naechsten
+Label-Event vom Spiegel ueberschrieben - Zustand aendern heisst: Label
+setzen, nicht Karte schieben.
 
 ## 4. Handoff-Regeln
 

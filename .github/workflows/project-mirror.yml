@@ -1,0 +1,118 @@
+# Board-Mirror: Issues werden automatisch ins GitHub-Project "Dashboard"
+# gelegt und die Label-/Close-Zustaende werden in den Board-Status gespiegelt.
+#
+# Zustandsmatrix (Label ist der Zustand, siehe docs/issue-fibel.md):
+#   needs-triage / needs-info / kein Final-Label  -> Backlog
+#   ready-for-agent oder ready-for-human          -> Ready
+#   in-review                                     -> In review (hoehste
+#                                                    Prioritaet der Final-Labels)
+#   geschlossen (jeder Grund)                     -> Done
+#   reopened                                      -> Label-Sicht wie oben
+#
+# Voraussetzung: Secret PROJECTS_PAT (Classic PAT, Scopes repo + project).
+# Bewusst der PAT statt GITHUB_TOKEN: der Default-Token darf die
+# ProjectV2-Mutationen aus der Web-UI heraus nicht ausfuehren.
+name: project-mirror
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled, closed, reopened]
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: project-mirror
+  cancel-in-progress: false
+
+env:
+  PROJECT_ID: PVT_kwHOCtFob84BkhL_
+  STATUS_FIELD_ID: PVTSSF_lAHOCtFob84BkhL_zhjRf1g
+  OPT_BACKLOG: f75ad846
+  OPT_READY: 61e4505c
+  OPT_IN_REVIEW: 47fc9ee4
+  OPT_DONE: 98236657
+
+jobs:
+  mirror:
+    if: github.event.issue.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute target status
+        id: status
+        env:
+          EVENT: ${{ github.event.action }}
+          LABELS: ${{ toJSON(github.event.issue.labels.*.name) }}
+        run: |
+          # Grundregel: Das Label ist der Zustand. 'closed' uebersteuert nach
+          # Done, 'reopened' faellt auf die Label-Sicht zurueck.
+          # 'labeled' ruehrt den Board-Status nur, wenn ein Final-Label kam
+          # (ein bug/enhancement-Zusatz wirft z. B. kein Done-Issue zurueck).
+          # 'unlabeled' spiegelt immer - das Entfernen eines Final-Labels ist
+          # eine Zustandsaenderung (Rueckfall: Backlog).
+          label_target() {
+            case "$1" in
+              *'"in-review"'*)                                          echo in_review ;;
+              *'"ready-for-agent"'*|*'"ready-for-human"'*)              echo ready ;;
+              *)                                                        echo backlog ;;
+            esac
+          }
+          case "$EVENT" in
+            opened)   target=backlog ;;
+            closed)   target=done ;;
+            reopened) target=$(label_target "$LABELS") ;;
+            labeled)
+              target=$(label_target "$LABELS")
+              [ "$target" = "backlog" ] && target=skip ;;
+            unlabeled) target=$(label_target "$LABELS") ;;
+            *)        target=skip ;;
+          esac
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure item and set status
+        if: steps.status.outputs.target != 'skip'
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_PAT }}
+          ISSUE_ID: ${{ github.event.issue.node_id }}
+          TARGET: ${{ steps.status.outputs.target }}
+        run: |
+          case "$TARGET" in
+            backlog)   OPT="$OPT_BACKLOG" ;;
+            ready)     OPT="$OPT_READY" ;;
+            in_review) OPT="$OPT_IN_REVIEW" ;;
+            done)      OPT="$OPT_DONE" ;;
+          esac
+
+          item_id=$(gh api graphql -f query='
+            query($projectId:ID!){
+              node(id:$projectId){ ... on ProjectV2 {
+                items(first:100){ nodes{ id content{ ... on Issue{ id } } } } } } }' \
+            -f projectId="$PROJECT_ID" | jq -r --arg id "$ISSUE_ID" \
+            '.data.node.items.nodes[] | select(.content.id == $id) | .id')
+
+          if [ -z "$item_id" ]; then
+            echo "Item fehlt im Project - fuege Issue hinzu."
+            item_id=$(gh api graphql -f query='
+              mutation($projectId:ID!,$contentId:ID!){
+                addProjectV2ItemById(input:{projectId:$projectId,contentId:$contentId}){
+                  item{ id } } }' \
+              -f projectId="$PROJECT_ID" -f contentId="$ISSUE_ID" \
+              --jq '.data.addProjectV2ItemById.item.id')
+          fi
+
+          gh api graphql -f query='
+            mutation($projectId:ID!,$itemId:ID!,$fieldId:ID!,$optId:String!){
+              updateProjectV2ItemFieldValue(input:{projectId:$projectId,itemId:$itemId,
+                fieldId:$fieldId,value:{singleSelectOptionId:$optId}}){
+                projectV2Item{ id } } }' \
+            -f projectId="$PROJECT_ID" -f itemId="$item_id" \
+            -f fieldId="$STATUS_FIELD_ID" -f optId="$OPT" \
+            --jq '.data.updateProjectV2ItemFieldValue.projectV2Item.id'
+
+          echo "Issue #${{ github.event.issue.number }} -> $TARGET"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "Event: \`${{ github.event.action }}\` | Issue #${{ github.event.issue.number }} | Ziel-Status: \`${{ steps.status.outputs.target }}\`" >> "$GITHUB_STEP_SUMMARY"
