@@ -55,8 +55,10 @@ zu crashen. Board-Positionen (Sortierung) bleiben manuell
 Status.
 
 **Offen:** Secret `PROJECTS_PAT` noch nicht gesetzt -> Spiegel
-greift erst danach; danach E2E mit Labels nachholen (#34 liegt
-bereits als Test-Issue bereit, wird danach geloescht).
+greift erst danach; Label-E2E dann mit einem Wegwerf-Issue
+nachholen. #34/#35 (Test-Issues) sind geschlossen; Loeschen per
+REST `DELETE /issues/<n>` geht mit dem gh-OAuth-Token nicht (nur
+Fine-grained-Token/App) - UI-Loeschung bleibt manuell.
 
 ## 2026-09-26 - Memory-Ingest-Workflow, MemPalace-Wiring, ADR-007 bis ADR-009
 
