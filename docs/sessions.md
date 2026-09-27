@@ -15,6 +15,9 @@ und historisch korrekter CHANGELOG-Eintrag); #29/#31 vorher auf
 `ready-for-agent` + Board-Ready gesetzt. Board-Endzustand: **Done**
 1/3/4/5/7/8/9/10/18(PR)/21-26/27(PR), **Ready** 28/29/30/31/32,
 **Backlog** 6/14-17/19/20. Issue-Mirror um issue-21 bis issue-26 ergaenzt.
+Dashboard zusaetzlich priorisiert: Priority-Feld gesetzt (P0: #28/#30/#32,
+P1: #29/#31/#14), Ready-Spalte in P0-first-Reihenfolge sortiert
+(28 -> 30 -> 32 -> 29 -> 31).
 
 **Entscheidungen:** Master-Zyklus ohne Feature-Branch nur fuer reine
 Doku-Commits (`docs:`), alles Andere ueber Branch + PR. MemPalace-
