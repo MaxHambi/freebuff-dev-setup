@@ -30,6 +30,34 @@ Verifikation (blocked by #28), #30 mempalace.yaml Room-Mapping
 (`ready-for-human`), #31 Decision-Drawer + KG-Fakten (AFK-faehig),
 #32 Task-Migration T2-T6 (`ready-for-human`).
 
+## 2026-09-27 - Board-Automatisierung: project-mirror-Workflow
+
+**Geliefert:** `.github/workflows/project-mirror.yml` - spiegelt
+Issue-Zustaende automatisch ins Dashboard: neue Issues auf Backlog,
+`ready-for-*` -> Ready, `in-review` -> In review (hoehste Label-
+Prioritaet), Schliessen -> Done, Reopen -> Rueckfall auf Label-Sicht.
+E2E-Test mit Wegwerf-Issue #34: Runs gruen, Skip-Guard verifiziert
+(warnung statt rotem Run, solange Secret fehlt). Ueberraschung dabei:
+#34 landete trotzdem im Board - das Project hat bereits eine
+eingebaute Auto-Add-Automatisierung; der Workflow addiert also
+primaer die Label-Spiegelung, das Add ist idempotenter Fallback.
+Label `in-review`
+angelegt (sechstes kanonisches Triage-Label), Fibel +
+triage-labels.md um Automatik-Hinweis ergaenzt. Projekt-Move-
+Konvention jetzt: Label setzen statt Karte schieben.
+
+**Entscheidungen:** PAT-Voraussetzung bewusst via Repo-Secret
+`PROJECTS_PAT` (Classic PAT, Scopes `repo` + `project`), weil
+GITHUB_TOKEN repo-skoped ist und user-owned Projects V2 nicht
+mutieren darf; Guard macht den fehlenden Zustand sichtbar, statt
+zu crashen. Board-Positionen (Sortierung) bleiben manuell
+(updateProjectV2ItemPosition-Kette), der Spiegel regelt nur den
+Status.
+
+**Offen:** Secret `PROJECTS_PAT` noch nicht gesetzt -> Spiegel
+greift erst danach; danach E2E mit Labels nachholen (#34 liegt
+bereits als Test-Issue bereit, wird danach geloescht).
+
 ## 2026-09-26 - Memory-Ingest-Workflow, MemPalace-Wiring, ADR-007 bis ADR-009
 
 **Geliefert:** Memory-Ingest-Workflow (`memory-ingest/`: pure lib.ts nach
