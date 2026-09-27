@@ -1,5 +1,5 @@
 {
-	"name": "tools-entwicklung-skills-manager",
+	"name": "freebuff-dev-setup-skills-manager",
 	"version": "0.1.0",
 	"private": true,
 	"description": "Skills-Manager: Analyse-CLI (Scan, Klassifizierung, Delta-Index) fuer die persoenliche Agent-Skills-Bibliothek",
@@ -7,14 +7,15 @@
 	"scripts": {
 		"analyze": "bun run src/analyze.ts",
 		"test": "bun test",
-		"lint": "biome lint skills-manager --max-diagnostics=none",
-		"lint:fix": "biome lint --write skills-manager --max-diagnostics=none",
+		"lint": "biome lint skills-manager memory-ingest --max-diagnostics=none",
+		"lint:fix": "biome lint --write skills-manager memory-ingest --max-diagnostics=none",
 		"format": "biome format --write skills-manager",
 		"syntaxcheck": "pwsh -NoProfile -File scripts/syntaxcheck.ps1",
 		"deploy": "pwsh -NoProfile -File scripts/deploy.ps1",
 		"install-task": "pwsh -NoProfile -File scripts/install-task.ps1",
 		"export-tasks": "pwsh -NoProfile -File scripts/export-tasks.ps1",
-		"test:repo": "pwsh -NoProfile -File scripts/test.ps1"
+		"test:repo": "pwsh -NoProfile -File scripts/test.ps1",
+		"verify": "npm run lint --silent && bunx tsc --noEmit && npm run syntaxcheck --silent && bun test && bun run skills-manager/scripts/check-commits.ts --base origin/master && bun run skills-manager/scripts/check-changelog.ts --base origin/master"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.6",

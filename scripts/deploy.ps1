@@ -12,7 +12,7 @@ Set-StrictMode -Version Latest
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $targetRoot = Join-Path $env:USERPROFILE '.tools'
-$folders = @('node-watchdog', 'node-monitor', 'maintenance', 'routed-watch', 'ruflo-policy-rotate')
+$folders = @('node-watchdog', 'node-monitor', 'maintenance', 'routed-watch', 'ruflo-policy-rotate', 'memory-ingest')
 
 foreach ($folder in $folders) {
 	$src = Join-Path $repoRoot $folder
@@ -21,8 +21,8 @@ foreach ($folder in $folders) {
 		continue
 	}
 	$dst = Join-Path $targetRoot $folder
-	New-Item -ItemType Directory -Force -Path $dst | Out-Null
-	foreach ($file in Get-ChildItem -Path $src -File) {
+	New-Item -ItemType Directory -Force -Path $dst | Out-Null		# Runtime-Logs nicht ueberschreiben (gehören der laufenden Task)
+		foreach ($file in Get-ChildItem -Path $src -File | Where-Object { $_.Extension -ne '.log' }) {
 		$targetFile = Join-Path $dst $file.Name
 		if ((Test-Path $targetFile) -and -not $Force) {
 			Write-Host ("KEEP {0}\{1} (existiert, -Force zum Ueberschreiben)" -f $folder, $file.Name)

@@ -1,16 +1,21 @@
-# tools-entwicklung
+# freebuff-dev-setup
 
 Windows Scheduled Tasks & Watchdogs as code - plus Skills-Manager fuer die
-persoenliche Agent-Skills-Bibliothek.
+persoenliche Agent-Skills-Bibliothek und Memory-Ingest fuer das
+MemPalace-Gedaechtnis.
+
+**Inhalt:** [Skills-Manager](#skills-manager-skills-manager) · [Node-Watchdog](#node-watchdog-node-watchdog) · [Memory-Ingest](#memory-ingest-memory-ingest) · [Skills-Verzeichnis](#skills-verzeichnis-skills) · [Lokale Skill-Architektur](#lokale-skill-architektur) · [Deploy & Task-Registrierung](#deploy--task-registrierung-scripts-) · [Qualitätsgate](#qualitätsgate)
 
 | Bereich | Inhalt | Doku |
 |---------|--------|------|
-| `plan.md` | Genehmigter Masterplan (Slices T1–T7), verbindlich fuer die Implementierung; T1 erfuellt (ADR-001 offen) | - |
+| `plan.md` | Masterplan (Slices T1–T7): T1 erfuellt, T2–T6 offen (Abgleich 2026-09-26 im Plan - Alt-Tasks laufen noch auf den urspruenglichen Pfaden) | - |
 | `node-watchdog/` | Globaler Node/Electron/esbuild-Watchdog (DryRun-Default, Whitelist, Baum-Kill, Log-Rotation) | ADR-001 |
 | `skills-manager/` | Analyse-CLI fuer `~/.agents/skills` (Slice 1 gemerged; TUI-Slices via ADR-006 verworfen) | `skills-manager/docs/` |
+| `memory-ingest/` | Session → Palast-Ingest (Scheduled Task `MemoryIngest`, Staleness-Live-Schutz, State-Inkrement, Diagnose-Script) | ADR-007, README-Abschnitt unten |
 | `skills/` | Eigene Agent Skills (Meta-Skill `using-skills` mit Gate + Router + Hooks) | unten, Abschnitt Skills-Verzeichnis |
 | `task/` | Exportierte Task-XMLs aller eigenen Scheduled Tasks (GUI-Backup) | unten, Wiederherstellung |
-| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-005) | `docs/index.md` |
+| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-009) | `docs/index.md` |
+| `scripts/` | Deploy-/Registrierungs-Helper + Quality-Gate (`npm run verify`) | unten, Deploy & Task-Registrierung |
 
 ## Skills-Manager (`skills-manager/`)
 
@@ -79,6 +84,51 @@ pwsh -File node-watchdog/run-tests.ps1                  # Integrationstests (18/
 - Log-Rotation ab 5 MB (3 Archive)
 - 4 Known-Fails im Harness sind dokumentiert in ADR-001 (Status offen,
   Verifikation als Issue #14)
+
+## Memory-Ingest (`memory-ingest/`)
+
+Inkrementeller Speise-Pipeline: neue Freebuff-Sessions (Threads aus der
+Desktop-DB) werden nach Abschluss als Markdown-Transcripte exportiert und per
+`mempalace mine` ins Palast-Gedaechtnis gefilmt - Entscheidungen, Probleme,
+Meilensteine und User-Input inklusive Freebuff-Reaktion. Ausgelegt als
+Scheduled Task `MemoryIngest` (Default: taeglich 04:30, alle 4 h).
+
+Kern-Eigenschaften:
+
+- **Read-only**: die App-DB (`desktop-v2.db`) wird nur gelesen, nie geschrieben
+- **Live-Schutz**: Threads, die jünger als 30 min aktualisiert wurden, bleiben
+  draussen (Staleness-Fenster) - die laufende Session wird nie exportiert
+- **Inkrementell**: Hash-artiger State (`memory-ingest-state.json`, liegt
+  neben dem Export-Ordner) erkennt neue/veraenderte Threads; Unveraendertes
+  wird uebersprungen
+- **Idempotent im Palast**: Export-Ordner bewusst = Legacy-Pfad
+  (`D:/mempalace/exports/freebuff-legacy-sessions`), damit `mine` pro Quellpfad
+  keine Duplikate filmt
+- **Mine-Filter**: `--min-messages 2` (Ein-Speech-Threads interessieren nicht)
+- **DryRun-Default** im Export-Schritt (`--dry-run` bzw. `-DryRun` im
+  Orchestrator)
+
+```powershell
+pwsh -File memory-ingest/ingest.ps1                       # export + mine
+pwsh -File memory-ingest/ingest.ps1 -DryRun               # nur Export-Plan
+pwsh -File memory-ingest/ingest.ps1 -VerifyQuery "adr"    # Such-Selbsttest
+pwsh -File memory-ingest/ingest.ps1 -IncludeThread <id>   # Live-Schutz uebersteuern
+bun test memory-ingest                                    # 16 Unit-Tests
+```
+
+Diagnose der MemPalace-Anbindung (Consent-State, Binary-Smoke, Palast-Suche)
+in einem Lauf - Exit 0 gruen / 1 harter Fehler / 2 nur Consent fehlt:
+
+```powershell
+pwsh -File memory-ingest/check-mempalace.ps1              # Standard-Diagnose
+pwsh -File memory-ingest/check-mempalace.ps1 -Query "adr" # eigene Test-Query
+```
+
+Wartung: Log-Rotation ab 5 MB (`ingest.log.1`); `deploy.ps1` ueberschreibt
+Runtime-Logs nicht. Wenn der State-JSON versehentlich im Export-Ordner landet
+(alte Version), filmt `mine` ihn als `_registry`-Eintrag - dann per
+`mempalace_delete_by_source` (MCP) oder den State neben den Ordner legen.
+
 ## Skills-Verzeichnis (`skills/`)
 
 Das Repo versioniert eigene Agent Skills unter `skills/`; Deploy-Ziel ist
@@ -253,9 +303,9 @@ Reihenfolge: erst `deploy`, dann `install-task`, dann `export-tasks`.
 
 | Helper | Zweck |
 |---|---|
-| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `node-monitor`, `maintenance`, `routed-watch`, `ruflo-policy-rotate`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
-| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NodeProcessMonitor`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`). Prüft die Skript-Existenz im Runtime-Ziel und zeigt die fertige Task-Aktion; Trigger/Intervalle werden je Slice (T2–T6) ergänzt. |
-| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`), inkl. `Ruflo-PolicyLedger-Rotate-workspace`. Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). |
+| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `node-monitor`, `maintenance`, `routed-watch`, `ruflo-policy-rotate`, `memory-ingest`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). `*.log`-Dateien werden nie kopiert (gehören der laufenden Task). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
+| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NodeProcessMonitor`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`, `MemoryIngest`), echtes Anlegen/Überschreiben nur mit `-Register` (schtasks, `MemoryIngest` = taeglich 04:30 + 4 h-Wiederholung). Ohne `-Register` nur Vorschau von Aktion und Trigger. |
+| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`), inkl. `Ruflo-PolicyLedger-Rotate-workspace` und `MemoryIngest`. Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). |
 
 Beispielaufrufe:
 
@@ -267,7 +317,8 @@ pwsh -File scripts/deploy.ps1
 pwsh -File scripts/deploy.ps1 -Force
 
 # 2) Task registrieren - Aktion zeigt auf den Runtime-Pfad, nicht ins Repo
-pwsh -File scripts/install-task.ps1 -Task "Node Watchdog"
+pwsh -File scripts/install-task.ps1 -Task "Node Watchdog"          # Vorschau
+pwsh -File scripts/install-task.ps1 -Task MemoryIngest -Register   # echtes Anlegen/Update
 
 # 3) Task-Definition als XML sichern (Backup fuer GUI-Import)
 pwsh -File scripts/export-tasks.ps1

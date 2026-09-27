@@ -1,4 +1,4 @@
-# Doku-Landkarte: tools-entwicklung
+# Doku-Landkarte: freebuff-dev-setup
 
 Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 
@@ -8,6 +8,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 |-------|-------|
 | `AGENTS.md` (Root) | Konventionen, Commands, Attribution - verbindlich |
 | `skills-manager/AGENTS.md` | Ordner-Kontext Skills-Manager (Bun-only, Test-Seams, State-Regeln) |
+| `memory-ingest/AGENTS.md` | Ordner-Kontext Memory-Ingest (Read-only-Contract, Live-Schutz, State-Regel, Idempotenz) |
 | `docs/agents/issue-tracker.md` | GitHub Issues als Tracker, `gh`-Workflows |
 | `docs/agents/triage-labels.md` | Label-Vokabular (`ready-for-agent` etc.) |
 | `docs/agents/domain.md` | Domain-Vokabular und Consumer-Regeln |
@@ -23,6 +24,9 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/decisions/ADR-004-skills-manager-testing-seams.md` | Zwei Test-Seams (Lib + TUI-Renderer) | Accepted |
 | `docs/decisions/ADR-005-mirror-not-move.md` | Skills-Bibliothek: Mirror statt Umbau | Accepted |
 | `docs/decisions/ADR-006-externe-skill-manager-tools.md` | TUI-Eigenbau verworfen: skill-manager + SkillSpector statt Slices #3–#10 | Accepted |
+| `docs/decisions/ADR-007-memory-ingest-scheduled-task.md` | Memory-Ingest als Scheduled Task (Staleness-Live-Schutz, State-Inkrement, Idempotenz am Quellpfad) | Accepted |
+| `docs/decisions/ADR-008-mempalace-cli-fallback-diagnose.md` | MemPalace ohne MCP-Consent: CLI-/STDIO-Fallback + Diagnose-Gate (Exit 0/1/2) | Accepted |
+| `docs/decisions/ADR-009-mcp-json-projektlokal.md` | `.mcp.json` bleibt projekt-lokal: gitignore + Index-Entfernung statt Team-Commit | Accepted |
 
 ## Skills-Manager (`skills-manager/`)
 
@@ -41,12 +45,25 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 | Datei | Zweck |
 |-------|-------|
 | `plan.md` | Masterplan Slices T1–T7 (T1 erfuellt, Rest offen) |
-| `README.md` | Deploy-Pipeline, Watchdog, Skills-Architektur, MCP-Details |
+| `README.md` | Deploy-Pipeline, Watchdog, Memory-Ingest, Skills-Architektur, MCP-Details |
+
+## Betrieb (Memory-Ingest)
+
+| Datei | Zweck |
+|-------|-------|
+| `memory-ingest/lib.ts` | Pure Kernlogik (Transcript-Komposition, Export-Planung, State) - ADR-004-Test-Seam |
+| `memory-ingest/export.ts` | CLI: inkrementeller Session-Export (read-only DB, Live-Schutz, State) |
+| `memory-ingest/ingest.ps1` | Orchestrator: export → `mempalace mine` → optionaler Such-Selbsttest |
+| `memory-ingest/test/lib.test.ts` | 16 Unit-Tests gegen tmp-Fixtures |
+| `README.md` (Abschnitt "Memory-Ingest") | Betrieb, Live-Schutz, Idempotenz, Wartung |
 
 ## Verlauf
 
 | Datei | Zweck |
 |-------|-------|
+| `docs/issues/` | Issue-Mirror: Bodies der repo-weiten Issues (Repo = Quell der Wahrheit, GitHub = Tracker) |
+| `docs/mempalace-regeln.md` | Verbindliche MemPalace-Regeln fuer Agenten (Recall, Drawer, KG, Ingest) |
+| `docs/mempalace-audit-2026-09-26.md` | MemPalace-Integrations-Audit (Befunde + Reparaturen, Stand 26.09.2026) |
 | `docs/sessions.md` | Session-Summaries (was wann geliefert wurde) |
 | `docs/worktree-fibel.md` | Worktree-Kurzguide (wann/wie/weg, passend zu ADR-003) |
 | `CHANGELOG.md` | Aenderungen nach Keep a Changelog |

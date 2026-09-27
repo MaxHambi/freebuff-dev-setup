@@ -22,9 +22,20 @@ node-watchdog/*.log
 # Lokale Git-Worktrees (isolierte Sitzungen)
 .worktrees/
 
-# Root-CLAUDE.md ist nur ein lokaler Symlink auf AGENTS.md
+# Claude-Dateien werden ignoriert: Repo-Konvention ist AGENTS.md.
+# Claude-Code-Artefakte bleiben rein lokal und werden nie committet.
 /CLAUDE.md
+.claude/
+old-Claude/
 
 # Skills-Manager: generierte Daten-Artefakte (Index/State sind Laufzeit-Daten)
 skills-manager/src/data/
 skills-manager/data/
+
+# MemPalace per-project files (issue #185)
+mempalace.yaml
+entities.json
+
+# Freebuff MCP-Server-Registrierung (projekt-lokal, maschinenspezifische Pfade;
+# Entscheidung 26.09.2026: bewusst nicht im Team-Repo - siehe Mem-Palace.md FAQ)
+.mcp.json

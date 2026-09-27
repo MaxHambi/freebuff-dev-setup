@@ -7,7 +7,50 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Added
+
+- **Repo-Ordnungsrunde (2026-09-26):** `npm run verify` als kanonisches
+  Quality-Gate (Lint + tsc + Syntaxcheck + Tests + Doku-Gates; der
+  Pre-Push-Hook ruft genau diesen Befehl). Issue-Mirror `docs/issues/`
+  (repo-weite Issues #28–#32 gespiegelt; Repo = Quell der Wahrheit).
+  GitHub-Hygiene: Repo-Beschreibung/Topics aktualisiert, Issue-Template
+  nach Issue-Fibel (`task-fibel.yml`), PR-Template mit Handoff-Muster,
+  Dependabot-Config vom leeren Template auf `npm` gefixt. MemPalace-
+  Integration auditert und erweitert: L0-Identity repariert, Logstream-
+  Sweep dokumentiert (CLI ohne `--preview`), idempotenter Repo-Re-Mine
+  (899 → 1003 Drawers), Befunde in `docs/mempalace-audit-2026-09-26.md`,
+  verbindliche Agenten-Regeln in `docs/mempalace-regeln.md`.
+
+- **Memory-Ingest-Workflow (`memory-ingest/`)**: wiederverwendbare Session-Ingest-Pipeline,
+  die neue Freebuff-Sessions nach Abschluss inkrementell ins Palast-
+  Gedächtnis einspeist. Export-Schritt (Bun/TS, read-only gegen die App-DB,
+  `lib.ts` als pure Test-Seam nach ADR-004, 16 Unit-Tests gegen tmp-Fixtures)
+  mit Live-Schutz per Staleness-Fenster (30 min - die laufende Session wird
+  nie exportiert), Mindest-Nachrichtenzahl und State-basiertem Inkrement
+  (`memory-ingest-state.json` neben dem Export-Ordner, damit `mine` ihn nicht
+  mitliest). Orchestrator `ingest.ps1` (export → `mempalace mine --mode
+  convos` → optionaler Such-Selbsttest, Transcript-Log mit Rotation).
+  Export-Ordner bewusst = Legacy-Pfad `D:/mempalace/exports/freebuff-legacy-
+  sessions`, damit `mine` pro Quellpfad idempotent bleibt (Live-Lauf: 894
+  Drawers, kein Duplikat-Schwall). Scheduled Task `MemoryIngest` (taeglich
+  04:30 + 4 h) als Runtime-Kopie unter `~/.tools` registriert; XML-Backup in
+  `task/MemoryIngest.xml`. `install-task.ps1` kann jetzt wirklich registrieren
+  (`-Register` via schtasks, Trigger-Map), `deploy.ps1` ueberschreibt
+  Runtime-Logs nie. Entscheidungen dokumentiert als ADR-007 (Scheduled Task
+  statt manuellem Mining), ADR-008 (CLI-/STDIO-Fallback + Diagnose-Gate ohne
+  MCP-Consent) und ADR-009 (`.mcp.json` projekt-lokal).
+
 ### Changed
+
+- **Projekt-Umbenennung: `tools-entwicklung` → `freebuff-dev-setup`** (Issues #21-#26) -
+  GitHub-Repo (`MaxHambi/freebuff-dev-setup`, Weiterleitung aktiv), lokale
+  Remote-URL, Ordner `D:reebuff-dev-setup`, Doku-/Config-Dateien,
+  package-Name `freebuff-dev-setup-skills-manager` und 23 PS1-Skripte in
+  `.freebuff/skill-extensions/` umgestellt. Claude-Code-Harness-Verweise
+  (`CLAUDE.md`-Symlink, `~/.claude.json`, Rules-Identity `maxhambi:claude:*`)
+  bleiben bewusst unveraendert. MemPalace-Palast frisch initialisiert (Wing
+  `freebuff_dev_setup`, 707 Drawers; Backup unter
+  `D:\mempalace\palace-backup-20260925`).
 
 - **Skills-Manager: TUI-Eigenbau verworfen (ADR-006)** - die OpenTUI-Slices
   (#3-#10) sind eingestellt; [skill-manager](https://github.com/abubakarsiddik31/skill-manager)
