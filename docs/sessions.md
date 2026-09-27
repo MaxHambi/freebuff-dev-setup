@@ -3,6 +3,30 @@
 Kurze Summaries pro Session: was wurde geliefert, entschieden, offen gelassen.
 Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
+## 2026-09-27 - PR #27 gemerged, Rename-Issues geschlossen, Board aufgeraeumt
+
+**Geliefert:** Branch `chore/rename-freebuff-dev-setup` mit 15 Commits
+gepusht (Pre-Push-Gate gruen); PR #27 nach Draft-Ready per **Merge-Commit**
+gemerged (`8f520f9`, Weg laut Worktree-Fibel fuer mehrschichtige Verlaeufe);
+#21-#26 via `Closes`-Keywords automatisch geschlossen (COMPLETED) und mit
+ehrlichen Closure-Kommentaren versehen (#24: zwei bewusste Reste -
+app-eigener Freebuff-Desktop-Projektpfad in `memory-ingest/export.ts:35`
+und historisch korrekter CHANGELOG-Eintrag); #29/#31 vorher auf
+`ready-for-agent` + Board-Ready gesetzt. Board-Endzustand: **Done**
+1/3/4/5/7/8/9/10/18(PR)/21-26/27(PR), **Ready** 28/29/30/31/32,
+**Backlog** 6/14-17/19/20. Issue-Mirror um issue-21 bis issue-26 ergaenzt.
+
+**Entscheidungen:** Master-Zyklus ohne Feature-Branch nur fuer reine
+Doku-Commits (`docs:`), alles Andere ueber Branch + PR. MemPalace-
+Loop-Closure festgezurrt: nach Abschluss jedes gelieferten Themas
+Decision-Drawer file-en (Rename-Follow-up-Closure-Drawer per STDIO
+nach ADR-008 gefiled, Suche Rank 1, Palast 1089 Drawers).
+
+**Offen:** #28 Consent-Freischaltung (`ready-for-human`), #29 Live-
+Verifikation (blocked by #28), #30 mempalace.yaml Room-Mapping
+(`ready-for-human`), #31 Decision-Drawer + KG-Fakten (AFK-faehig),
+#32 Task-Migration T2-T6 (`ready-for-human`).
+
 ## 2026-09-26 - Memory-Ingest-Workflow, MemPalace-Wiring, ADR-007 bis ADR-009
 
 **Geliefert:** Memory-Ingest-Workflow (`memory-ingest/`: pure lib.ts nach
