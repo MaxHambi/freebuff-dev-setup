@@ -77,6 +77,10 @@ jobs:
           ISSUE_ID: ${{ github.event.issue.node_id }}
           TARGET: ${{ steps.status.outputs.target }}
         run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::Secret PROJECTS_PAT ist nicht gesetzt - Board-Mirror uebersprungen. Anleitung: docs/issue-fibel.md."
+            exit 0
+          fi
           case "$TARGET" in
             backlog)   OPT="$OPT_BACKLOG" ;;
             ready)     OPT="$OPT_READY" ;;
