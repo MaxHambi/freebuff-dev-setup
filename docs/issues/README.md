@@ -12,7 +12,7 @@ hier nachgezogen.
 | Issue | Titel | Label | Status |
 |---|---|---|---|
 | [#28](https://github.com/MaxHambi/freebuff-dev-setup/issues/28) | Freebuff-Consent fuer mempalace-MCP-Server freischalten | ready-for-human | offen |
-| [#29](https://github.com/MaxHambi/freebuff-dev-setup/issues/29) | Nacharbeit: mempalace_*-Tools nach Consent live verifizieren | needs-triage | offen, blocked by #28 |
+| [#29](https://github.com/MaxHambi/freebuff-dev-setup/issues/29) | Nacharbeit: mempalace_*-Tools nach Consent live verifizieren | ready-for-agent | offen, blocked by #28 |
 | [#30](https://github.com/MaxHambi/freebuff-dev-setup/issues/30) | mempalace.yaml: Room-Mapping memory_ingest ergaenzen (Edit-Tool-Blockade) | ready-for-human | offen |
-| [#31](https://github.com/MaxHambi/freebuff-dev-setup/issues/31) | Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten | needs-triage | offen |
+| [#31](https://github.com/MaxHambi/freebuff-dev-setup/issues/31) | Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten | ready-for-agent | offen |
 | [#32](https://github.com/MaxHambi/freebuff-dev-setup/issues/32) | Slice T2-T6: Task-Migration nie gezogen | ready-for-human | offen |

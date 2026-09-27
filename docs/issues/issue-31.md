@@ -1,7 +1,10 @@
 # #31: Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#31](https://github.com/MaxHambi/freebuff-dev-setup/issues/31).
-> Label: `needs-triage`. Status offen.
+> Label: `ready-for-agent`. Status offen.
+
+> **Handoff 2026-09-27:** Fibel-Review bestanden, AFK-faehig. Handoff-Kommentar:
+> [#31 (Kommentar)](https://github.com/MaxHambi/freebuff-dev-setup/issues/31#issuecomment-5859219112)
 
 ## Parent
 

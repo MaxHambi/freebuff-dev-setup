@@ -1,7 +1,10 @@
 # #29: Nacharbeit: mempalace_*-Tools nach Consent live verifizieren
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#29](https://github.com/MaxHambi/freebuff-dev-setup/issues/29).
-> Label: `needs-triage`. Status offen, **blocked by #28**.
+> Label: `ready-for-agent`. Status offen, **blocked by #28** (Arbeit startet erst nach #28-Consent).
+
+> **Handoff 2026-09-27:** Fibel-Review bestanden, AFK-faehig. Handoff-Kommentar:
+> [#29 (Kommentar)](https://github.com/MaxHambi/freebuff-dev-setup/issues/29#issuecomment-5859218139)
 
 ## Parent / Blocked by
 
