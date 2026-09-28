@@ -13,11 +13,15 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   Monolith-Scripts als PowerShell-Modul-Projekt (Issues #36-#43, Plan:
   `nextdns-manager/PLAN.md`). Slice 1 (#37): Modul-Geruest (psd1/psm1),
   Setup-Assistent (Vault/Secrets-Pruefung), API-Doku als Repo-Quelle
-  (`docs/nextdns-api.md`), Issue-Mirrors #36-#43. Folgende Slices: Core-
+  (`docs/nextdns-api.md`), Issue-Mirrors #36-#43. Slice 2 (#38): Core-
   API-Schicht mit `200 OK + errors[]`-Fehlerbehandlung, 429/Retry-After,
-  Pagination-Dedupe und Limit-Clamps (#38), Read/Analytics-Registry (#39),
-  Write-Safety mit WhatIf/Confirm (#40), TUI/CLI-Einstieg (#41), Pester +
-  PSScriptAnalyzer im Verify-Gate (#42), Doku + Live-Smoke (#43).
+  Pagination-Dedupe und Limit-Clamps. Slice 3 (#39): Read-Funktionen
+  (Logs-Filter status/search/device/from/to/raw/sort), Analytics-Registry
+  mit neuen Dimensionen domains/ips (reasons bewusst ohne type,
+  destinations mit type-Pflicht), ;series-Support, Full-Report mit
+  ohne-Logs-Modus. Weitere Slices: Write-Safety mit WhatIf/Confirm (#40),
+  TUI/CLI-Einstieg (#41), Pester + PSScriptAnalyzer im Verify-Gate (#42),
+  Doku + Live-Smoke (#43).
 
 - **Repo-Ordnungsrunde (2026-09-26):** `npm run verify` als kanonisches
   Quality-Gate (Lint + tsc + Syntaxcheck + Tests + Doku-Gates; der

@@ -49,14 +49,14 @@ function Invoke-NextDnsHttpRequest {
 			TransportError = $null
 		}
 	} catch {
+		# Status und Header GETRENNT extrahieren: ein wirfender Headers-Zugriff
+		# darf den bereits ermittelten StatusCode nicht zuruecksetzen (sonst
+		# wuerde ein 4xx als Netzwerkfehler mit Status 0 klassifiziert und
+		# faelschlicherweise retryiert).
 		$status = 0
 		$headers = $null
-		try {
-			if ($_.Exception.Response) {
-				$status = [int]$_.Exception.Response.StatusCode
-				$headers = $_.Exception.Response.Headers
-			}
-		} catch { $status = 0 }
+		try { if ($_.Exception.Response) { $status = [int]$_.Exception.Response.StatusCode } } catch { }
+		try { if ($_.Exception.Response) { $headers = $_.Exception.Response.Headers } } catch { }
 
 		$detail = ''
 		try { if ($_.ErrorDetails.Message) { $detail = ($_.ErrorDetails.Message -replace '\s+', ' ').Trim() } } catch { $detail = '' }
