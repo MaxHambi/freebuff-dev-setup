@@ -1,7 +1,7 @@
 # #38: Slice 2: Core-Schicht (Api/Auth/ErrorHandling/Pagination/Config)
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#38](https://github.com/MaxHambi/freebuff-dev-setup/issues/38).
-> Label: `ready-for-agent`. Status offen.
+> Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #45, gemerged als `3a07e98`.
 
 ## Parent
 

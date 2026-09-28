@@ -28,9 +28,12 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   (30 Tests, gemockt) + PSScriptAnalyzer (2 Regelsaetze: Quelle/Tests)
   + Dauer-Smokes (4 Szenarien, 28 Checks, je Smoke eigener Prozess mit
   30-s-Haerte-Timeout) in `scripts/test.ps1` und `npm run verify`
-  integriert; explizite Modul-Export-Liste (39 oeffentliche Funktionen,
+  integriert; explizite Modul-Export-Liste (40 oeffentliche Funktionen,
   Implementierungsdetails bleiben privat); CI installiert Pester 5+/
-  PSScriptAnalyzer. Verbleibend: Doku + Live-Smoke (#43).
+  PSScriptAnalyzer; Smokes plattformneutral (ASCII-Fallback-Erwartung
+  ohne Font-Registry, GetTempPath  statt TEMP). Slice 7 (#43): README
+  (Setup/CLI/Architektur/Exit-Codes), PLAN-Befunde mit Erledigt-Status;
+  Final-Smoke gegen die Live-API folgt mit Operator-Consent.
 
 - **Repo-Ordnungsrunde (2026-09-26):** `npm run verify` als kanonisches
   Quality-Gate (Lint + tsc + Syntaxcheck + Tests + Doku-Gates; der

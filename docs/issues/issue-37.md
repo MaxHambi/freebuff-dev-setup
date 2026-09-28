@@ -1,7 +1,7 @@
 # #37: Slice 1: Onboarding nextdns-manager als Modul-Projekt
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#37](https://github.com/MaxHambi/freebuff-dev-setup/issues/37).
-> Label: `ready-for-agent`. Status offen.
+> Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #44, gemerged als `a5e9c39`.
 
 ## Parent
 

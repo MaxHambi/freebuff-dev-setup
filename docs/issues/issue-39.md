@@ -1,7 +1,7 @@
 # #39: Slice 3: Read-Funktionen + Analytics-Registry + Report
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#39](https://github.com/MaxHambi/freebuff-dev-setup/issues/39).
-> Label: `ready-for-agent`. Status offen.
+> Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #46, gemerged als `8d7e92e`.
 
 ## Parent
 
