@@ -22,3 +22,11 @@ hier nachgezogen.
 | [#30](https://github.com/MaxHambi/freebuff-dev-setup/issues/30) | mempalace.yaml: Room-Mapping memory_ingest ergaenzen (Edit-Tool-Blockade) | ready-for-human | offen |
 | [#31](https://github.com/MaxHambi/freebuff-dev-setup/issues/31) | Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten | ready-for-agent | offen |
 | [#32](https://github.com/MaxHambi/freebuff-dev-setup/issues/32) | Slice T2-T6: Task-Migration nie gezogen | ready-for-human | offen |
+| [#36](https://github.com/MaxHambi/freebuff-dev-setup/issues/36) | PRD/Umbrella: NextDNS-Manager - Onboarding, Refactor, Verification | needs-triage | offen |
+| [#37](https://github.com/MaxHambi/freebuff-dev-setup/issues/37) | Slice 1: Onboarding nextdns-manager als Modul-Projekt | ready-for-agent | offen |
+| [#38](https://github.com/MaxHambi/freebuff-dev-setup/issues/38) | Slice 2: Core-Schicht (Api/Auth/ErrorHandling/Pagination/Config) | ready-for-agent | offen |
+| [#39](https://github.com/MaxHambi/freebuff-dev-setup/issues/39) | Slice 3: Read-Funktionen + Analytics-Registry + Report | ready-for-agent | offen |
+| [#40](https://github.com/MaxHambi/freebuff-dev-setup/issues/40) | Slice 4: Write-Funktionen mit WhatIf/Confirm-Schutz | ready-for-agent | offen |
+| [#41](https://github.com/MaxHambi/freebuff-dev-setup/issues/41) | Slice 5: TUI-Menue + CLI-Parametermodus (run.ps1) | ready-for-agent | offen |
+| [#42](https://github.com/MaxHambi/freebuff-dev-setup/issues/42) | Slice 6: Pester-Suite + PSScriptAnalyzer im Verify-Gate | ready-for-agent | offen |
+| [#43](https://github.com/MaxHambi/freebuff-dev-setup/issues/43) | Slice 7: Doku, Final-Smoke und Closures | ready-for-agent | offen |
