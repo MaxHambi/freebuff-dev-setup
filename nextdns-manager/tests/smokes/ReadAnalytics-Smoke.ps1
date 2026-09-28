@@ -73,7 +73,9 @@ if (-not $p.Ok -or -not $pf.Ok -or $pf.Data.name -ne 'Home') { throw 'T7 FEHLGES
 Write-Host 'T7 OK  Read-Funktionen (Liste + Einzelprofil)'
 
 # --- T8: Full-Report ohne Logs ---
-$tmp = Join-Path $env:TEMP ("ndm-report-" + [guid]::NewGuid().ToString('N').Substring(0, 8))
+# Plattform-neutral: $env:TEMP ist Windows-idiomatisch (auf Linux leer ->
+# StrictMode-Null-Bind); [IO.Path]::GetTempPath() funktioniert auf beiden.
+$tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("ndm-report-" + [guid]::NewGuid().ToString('N').Substring(0, 8))
 New-Item -ItemType Directory -Path $tmp | Out-Null
 $rep = Export-NextDnsFullReport -Directory $tmp -WithoutLogs
 $content = Get-Content -Path $rep.Path -Raw

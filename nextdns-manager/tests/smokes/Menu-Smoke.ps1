@@ -2,14 +2,25 @@
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot '..\..\NextDnsManager.psd1') -Force
 
-# --- T1: Font-Erkennung trifft eine der Operator-Gruppen ---
+# --- T1: Icon-Initialisierung plattformbewusst ---
+# Windows: Nerd-Font-Erkennung via Registry (Operator-Gruppen JetBrains/
+# Meslo/Terminess). Linux/CI: keine Font-Registry -> ASCII-Fallback ist das
+# erwartete, gruen gepruefte Ergebnis (Fail-Safe-Verhalten).
 Initialize-NextDnsIcons
 $info = Get-NextDnsFontInfo
-if ($info.Mode -ne 'nerd') { throw "T1 FEHLGESCHLAGEN (Mode=$($info.Mode))" }
-if ($info.Font -notmatch 'JetBrains|Meslo|Terminess') { throw "T1b FEHLGESCHLAGEN (Font ausserhalb der Gruppen: $($info.Font))" }
-Write-Host "T1 OK  Nerd-Font erkannt: $($info.Font)"
+# Hinweis: $IsWindows ist eine schreibgeschuetzte automatische Variable -
+# deshalb der eigene Name $onWindows (zweite PSA-Fund-Familie dieses Laufs).
+$onWindows = [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Win32NT
+if ($onWindows) {
+	if ($info.Mode -ne 'nerd') { throw "T1 FEHLGESCHLAGEN (Mode=$($info.Mode), Windows erwartet nerd)" }
+	if ($info.Font -notmatch 'JetBrains|Meslo|Terminess') { throw "T1b FEHLGESCHLAGEN (Font ausserhalb der Gruppen: $($info.Font))" }
+	Write-Host "T1 OK  Nerd-Font erkannt: $($info.Font)"
+} else {
+	if ($info.Mode -ne 'ascii') { throw "T1 FEHLGESCHLAGEN (Mode=$($info.Mode), ohne Registry erwartet ascii)" }
+	Write-Host 'T1 OK  ASCII-Fallback ohne Font-Registry (Linux/CI, erwartetes Verhalten)'
+}
 
-# --- T2: ASCII-Fallback erzwingbar ---
+# --- T2: ASCII-Fallback erzwingbar (unabhaengig von der Plattform) ---
 Set-NextDnsIconMode -Mode 'ascii'
 $icons2 = Get-NextDnsIcons
 if ($icons2.Mode -ne 'ascii' -or $icons2.Check -ne 'OK') { throw 'T2 FEHLGESCHLAGEN' }
