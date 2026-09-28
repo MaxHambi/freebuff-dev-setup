@@ -50,7 +50,6 @@ function Get-NextDnsAllPages {
 		[int]$MaxEntries = 0
 	)
 
-	$cfg = Get-NextDnsConfig
 	$collected = [System.Collections.Generic.List[object]]::new()
 	$seen = @{}
 	$cursor = $null
@@ -72,7 +71,6 @@ function Get-NextDnsAllPages {
 			break
 		}
 
-		$added = 0
 		if ($null -ne $result.Data) {
 			foreach ($entry in @($result.Data)) {
 				$key = $null

@@ -18,7 +18,29 @@
 	# damit Import/Tests auch ohne installiertes Modul bzw. auf CI ohne Secrets laufen).
 	RequiredModules = @()
 
-	FunctionsToExport = '*'
+	# Explizite Export-Liste (Details/Kommentar in NextDnsManager.psm1)
+	FunctionsToExport = @(
+		'Initialize-NextDnsConfig', 'Get-NextDnsConfig', 'Set-NextDnsProfileId',
+		'Test-NextDnsConfigReady', 'Assert-NextDnsConfigReady',
+		'Test-NextDnsNerdFont', 'Initialize-NextDnsIcons', 'Set-NextDnsIconMode',
+		'Get-NextDnsIcons', 'Get-NextDnsFontInfo',
+		'Connect-NextDnsApi',
+		'Get-NextDnsErrorDetail', 'Resolve-NextDnsApiResult',
+		'Set-NextDnsHttpDelegate', 'Invoke-NextDnsApi',
+		'Get-NextDnsClampedLimit', 'Get-NextDnsPaginationCursor', 'Get-NextDnsAllPages',
+		'Get-NextDnsProfiles', 'Get-NextDnsProfile', 'Get-NextDnsSettings',
+		'Get-NextDnsBlocklists', 'Get-NextDnsDenylist', 'Get-NextDnsAllowlist',
+		'Test-NextDnsConnection', 'Get-NextDnsLogs',
+		'Get-NextDnsAnalyticsDimensionSpec', 'Get-NextDnsAnalyticsEndpoint',
+		'Get-NextDnsAnalytics', 'Get-NextDnsAllAnalytics',
+		'Add-NextDnsDenylistEntry', 'Add-NextDnsAllowlistEntry',
+		'Remove-NextDnsDenylistEntry', 'Remove-NextDnsAllowlistEntry',
+		'Set-NextDnsSettings', 'Clear-NextDnsLogs',
+		'New-NextDnsReportFile', 'Write-NextDnsReportSection', 'Add-NextDnsReportResult',
+		'Export-NextDnsLogsJson', 'Export-NextDnsFullReport',
+		'Get-NextDnsMenuTable', 'Read-NextDnsInt', 'Read-NextDnsChoice',
+		'Show-NextDnsResult', 'Invoke-NextDnsMenuAction', 'Show-NextDnsMenu'
+	)
 
 	VariablesToExport = @()
 
