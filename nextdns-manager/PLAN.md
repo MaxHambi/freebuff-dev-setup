@@ -135,6 +135,30 @@ Index in `docs/issues/README.md` ergaenzt:
    (reasons ohne type, destinations mit type), Dispatch-Tabelle,
    Config-Validierung
 3. **Live-Smoke (mit Operator, echte Credentials):**
+
+   > **Durchgefuehrt 2026-09-28 (AFK-Modus, Read-only-Anteile):**
+   > Test-Connection (Profil „FireTV" via Vault), Get-Profile,
+   > Get-Settings, Get-Denylist (**374 Eintraege** inkl. FireTV-OTA-
+   > Domains), Get-Logs (leere Datenmenge - plausibel: Logs deaktiviert
+   > oder kaum Traffic), Get-Analytics status, Export-Report ohne Logs
+   > (Errors=0). **Schreibende Teile (Denylist-Roundtrip, Clear-Logs)
+   > NICHT ausgefuehrt** - kein Operator-Consent im AFK-Modus; nachholbar.
+   >
+   > **Live-Findings (sofort behoben):** (1) Denylist-Endpoint akzeptiert
+   > KEINEN limit-Parameter (400 extraneous) - nicht paginiert, embedded
+   > Array; Get-NextDnsDenylist/Allowlist nutzen kein AllPages mehr.
+   > (2) Splatting von $null an parameterlose Funktionen (CLI-Fix).
+   > (3) JSON-Parameter-Variante -ActionParameterJson fuer Cross-Shell-CLI
+   > inkl. Reihenfolge-Fix (Merge VOR dem Mandatory-Check).
+
+   - [x] `Test-Connection` (Profil-Liste + eigenes Profil)
+   - [ ] Denylist-Write-Roundtrip (Test-Domain add/verify/remove) - wartet
+         auf Operator-Consent
+   - [x] Full-Report ohne Logs → Datei geprueft (Errors=0)
+   - [x] Logs-Pagination klein (Limit 30)
+
+   Historische Planung (Original):
+
    - `Test-Connection` (Profile-Liste + eigenes Profil)
    - Menue-Items 1–5, 7, 8 je einmal (Read-Pfad)
    - Denylist: Test-Domain hinzufuegen → verifizieren → entfernen

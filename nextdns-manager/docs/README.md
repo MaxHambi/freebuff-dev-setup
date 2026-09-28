@@ -40,6 +40,9 @@ pwsh -File nextdns-manager/run.ps1 -Action Test-Connection
 pwsh -File nextdns-manager/run.ps1 -Action Get-Logs -ActionParameter @{ Limit = 50; Status = 'blocked' }
 pwsh -File nextdns-manager/run.ps1 -Action Add-Denylist -ActionParameter @{ Domains = 'example.com' }
 pwsh -File nextdns-manager/run.ps1 -Action Set-Profile -ActionParameter @{ ProfileId = 'abc123' }
+
+# Aus bash/cmd/CI: JSON-Variante (pwsh -File parst keine '@{...}'-Strings)
+pwsh -File nextdns-manager/run.ps1 -Action Get-Logs -ActionParameterJson '{"Limit":50}'
 ```
 
 CLI-Komfort-Aliase: `Get-Profiles`, `Get-Profile`, `Get-Settings`,
