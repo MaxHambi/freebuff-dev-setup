@@ -1,7 +1,7 @@
 # #42: Slice 6: Pester-Suite + PSScriptAnalyzer im Verify-Gate
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#42](https://github.com/MaxHambi/freebuff-dev-setup/issues/42).
-> Label: `ready-for-agent`. Status offen.
+> Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #49, gemerged als `14fb078`.
 
 ## Parent
 

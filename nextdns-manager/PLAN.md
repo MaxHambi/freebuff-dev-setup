@@ -32,18 +32,22 @@ unter `docs/issues/` und finaler End-to-End-Pruefung gegen die Live-API.
 
 ## 3. Befunde (Script-Analyse, API-Doku-belegt)
 
-| #  | Schwere | Befund |
-|----|---------|--------|
-| 1  | **Hoch** | Logikfehler: User-Fehler der API (`200 OK + { errors: [...] }`, z. B. ungueltige Domain in Denylist) werden als Erfolg gewertet — `errors` wird nie geprueft |
-| 2  | **Hoch** | API-Mythos im Kopf-Kommentar: 400 „extraneous" kam von einem (inzwischen korrekt entfernten) `type=`-Parameter auf `reasons` — der Kommentar behauptet faelschlich `reasons` akzeptiere generell keinen `type`-Parameter; den gibt es schlicht nicht auf dieser Dimension. Kommentar korrigieren |
-| 3  | **Hoch** | Kein Rate-Limit-Handling: `429` wird nicht speziell behandelt (`Retry-After`-Header respektieren statt fix 1 s) |
-| 4  | Mittel | `Get-NextDnsAllLogs` sendet `limit=1000` ohne Clamp (Doku: ≥10, ≤1000) und hat **keine Dedupe** — Cursor-Wiederholung kann Eintraege doppelt liefern |
-| 5  | Mittel | `Invoke-NextDnsApi`/`-Raw` sind ~80 % Duplikate; `UseBasicParsing` ist in PS 7 obsolet |
-| 6  | Mittel | Write-Pfad (POST denylist) bewertet *jede* nicht-leere Antwort als OK; ein `errors`-Objekt in `data` bleibt unbemerkt (→ Befund 1) |
-| 7  | Mittel | Monolith: Konfig, Auth, HTTP, Report, Menue in einer Datei; Report-Funktion ~180 Zeilen (Skill-Checkliste: >50 = split) |
-| 8  | Mittel | Keine Tests, kein Lint; `$DebugMode`-Ausgaben ungepuffert; Menue-Dispatch enthaelt I/O gemischt mit Logik (nicht testbar) |
-| 9  | Niedrig | `exit 1` ohne dokumentierte Exit-Codes; `Clear-Host`/`ReadKey`-Fallbacks ok, aber Menue-Texte hart verdrahtet |
-| 10 | Niedrig | Helper (`ConvertTo-JsonSafe`, `Get-AbsolutePath` u. a.) global im Script-Scope statt Modul-Funktionen |
+> **Status nach Umsetzung (2026-09-28):** Alle 10 Befunde sind in den
+> Slices #37-#42 behoben und durch Pester (30 Tests) + Dauer-Smokes (28
+> Checks) abgesichert. Details je Slice in den Issue-Kommentaren.
+
+| #  | Schwere | Befund | Status |
+|----|---------|--------|--------|
+| 1  | **Hoch** | Logikfehler: User-Fehler der API (`200 OK + { errors: [...] }`, z. B. ungueltige Domain in Denylist) werden als Erfolg gewertet — `errors` wird nie geprueft | ✅ behoben (#38/#40) |
+| 2  | **Hoch** | API-Mythos im Kopf-Kommentar: 400 „extraneous" kam von einem (inzwischen korrekt entfernten) `type=`-Parameter auf `reasons` — der Kommentar behauptet faelschlich `reasons` akzeptiere generell keinen `type`-Parameter; den gibt es schlicht nicht auf dieser Dimension. Kommentar korrigieren | ✅ behoben (#39, NoTypeDims-Registry) |
+| 3  | **Hoch** | Kein Rate-Limit-Handling: `429` wird nicht speziell behandelt (`Retry-After`-Header respektieren statt fix 1 s) | ✅ behoben (#38) |
+| 4  | Mittel | `Get-NextDnsAllLogs` sendet `limit=1000` ohne Clamp (Doku: ≥10, ≤1000) und hat **keine Dedupe** — Cursor-Wiederholung kann Eintraege doppelt liefern | ✅ behoben (#38) |
+| 5  | Mittel | `Invoke-NextDnsApi`/`-Raw` sind ~80 % Duplikate; `UseBasicParsing` ist in PS 7 obsolet | ✅ behoben (#38, einheitliche API-Schicht) |
+| 6  | Mittel | Write-Pfad (POST denylist) bewertet *jede* nicht-leere Antwort als OK; ein `errors`-Objekt in `data` bleibt unbemerkt (→ Befund 1) | ✅ behoben (#40) |
+| 7  | Mittel | Monolith: Konfig, Auth, HTTP, Report, Menue in einer Datei; Report-Funktion ~180 Zeilen (Skill-Checkliste: >50 = split) | ✅ behoben (#37-#41, 11 Submodule) |
+| 8  | Mittel | Keine Tests, kein Lint; `$DebugMode`-Ausgaben ungepuffert; Menue-Dispatch enthaelt I/O gemischt mit Logik (nicht testbar) | ✅ behoben (#41/#42: Dispatch-Tabelle + 4 Gate-Schichten) |
+| 9  | Niedrig | `exit 1` ohne dokumentierte Exit-Codes; `Clear-Host`/`ReadKey`-Fallbacks ok, aber Menue-Texte hart verdrahtet | ✅ behoben (#41: Exit-Codes 0/1/2, Non-Interactive-Exit) |
+| 10 | Niedrig | Helper (`ConvertTo-JsonSafe`, `Get-AbsolutePath` u. a.) global im Script-Scope statt Modul-Funktionen | ✅ behoben (#37/#42: Modul-Scope + explizite Export-Liste) |
 
 ## 4. Zielarchitektur `nextdns-manager/`
 

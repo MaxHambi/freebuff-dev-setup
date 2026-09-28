@@ -1,7 +1,7 @@
 # #41: Slice 5: TUI-Menue + CLI-Parametermodus (run.ps1)
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#41](https://github.com/MaxHambi/freebuff-dev-setup/issues/41).
-> Label: `ready-for-agent`. Status offen.
+> Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #48, gemerged als `d79a918`.
 
 ## Parent
 

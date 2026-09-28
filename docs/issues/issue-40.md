@@ -1,7 +1,7 @@
 # #40: Slice 4: Write-Funktionen mit WhatIf/Confirm-Schutz
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#40](https://github.com/MaxHambi/freebuff-dev-setup/issues/40).
-> Label: `ready-for-agent`. Status offen.
+> Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #47, gemerged als `7814a0d`.
 
 ## Parent
 
