@@ -87,6 +87,47 @@ function Get-NextDnsAllowlist {
 	return (Get-NextDnsAllPages -Endpoint "/profiles/$ProfileId/allowlist" -PageLimit $limit -MaxEntries $MaxEntries)
 }
 
+function Test-NextDnsConnection {
+	<#
+	.SYNOPSIS
+		Verbindungstest: Profil-Liste + Zugriff aufs aktive Profil.
+		Liefert Diagnose-Objekt (Ok/Data/ProfileCount/ActiveProfile/Error).
+	#>
+	[CmdletBinding()]
+	param()
+	Assert-NextDnsConfigReady
+
+	$profilesResult = Invoke-NextDnsApi -Method 'GET' -Endpoint '/profiles'
+	if (-not $profilesResult.Ok) {
+		return [PSCustomObject]@{
+			Ok = $false
+			Data = $null
+			Error = "Profile-Liste: $($profilesResult.Error)"
+			ProfileCount = 0
+			ActiveProfile = $null
+		}
+	}
+
+	$profileResult = Get-NextDnsProfile
+	if (-not $profileResult.Ok) {
+		return [PSCustomObject]@{
+			Ok = $false
+			Data = $null
+			Error = "Aktives Profil: $($profileResult.Error)"
+			ProfileCount = @($profilesResult.Data).Count
+			ActiveProfile = $null
+		}
+	}
+
+	return [PSCustomObject]@{
+		Ok = $true
+		Data = $profileResult.Data
+		Error = $null
+		ProfileCount = @($profilesResult.Data).Count
+		ActiveProfile = $profileResult.Data
+	}
+}
+
 function Get-NextDnsLogs {
 	<#
 	.SYNOPSIS

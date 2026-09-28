@@ -1,13 +1,23 @@
 #Requires -Version 7.4
 # run.ps1 - Einstiegspunkt des NextDNS-Managers.
 #
-# Ohne -Action startet der interaktive Menue-Modus (Slice #41 baut die
-# CLI-Parameter hier aus; vor #38 liefert -Action einen Hinweis und Exit 2).
+# Zwei Modi:
+#   1. Menue-Modus (Default):            pwsh -File run.ps1
+#   2. CLI-Modus (non-interaktiv):       pwsh -File run.ps1 -Action <Name> [-ActionParameter @{...}]
+#
+# Exit-Codes (dokumentiert, Issue #41):
+#   0 = Erfolg
+#   1 = API-Fehler (Fehler-Objekt der API-Schicht)
+#   2 = Konfigurations-/Umgebungsfehler (Secrets, Font egal, unbekannte Action)
 
 [CmdletBinding()]
 param(
 	[string]$Action,
-	[object]$ApiConfig
+	# Parameter fuer die Action als Hashtabelle: -ActionParameter @{ Limit = 50; Status = 'blocked' }
+	[hashtable]$ActionParameter,
+	# Icons erzwingen (Default: Auto-Erkennung Nerd Font / ASCII-Fallback)
+	[switch]$NoIcons,
+	[switch]$Version
 )
 
 $ErrorActionPreference = 'Stop'
@@ -15,18 +25,120 @@ $ErrorActionPreference = 'Stop'
 $modulePath = Join-Path -Path $PSScriptRoot -ChildPath 'NextDnsManager.psd1'
 Import-Module $modulePath -Force -ErrorAction Stop
 
-if ($Action) {
-	Write-Host "CLI-Modus (-Action $Action) wird in Slice #41 (Issue #41) ausgebaut." -ForegroundColor Yellow
-	Write-Host 'Bis dahin bitte den interaktiven Modus nutzen (run.ps1 ohne -Action).' -ForegroundColor Yellow
+if ($Version) {
+	$manifest = Import-PowerShellDataFile -Path $modulePath
+	Write-Output "NextDnsManager $($manifest.ModuleVersion)"
+	exit 0
+}
+
+# Icons initialisieren (Nerd-Font-Erkennung oder ASCII-Fallback)
+Initialize-NextDnsIcons -NoIcons:$NoIcons
+
+# --- Menue-Modus ---
+if (-not $Action) {
+	if ([Console]::IsOutputRedirected -or -not [Environment]::UserInteractive) {
+		# Hinweis: kein Write-Error (EAP=Stop wuerde werfen und den Exit-Code kippen)
+		Write-Host 'x Kein interaktiver Host: bitte -Action angeben (CLI-Modus).' -ForegroundColor Red
+		exit 2
+	}
+	Show-NextDnsMenu
+	exit 0
+}
+
+# --- CLI-Modus ---
+try {
+	$null = Get-NextDnsConfig
+	if (-not (Test-NextDnsConfigReady)) {
+		$null = Connect-NextDnsApi
+	}
+} catch {
+	Write-Host "x Konfiguration unvollstaendig: $($_.Exception.Message)" -ForegroundColor Red
+	Write-Host '  Setup: pwsh -File setup.ps1' -ForegroundColor Yellow
 	exit 2
 }
 
-# Interaktiver Menue-Modus (Funktion folgt in #41; bis dahin Hinweis)
-if (Get-Command Show-NextDnsMenu -ErrorAction SilentlyContinue) {
-	Show-NextDnsMenu
-} else {
-	Write-Host 'Menue-Modus folgt in Slice #41 (Issue #41).' -ForegroundColor Yellow
-	Write-Host 'Modul-Geruest ist installiert; Import-Check:' -ForegroundColor Yellow
-	Get-Command -Module NextDnsManager | ForEach-Object { Write-Host "  - $($_.Name)" }
+$table = Get-NextDnsMenuTable
+
+# CLI-Komfort-Aliase (freundliche Namen -> Tabellen-Eintraege)
+$aliases = @{
+	'Get-Profiles' = '2'
+	'Get-Profile' = '1'
+	'Get-Settings' = '3'
+	'Get-Blocklists' = '4'
+	'Get-Denylist' = '5'
+	'Get-Allowlist' = '6'
+	'Get-Logs' = '7'
+	'Get-Analytics' = '8'
+	'Get-AllAnalytics' = '9'
+	'Test-Connection' = 'A'
+	'Export-Logs' = 'B'
+	'Export-Report' = 'C'
+	'Add-Denylist' = 'D'
+	'Remove-Denylist' = 'E'
+	'Add-Allowlist' = 'F'
+	'Set-Profile' = 'G'
+	'Clear-Logs' = 'H'
 }
-exit 0
+
+$key = $Action
+if ($aliases.ContainsKey($Action)) { $key = $aliases[$Action] }
+
+$entry = $table | Where-Object { $_.Key -eq $key } | Select-Object -First 1
+if (-not $entry) {
+	Write-Host "x Unbekannte Action '$Action'. Verfuegbar: $($aliases.Keys -join ', ')" -ForegroundColor Red
+	exit 2
+}
+
+# Im CLI-Modus keine interaktiven Prompts: Aktionen mit Prompt-Plan werden
+# direkt mit -ActionParameter (oder sensible Defaults) ausgefuehrt.
+
+# Mandatory-Parameter der Zielfunktion pruefen (verhindert den interaktiven
+# Mandatory-Prompt, der in Non-Interactive-Hosts haengen wuerde - Befund 9).
+$fn = Get-Command $entry.Function -ErrorAction SilentlyContinue
+if ($fn) {
+	$missingMandatory = @()
+	foreach ($p in $fn.Parameters.Values) {
+		$isMandatory = $p.Attributes | Where-Object { $_ -is [System.Management.Automation.ParameterAttribute] -and $_.Mandatory }
+		if ($isMandatory -and -not ($ActionParameter -and $ActionParameter.ContainsKey($p.Name))) {
+			$missingMandatory += $p.Name
+		}
+	}
+	if ($missingMandatory) {
+		Write-Host "x Action '$Action' benoetigt: $($missingMandatory -join ', ')" -ForegroundColor Red
+		Write-Host "  Uebergabe: -ActionParameter @{ $($missingMandatory[0]) = '<wert>' }" -ForegroundColor Yellow
+		exit 2
+	}
+}
+
+# Funktion aufrufen und Ergebnis auswerten (Exit-Codes)
+try {
+	$result = & $entry.Function @ActionParameter
+
+	# Write-Funktionen liefern je-Domain-Ergebnisse: ein Fehler -> Exit 1
+	$results = @($result)
+	$failed = $results | Where-Object { $_ -and $_.PSObject.Properties['Ok'] -and -not $_.Ok }
+	if ($failed) {
+		foreach ($f in $failed) { Write-Host "x $($f.Domain): $($f.Error)" -ForegroundColor Red }
+		exit 1
+	}
+
+	# Read-Funktionen liefern Result-/AllPages-Objekte
+	$first = $results | Where-Object { $_ -and ($_.PSObject.Properties['Ok'] -or $_.PSObject.Properties['Entries']) } | Select-Object -First 1
+	if ($first) {
+		if ($first.PSObject.Properties['Ok'] -and -not $first.Ok) {
+			Write-Host "x $($first.Error)" -ForegroundColor Red
+			exit 1
+		}
+		if ($first.PSObject.Properties['Entries'] -and $first.Error) {
+			Write-Host "x $($first.Error)" -ForegroundColor Red
+			exit 1
+		}
+	}
+
+	# Erfolg -> kompakte Ausgabe
+	Show-NextDnsResult -Result $result -Title $entry.Label
+	exit 0
+} catch {
+	Write-Host "x $($_.Exception.Message)" -ForegroundColor Red
+	exit 1
+}
