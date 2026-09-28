@@ -21,8 +21,10 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   destinations mit type-Pflicht), ;series-Support, Full-Report mit
   ohne-Logs-Modus. Slice 4 (#40): Write-Funktionen mit WhatIf/Confirm-
   Schutz (Denylist/Allowlist add/remove, Settings-PATCH, Clear-Logs mit
-  ConfirmImpact=High), errors[] je Domain ausgewertet. Weitere Slices:
-  TUI-Menue und CLI-Parametermodus run.ps1 (#41), Pester +
+  ConfirmImpact=High), errors[] je Domain ausgewertet. Slice 5 (#41):
+  TUI-Menue und CLI-Parametermodus run.ps1 (Dispatch-Tabelle, Exit-Codes
+  0/1/2, Non-Interactive-fest), Nerd-Font-Erkennung mit ASCII-Fallback
+  (JetBrainsMono/Meslo/Terminess-Gruppen). Weitere Slices: Pester +
   PSScriptAnalyzer im Verify-Gate (#42), Doku + Live-Smoke (#43).
 
 - **Repo-Ordnungsrunde (2026-09-26):** `npm run verify` als kanonisches
