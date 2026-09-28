@@ -1,4 +1,4 @@
-# 90-Report.ps1 - Export-Funktionen (Full-Report, JSON-Exporte).
+﻿# 90-Report.ps1 - Export-Funktionen (Full-Report, JSON-Exporte).
 #
 # Zerlegt nach Skill-Checkliste (Funktionen < 50 Zeilen):
 #   New-NextDnsReportSection / Add-NextDnsReportResult (Bausteine),
@@ -52,14 +52,14 @@ function Add-NextDnsReportResult {
 	param(
 		[Parameter(Mandatory)][System.IO.StreamWriter]$Writer,
 		[AllowNull()][object]$Result,
-	[AllowNull()][System.Collections.Generic.List[string]]$ErrorList,
-	[Parameter(Mandatory)][string]$SectionName,
-	[int]$Depth = 10
-)
-# Hinweis: [Parameter(Mandatory)] auf Collections lehnt LEERE Listen ab
-# (PS-Quirk) - deshalb hier der explizite Null-Check.
-if ($null -eq $ErrorList) { throw 'ErrorList erforderlich' }
-if ($Result -and -not $Result.Ok) {
+		[AllowNull()][System.Collections.Generic.List[string]]$ErrorList,
+		[Parameter(Mandatory)][string]$SectionName,
+		[int]$Depth = 10
+	)
+	# Hinweis: [Parameter(Mandatory)] auf Collections lehnt LEERE Listen ab
+	# (PS-Quirk) - deshalb hier der explizite Null-Check.
+	if ($null -eq $ErrorList) { throw 'ErrorList erforderlich' }
+	if ($Result -and -not $Result.Ok) {
 		$line = "FEHLER: $($Result.Error)"
 		$Writer.WriteLine($line)
 		$ErrorList.Add("$SectionName -> $line")
@@ -146,9 +146,9 @@ function Export-NextDnsFullReport {
 
 		# Listen
 		foreach ($pair in @(
-			@{ Title = 'DENYLIST'; Call = { Get-NextDnsDenylist -MaxEntries 2000 } },
-			@{ Title = 'ALLOWLIST'; Call = { Get-NextDnsAllowlist -MaxEntries 2000 } }
-		)) {
+				@{ Title = 'DENYLIST'; Call = { Get-NextDnsDenylist -MaxEntries 2000 } },
+				@{ Title = 'ALLOWLIST'; Call = { Get-NextDnsAllowlist -MaxEntries 2000 } }
+			)) {
 			Write-NextDnsReportSection -Writer $writer -Title $pair.Title
 			$res = & $pair.Call
 			if ($res.Error) {

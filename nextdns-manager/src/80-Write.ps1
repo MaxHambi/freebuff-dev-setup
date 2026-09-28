@@ -1,4 +1,4 @@
-# 80-Write.ps1 - Write-Funktionen mit ShouldProcess-Schutz.
+﻿# 80-Write.ps1 - Write-Funktionen mit ShouldProcess-Schutz.
 #
 # Alle schreibenden Operationen:
 #   - SupportsShouldProcess (-WhatIf macht garantikt KEINEN HTTP-Call,
@@ -16,42 +16,42 @@ function Add-NextDnsDenylistEntry {
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
-	[Parameter(ValueFromPipeline)]
-	[AllowEmptyCollection()]
-	[AllowNull()]
-	[string[]]$Domains,
-	[string]$ProfileId
-)
-process {
-	if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
-	Assert-NextDnsConfigReady
-	# Hinweis: [Parameter(Mandatory)] auf string[] lehnt Arrays mit leerem
-	# String ab (PS-Quirk) - deshalb Batch-Konvention: leere Eintraege werden
-	# als Fehler-Ergebnis gemeldet, nicht abgelehnt.
-	if (-not $Domains) {
-		[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
-		return
-	}
+		[Parameter(ValueFromPipeline)]
+		[AllowEmptyCollection()]
+		[AllowNull()]
+		[string[]]$Domains,
+		[string]$ProfileId
+	)
+	process {
+		if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
+		Assert-NextDnsConfigReady
+		# Hinweis: [Parameter(Mandatory)] auf string[] lehnt Arrays mit leerem
+		# String ab (PS-Quirk) - deshalb Batch-Konvention: leere Eintraege werden
+		# als Fehler-Ergebnis gemeldet, nicht abgelehnt.
+		if (-not $Domains) {
+			[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
+			return
+		}
 
-	foreach ($domain in $Domains) {
-		$clean = "$domain".Trim()
-		if (-not $clean) {
-			[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
-			continue
-		}
-		if (-not $PSCmdlet.ShouldProcess("Denylist: $clean", 'POST')) {
-			[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = 'WhatIf/Confirm abgebrochen' }
-			continue
-		}
-		$r = Invoke-NextDnsApi -Method 'POST' -Endpoint "/profiles/$ProfileId/denylist" -Body @{ id = $clean; active = $true }
-		if ($r.Ok) {
-			[PSCustomObject]@{ Domain = $clean; Ok = $true; Error = $null }
-		} else {
-			# errors[]-Pfad: User-Fehler (ungueltige Domain) = Ok=$false
-			[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = $r.Error }
+		foreach ($domain in $Domains) {
+			$clean = "$domain".Trim()
+			if (-not $clean) {
+				[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
+				continue
+			}
+			if (-not $PSCmdlet.ShouldProcess("Denylist: $clean", 'POST')) {
+				[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = 'WhatIf/Confirm abgebrochen' }
+				continue
+			}
+			$r = Invoke-NextDnsApi -Method 'POST' -Endpoint "/profiles/$ProfileId/denylist" -Body @{ id = $clean; active = $true }
+			if ($r.Ok) {
+				[PSCustomObject]@{ Domain = $clean; Ok = $true; Error = $null }
+			} else {
+				# errors[]-Pfad: User-Fehler (ungueltige Domain) = Ok=$false
+				[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = $r.Error }
+			}
 		}
 	}
-}
 }
 
 function Add-NextDnsAllowlistEntry {
@@ -61,38 +61,38 @@ function Add-NextDnsAllowlistEntry {
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
-	[Parameter(ValueFromPipeline)]
-	[AllowEmptyCollection()]
-	[AllowNull()]
-	[string[]]$Domains,
-	[string]$ProfileId
-)
-process {
-	if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
-	Assert-NextDnsConfigReady
-	if (-not $Domains) {
-		[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
-		return
-	}
+		[Parameter(ValueFromPipeline)]
+		[AllowEmptyCollection()]
+		[AllowNull()]
+		[string[]]$Domains,
+		[string]$ProfileId
+	)
+	process {
+		if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
+		Assert-NextDnsConfigReady
+		if (-not $Domains) {
+			[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
+			return
+		}
 
-	foreach ($domain in $Domains) {
-		$clean = "$domain".Trim()
-		if (-not $clean) {
-			[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
-			continue
-		}
-		if (-not $PSCmdlet.ShouldProcess("Allowlist: $clean", 'POST')) {
-			[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = 'WhatIf/Confirm abgebrochen' }
-			continue
-		}
-		$r = Invoke-NextDnsApi -Method 'POST' -Endpoint "/profiles/$ProfileId/allowlist" -Body @{ id = $clean; active = $true }
-		if ($r.Ok) {
-			[PSCustomObject]@{ Domain = $clean; Ok = $true; Error = $null }
-		} else {
-			[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = $r.Error }
+		foreach ($domain in $Domains) {
+			$clean = "$domain".Trim()
+			if (-not $clean) {
+				[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
+				continue
+			}
+			if (-not $PSCmdlet.ShouldProcess("Allowlist: $clean", 'POST')) {
+				[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = 'WhatIf/Confirm abgebrochen' }
+				continue
+			}
+			$r = Invoke-NextDnsApi -Method 'POST' -Endpoint "/profiles/$ProfileId/allowlist" -Body @{ id = $clean; active = $true }
+			if ($r.Ok) {
+				[PSCustomObject]@{ Domain = $clean; Ok = $true; Error = $null }
+			} else {
+				[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = $r.Error }
+			}
 		}
 	}
-}
 }
 
 function Remove-NextDnsDenylistEntry {
@@ -102,27 +102,27 @@ function Remove-NextDnsDenylistEntry {
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
-	[Parameter(ValueFromPipeline)]
-	[AllowEmptyCollection()]
-	[AllowNull()]
-	[string[]]$Domains,
-	[string]$ProfileId
-)
-process {
-	if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
-	Assert-NextDnsConfigReady
-	if (-not $Domains) {
-		[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
-		return
-	}
-
-	foreach ($domain in $Domains) {
-		$clean = "$domain".Trim()
-		if (-not $clean) {
-			[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
-			continue
+		[Parameter(ValueFromPipeline)]
+		[AllowEmptyCollection()]
+		[AllowNull()]
+		[string[]]$Domains,
+		[string]$ProfileId
+	)
+	process {
+		if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
+		Assert-NextDnsConfigReady
+		if (-not $Domains) {
+			[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
+			return
 		}
-		if (-not $PSCmdlet.ShouldProcess("Denylist: $clean", 'DELETE')) {
+
+		foreach ($domain in $Domains) {
+			$clean = "$domain".Trim()
+			if (-not $clean) {
+				[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
+				continue
+			}
+			if (-not $PSCmdlet.ShouldProcess("Denylist: $clean", 'DELETE')) {
 				[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = 'WhatIf/Confirm abgebrochen' }
 				continue
 			}
@@ -144,27 +144,27 @@ function Remove-NextDnsAllowlistEntry {
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
-	[Parameter(ValueFromPipeline)]
-	[AllowEmptyCollection()]
-	[AllowNull()]
-	[string[]]$Domains,
-	[string]$ProfileId
-)
-process {
-	if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
-	Assert-NextDnsConfigReady
-	if (-not $Domains) {
-		[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
-		return
-	}
-
-	foreach ($domain in $Domains) {
-		$clean = "$domain".Trim()
-		if (-not $clean) {
-			[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
-			continue
+		[Parameter(ValueFromPipeline)]
+		[AllowEmptyCollection()]
+		[AllowNull()]
+		[string[]]$Domains,
+		[string]$ProfileId
+	)
+	process {
+		if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
+		Assert-NextDnsConfigReady
+		if (-not $Domains) {
+			[PSCustomObject]@{ Domain = ''; Ok = $false; Error = 'keine Domains uebergeben' }
+			return
 		}
-		if (-not $PSCmdlet.ShouldProcess("Allowlist: $clean", 'DELETE')) {
+
+		foreach ($domain in $Domains) {
+			$clean = "$domain".Trim()
+			if (-not $clean) {
+				[PSCustomObject]@{ Domain = $domain; Ok = $false; Error = 'leerer Eintrag' }
+				continue
+			}
+			if (-not $PSCmdlet.ShouldProcess("Allowlist: $clean", 'DELETE')) {
 				[PSCustomObject]@{ Domain = $clean; Ok = $false; Error = 'WhatIf/Confirm abgebrochen' }
 				continue
 			}
