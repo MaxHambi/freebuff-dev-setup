@@ -13,8 +13,13 @@
 [CmdletBinding()]
 param(
 	[string]$Action,
-	# Parameter fuer die Action als Hashtabelle: -ActionParameter @{ Limit = 50; Status = 'blocked' }
+	# Parameter fuer die Action als Hashtabelle (nur aus PowerShell heraus):
+	# -ActionParameter @{ Limit = 50; Status = 'blocked' }
 	[hashtable]$ActionParameter,
+	# Cross-shell-Variante (bash/cmd/JSON-Dateien): JSON-String statt
+	# Hashtabelle, da pwsh -File Argumente verbatim als Strings uebergibt
+	# und '@{...}' nicht parst: -ActionParameterJson '{"Limit":50}'
+	[string]$ActionParameterJson,
 	# Icons erzwingen (Default: Auto-Erkennung Nerd Font / ASCII-Fallback)
 	[switch]$NoIcons,
 	[switch]$Version
@@ -92,6 +97,21 @@ if (-not $entry) {
 # Im CLI-Modus keine interaktiven Prompts: Aktionen mit Prompt-Plan werden
 # direkt mit -ActionParameter (oder sensible Defaults) ausgefuehrt.
 
+# Parameter zusammenfuehren (Hashtabelle + JSON) - VOR dem Mandatory-Check,
+# damit JSON-Parameter korrekt angerechnet werden (Reihenfolge-Bug aus dem
+# Live-Smoke: Check sah nur die Hashtabelle, JSON-Parameter wurden ignoriert).
+$callParams = @{}
+if ($ActionParameter) { $callParams = $ActionParameter }
+if ($ActionParameterJson) {
+	try {
+		$parsed = $ActionParameterJson | ConvertFrom-Json -AsHashtable -ErrorAction Stop
+		foreach ($k in $parsed.Keys) { $callParams[$k] = $parsed[$k] }
+	} catch {
+		Write-Host "x ActionParameterJson ist kein gueltiges JSON: $($_.Exception.Message)" -ForegroundColor Red
+		exit 2
+	}
+}
+
 # Mandatory-Parameter der Zielfunktion pruefen (verhindert den interaktiven
 # Mandatory-Prompt, der in Non-Interactive-Hosts haengen wuerde - Befund 9).
 $fn = Get-Command $entry.Function -ErrorAction SilentlyContinue
@@ -99,20 +119,19 @@ if ($fn) {
 	$missingMandatory = @()
 	foreach ($p in $fn.Parameters.Values) {
 		$isMandatory = $p.Attributes | Where-Object { $_ -is [System.Management.Automation.ParameterAttribute] -and $_.Mandatory }
-		if ($isMandatory -and -not ($ActionParameter -and $ActionParameter.ContainsKey($p.Name))) {
+		if ($isMandatory -and -not $callParams.ContainsKey($p.Name)) {
 			$missingMandatory += $p.Name
 		}
 	}
 	if ($missingMandatory) {
 		Write-Host "x Action '$Action' benoetigt: $($missingMandatory -join ', ')" -ForegroundColor Red
-		Write-Host "  Uebergabe: -ActionParameter @{ $($missingMandatory[0]) = '<wert>' }" -ForegroundColor Yellow
+		Write-Host "  Uebergabe: -ActionParameterJson '{\"$($missingMandatory[0])\":\"<wert>\"}'" -ForegroundColor Yellow
 		exit 2
 	}
 }
 
-# Funktion aufrufen und Ergebnis auswerten (Exit-Codes)
 try {
-	$result = & $entry.Function @ActionParameter
+	$result = & $entry.Function @callParams
 
 	# Write-Funktionen liefern je-Domain-Ergebnisse: ein Fehler -> Exit 1
 	$results = @($result)

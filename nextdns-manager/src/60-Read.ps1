@@ -60,31 +60,36 @@ function Get-NextDnsBlocklists {
 function Get-NextDnsDenylist {
 	<#
 	.SYNOPSIS
-		Liefert alle Denylist-Eintraege inkl. Folgeseiten.
+		Liefert die Denylist-Eintraege.
+		WICHTIG (Live-Finding, Final-Smoke): Der Denylist-Endpoint akzeptiert
+		KEINEN limit-Parameter (400 'extraneous') - er ist NICHT paginiert
+		(Denylist ist ein eingebettetes Profil-Array). Kein Get-NextDnsAllPages!
+		Result-Form (Entries/Pages/Error) bleibt fuer Menue/Report konsistent.
 	#>
 	[CmdletBinding()]
-	param(
-		[string]$ProfileId,
-		[int]$MaxEntries = 0
-	)
+	param([string]$ProfileId)
 	if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
-	$limit = Get-NextDnsClampedLimit -Limit (Get-NextDnsConfig).LogsPageLimit -Min 10 -Max 1000
-	return (Get-NextDnsAllPages -Endpoint "/profiles/$ProfileId/denylist" -PageLimit $limit -MaxEntries $MaxEntries)
+	$r = Invoke-NextDnsApi -Method 'GET' -Endpoint "/profiles/$ProfileId/denylist"
+	if (-not $r.Ok) {
+		return [PSCustomObject]@{ Entries = @(); Pages = 0; Error = $r.Error; Truncated = $false }
+	}
+	return [PSCustomObject]@{ Entries = @($r.Data); Pages = 1; Error = $null; Truncated = $false }
 }
 
 function Get-NextDnsAllowlist {
 	<#
 	.SYNOPSIS
-		Liefert alle Allowlist-Eintraege inkl. Folgeseiten.
+		Liefert die Allowlist-Eintraege (nicht paginiert, siehe
+		Get-NextDnsDenylist).
 	#>
 	[CmdletBinding()]
-	param(
-		[string]$ProfileId,
-		[int]$MaxEntries = 0
-	)
+	param([string]$ProfileId)
 	if (-not $ProfileId) { $ProfileId = (Get-NextDnsConfig).ProfileId }
-	$limit = Get-NextDnsClampedLimit -Limit (Get-NextDnsConfig).LogsPageLimit -Min 10 -Max 1000
-	return (Get-NextDnsAllPages -Endpoint "/profiles/$ProfileId/allowlist" -PageLimit $limit -MaxEntries $MaxEntries)
+	$r = Invoke-NextDnsApi -Method 'GET' -Endpoint "/profiles/$ProfileId/allowlist"
+	if (-not $r.Ok) {
+		return [PSCustomObject]@{ Entries = @(); Pages = 0; Error = $r.Error; Truncated = $false }
+	}
+	return [PSCustomObject]@{ Entries = @($r.Data); Pages = 1; Error = $null; Truncated = $false }
 }
 
 function Test-NextDnsConnection {

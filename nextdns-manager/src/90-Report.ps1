@@ -142,12 +142,10 @@ function Export-NextDnsFullReport {
 			$writer.WriteLine('')
 			$writer.WriteLine("--- $key ---")
 			$null = Add-NextDnsReportResult -Writer $writer -Result $settings[$key] -ErrorList $errors -SectionName "SETTINGS/$key" -Depth 20
-		}
-
-		# Listen
+		}		# Listen (nicht paginiert - siehe Get-NextDnsDenylist Live-Finding)
 		foreach ($pair in @(
-				@{ Title = 'DENYLIST'; Call = { Get-NextDnsDenylist -MaxEntries 2000 } },
-				@{ Title = 'ALLOWLIST'; Call = { Get-NextDnsAllowlist -MaxEntries 2000 } }
+				@{ Title = 'DENYLIST'; Call = { Get-NextDnsDenylist } },
+				@{ Title = 'ALLOWLIST'; Call = { Get-NextDnsAllowlist } }
 			)) {
 			Write-NextDnsReportSection -Writer $writer -Title $pair.Title
 			$res = & $pair.Call
