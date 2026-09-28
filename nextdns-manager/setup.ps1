@@ -1,4 +1,4 @@
-#Requires -Version 7.4
+﻿#Requires -Version 7.4
 # setup.ps1 - Onboarding-Assistent fuer den NextDNS-Manager.
 #
 # Prueft Modul-Prereqs (SecretManagement/SecretStore), Vault-Registration
@@ -59,9 +59,9 @@ if (-not $problems) {
 # 3) Secrets
 if (-not $problems) {
 	foreach ($pair in @(
-		@{ Name = $ApiKeyName; Hint = 'NextDNS API-Key (my.nextdns.io/account, unten)' },
-		@{ Name = $ProfileKeyName; Hint = 'NextDNS Profil-ID (6 Zeichen, my.nextdns.io)' }
-	)) {
+			@{ Name = $ApiKeyName; Hint = 'NextDNS API-Key (my.nextdns.io/account, unten)' },
+			@{ Name = $ProfileKeyName; Hint = 'NextDNS Profil-ID (6 Zeichen, my.nextdns.io)' }
+		)) {
 		$secret = Get-Secret -Name $pair.Name -ErrorAction SilentlyContinue
 		if ($secret) {
 			Write-Host ("OK   Secret vorhanden: {0}" -f $pair.Name) -ForegroundColor Green

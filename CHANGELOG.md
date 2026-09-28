@@ -24,8 +24,13 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   ConfirmImpact=High), errors[] je Domain ausgewertet. Slice 5 (#41):
   TUI-Menue und CLI-Parametermodus run.ps1 (Dispatch-Tabelle, Exit-Codes
   0/1/2, Non-Interactive-fest), Nerd-Font-Erkennung mit ASCII-Fallback
-  (JetBrainsMono/Meslo/Terminess-Gruppen). Weitere Slices: Pester +
-  PSScriptAnalyzer im Verify-Gate (#42), Doku + Live-Smoke (#43).
+  (JetBrainsMono/Meslo/Terminess-Gruppen). Slice 6 (#42): Pester-Suite
+  (30 Tests, gemockt) + PSScriptAnalyzer (2 Regelsaetze: Quelle/Tests)
+  + Dauer-Smokes (4 Szenarien, 28 Checks, je Smoke eigener Prozess mit
+  30-s-Haerte-Timeout) in `scripts/test.ps1` und `npm run verify`
+  integriert; explizite Modul-Export-Liste (39 oeffentliche Funktionen,
+  Implementierungsdetails bleiben privat); CI installiert Pester 5+/
+  PSScriptAnalyzer. Verbleibend: Doku + Live-Smoke (#43).
 
 - **Repo-Ordnungsrunde (2026-09-26):** `npm run verify` als kanonisches
   Quality-Gate (Lint + tsc + Syntaxcheck + Tests + Doku-Gates; der

@@ -1,4 +1,4 @@
-# 10-Config.ps1 - typisierter Konfig-Satz fuer den NextDNS-Manager.
+﻿# 10-Config.ps1 - typisierter Konfig-Satz fuer den NextDNS-Manager.
 # Alle Werte sind immutable-by-convention (nach Initialize nur lesen).
 
 # Module-lokale Konfig; Initialize-NextDnsConfig setzt sie neu.
@@ -90,8 +90,8 @@ function Test-NextDnsConfigReady {
 	param()
 	$cfg = Get-NextDnsConfig
 	return -not [string]::IsNullOrWhiteSpace($cfg.BaseUrl) -and
-		-not [string]::IsNullOrWhiteSpace($cfg.ApiKey) -and
-		-not [string]::IsNullOrWhiteSpace($cfg.ProfileId)
+	-not [string]::IsNullOrWhiteSpace($cfg.ApiKey) -and
+	-not [string]::IsNullOrWhiteSpace($cfg.ProfileId)
 }
 
 function Assert-NextDnsConfigReady {
