@@ -60,8 +60,27 @@ if (-not $Register) {
 	exit 0
 }
 
-# ---------------------------------------------------------------- schtasks
+# ---------------------------------------------------------------- schtasks / Register-ScheduledTask
 $trigger = $triggerMap[$Task]
+
+if ($trigger -eq 'AtLogon') {
+	# AtLogon als per-user-Aufgabe: schtasks /SC ONLOGON legt eine any-user-Aufgabe
+	# an und verlangt Admin ("Zugriff verweigert"). Register-ScheduledTask mit
+	# InteractiveToken-Principal registriert ohne Hoehenrecht - siehe #32 (T4).
+	$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
+	$taskAction = New-ScheduledTaskAction -Execute 'powershell.exe' `
+		-Argument ('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "{0}"' -f $scriptPath)
+	$logonTrigger = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"
+	$settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew `
+		-ExecutionTimeLimit (New-TimeSpan -Seconds 0) `
+		-AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
+		-RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)
+	Register-ScheduledTask -TaskName $Task -Action $taskAction -Trigger $logonTrigger `
+		-Settings $settings -Principal $principal -Force | Out-Null
+	Write-Host ("Aufgabe '{0}' registriert (per-user AtLogon)." -f $Task)
+	exit 0
+}
+
 $triggerArgs = @()
 foreach ($part in $trigger -split '; ') {
 	if ($part -like 'ST=*') { $triggerArgs += @('/ST', $part.Substring(3)) }
