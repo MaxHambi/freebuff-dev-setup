@@ -1,10 +1,9 @@
-# Plan: Struktur & Ordnung in Projekt/Repo/GitHub (2026-09-29, rev. 3 — genehmigt)
+# Plan: Struktur & Ordnung in Projekt/Repo/GitHub (2026-09-29, rev. 4 — genehmigt)
 
 > Quelle: Operator-Auftrag in der Session vom 29.09.2026; rev. 2 um GitHub-
-> Aufraeumung + ROADMAP; **rev. 3 (Operator-Nachforderung)**: Implementie-
-> rungs-Audit gegen „dokumentiert aber nicht implementiert“ (Ghost-Claims) —
-> der Mirror-SHA-Header war geplant, aber nie umgesetzt worden; so etwas darf
-> nie wieder still passieren.
+> Aufraeumung + ROADMAP; rev. 3 Implementierungs-Audit gegen Ghost-Claims;
+> **rev. 4 (Operator-Pflicht): Verifikationsdisziplin** — Status-Claims nur
+> mit Beweis, Session-Ende-Verifikationspass ueber alle Gates und Claims.
 > Workflow: Issue → Issue-Comment → Branch → PR → Merge (wie bisher).
 > Master-Commits sind erlaubt, wo kein Feature-Branch existiert; wo einer
 > existiert (PR #59), laeuft der Closeout darueber.
@@ -250,6 +249,9 @@ Closeout-Plan Slice 8 verankert, wurde aber nie implementiert. Ziel: jede
 
 ## Slice 9 — Session-Closeout
 
+0. **Verifikationspass (Pflicht, rev. 4):** alle Gates + alle Status-Claims
+   dieser Session gegen Beweise geprueft; Claim→Beweis-Tabelle nach
+   `docs/sessions.md`.
 1. `/session-docs-guardian`: `docs/sessions.md`-Summary (inkl.
    Roadmap-Referenz), ADR-Statusberichte, CHANGELOG, README-Tabellen final.
 2. `/learn` (inline): nicht-offensichtliche Learnings dieser Session in
@@ -281,6 +283,13 @@ Closeout-Plan Slice 8 verankert, wurde aber nie implementiert. Ziel: jede
   erst gesetzt, wenn der Zustand bewiesen ist (Befehl + Ausgabe oder Commit-
   SHA). „Dokumentiert, aber nicht implementiert“ ist ein Prozessverstoess —
   bei Entdeckung sofort: Audit-Slice 7, Report im Issue, Fix im selben Slice.
+- **Verifikationsdisziplin (rev. 4, Operator-Pflicht):** Status-Claims
+  („erledigt/implementiert“) gelten nur mit Beweis (Befehl + Ausgabe,
+  Commit-SHA oder Testlauf) — nie aus Erinnerung oder Planung. Am Ende
+  jeder Session: vollstaendiger Verifikationspass ueber alle Gates
+  (`npm run verify`, Watchdog-Harness, `mirror-sync -Check`) und alle
+  Status-Claims der Session; Ergebnis als Claim→Beweis-Tabelle im
+  Session-Closeout (Slice 9, `docs/sessions.md`).
 - **Skill-Fallback-Kette:** Repo `.agents/skills/` → User-Level
   `~/.agents/skills/` → nur wenn dort nichts passt, mit dokumentiertem
   Re-Enable `.disabled/`.

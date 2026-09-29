@@ -142,6 +142,11 @@ Quality-Gate: `scripts/hooks/pre-push` (Lint + Syntaxcheck + Tests) laeuft
 bei jedem Push (`core.hooksPath=scripts/hooks` ist gesetzt). Conventional
 Commits und CHANGELOG `[Unreleased]` sind CI-pflichtig (Drift-Checks).
 
+Verifikationsdisziplin: Status-Claims („erledigt/implementiert“) nur mit
+Beweis setzen (Befehl+Ausgabe, Commit-SHA oder Testlauf) - nie aus
+Erinnerung. Am Session-Ende: Verifikationspass ueber alle Gates und Claims
+der Session.
+
 ---
 
 <!-- mempalace-shared-brain:start (canonical source: mempalace repo integrations/shared/coordination-protocol.md — edit there, re-render with `mempalace rules --host maxhambi --harness freebuff --project freebuff-dev-setup`) -->
