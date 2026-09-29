@@ -72,14 +72,16 @@ Room + Keywords). Dort kann ich Rooms ergänzen/ändern (siehe §4).
 | Harness | Registrierung | Status |
 |---|---|---|
 | **Claude Code** | `claude mcp add mempalace -- mempalace-mcp` (project-scoped `D:\tools-entwicklung`, Eintrag in `~/.claude.json`) | ✔ live verifiziert (✔ Connected) |
-| **Freebuff** | `D:\freebuff-dev-setup\.mcp.json` → `"mempalace": { "command": "C:\\Users\\Max Hambi\\.local\\bin\\mempalace-mcp.exe" }` | ⏳ Restart 26.09.2026 erfolgt; **Consent fehlt weiterhin** — `~/.freebuff/mcp.json` enthält keinen mempalace-Eintrag (nur supabase/rayrun/synapse/routed/claimidx), `search_mcp_tools` listet den Server nicht. Binary selbst OK (Smoke-Test: initialize + tools/list = **45 Tools**). Nächster Schritt: Consent-Prompt in der Freebuff-UI bestätigen, dann erneut prüfen |
+| **Freebuff** | `D:\freebuff-dev-setup\.mcp.json` → `"mempalace": { "command": "C:\\Users\\Max Hambi\\.local\\bin\\mempalace-mcp.exe" }` | ✔ live verifiziert (2026-09-29, nach Restart + Freigabe): Ledger-Eintrag `c7b542f82dac…` (enabled, generation 2, **45 allowedTools**), nativ `mempalace_search`/`mempalace_event_list`/`mempalace_add_drawer` verifiziert (Provenance-Match auf den Ledger-Key), `check-mempalace.ps1` **Exit 0 (GRÜN)**. Registrierung läuft über `~/.agents/mcp.json` (Freebuff-Standardpfad, **ADR-010**); die Projekt-`.mcp.json` bleibt Fallback-Doku für andere Harnesses (ADR-009). CLI-/STDIO-Fallback (ADR-008) bleibt Resilienz-Pfad |
 | **Rules-Block** | `~/.claude/CLAUDE.md` → `<!-- mempalace-shared-brain -->`-Block (88 Zeilen, gerendert mit `mempalace rules --host maxhambi --harness claude --project tools-entwicklung`) | ✔ installiert |
 | **Rules-Block (Freebuff)** | `AGENTS.md` (Projekt-Root) → `<!-- mempalace-shared-brain -->`-Block (88 Zeilen, gerendert mit `mempalace rules --host maxhambi --harness freebuff --project freebuff-dev-setup`) | ✔ installiert |
 
-> Freebuff-Nebenbefund: Die verwalteten Server (rayrun, synapse, routed,
-> claimidx) kommen aus `managed-mcp.json` (App-intern); eigene Server laufen
-> über die projekt-lokale `.mcp.json`. Approval-State liegt in
-> `~/.freebuff/mcp.json` (Hash-Keys, `configKey`, `enabled`).
+> Freebuff-Nebenbefund (2026-09-29, ADR-010): Freebuff nutzt `~/.agents/mcp.json`
+> als Standardpfad — liest UND schreibt ihn (UI-Add-Button schreibt dorthin;
+> Nachweis: Vorher/Nachher-Hashes + configKey-Mapping). Der Approval-State
+> `~/.freebuff/mcp.json` ist der Attestierungs-Ledger (Hash-Keys, `configKey`,
+> `launchHash`, `approvedManifest`) — nie manuell editieren. Die projekt-lokale
+> `.mcp.json` wird von der UI nicht gescannt und bleibt als Fallback-Doku.
 
 > **.claude-Ausschluss (User-Constraint, Issue #24):** Claude-Code-Harness-Verweise — `CLAUDE.md`-Symlink, `~/.claude.json`-Project-Key, Rules-Block-Identity `maxhambi:claude:*` — bleiben bis zur App-Migration bewusst auf dem alten Namen und wurden bei der Umbenennung nicht angefasst.
 
