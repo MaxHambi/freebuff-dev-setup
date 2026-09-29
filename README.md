@@ -326,6 +326,8 @@ pwsh -File scripts/install-task.ps1 -Task MemoryIngest -Register   # echtes Anle
 pwsh -File scripts/export-tasks.ps1
 ```
 
+Offene Arbeiten und ihre Reihenfolge: [docs/ROADMAP.md](docs/ROADMAP.md).
+
 Konventionen: Runtime-Pfade zeigen immer auf `%USERPROFILE%\.tools`, nie ins Repo.
 Die exportierten XMLs enthalten absolute Pfade dieses Rechners und dienen nur als
 Backup - nie als Installationsquelle. Destruktive Schritte (Überschreiben mit

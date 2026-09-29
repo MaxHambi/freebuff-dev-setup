@@ -79,4 +79,5 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 | `docs/mempalace-audit-2026-09-26.md` | MemPalace-Integrations-Audit vom 26.09.2026 - **historisch**: Befunde sind in ADR-007/008/010/011 und `docs/mempalace-uebersicht.md` aufgegangen |
 | `docs/sessions.md` | Session-Summaries (was wann geliefert wurde) |
 | `docs/worktree-fibel.md` | Worktree-Kurzguide (wann/wie/weg, passend zu ADR-003) |
+| `docs/ROADMAP.md` | Offene Arbeiten in bester Abarbeitungsreihenfolge (Issues #15/#19/#17 + Nachfolge) |
 | `CHANGELOG.md` | Aenderungen nach Keep a Changelog |
