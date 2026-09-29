@@ -1,4 +1,5 @@
 # #54: Slice 1 — ADR-010 (Freebuff-MCP-Pfad), ADR-011 (MemPalace-Übersicht) + Navigations-Drawer
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#54 sha256:29423c7afb77dac3c8098ae17da9c8f2ad5e34d97e8340158ddf9b6a6b457b28 synced=2026-09-29T14:09:14Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#54](https://github.com/MaxHambi/freebuff-dev-setup/issues/54).
 > Label: `ready-for-agent`. Status offen.

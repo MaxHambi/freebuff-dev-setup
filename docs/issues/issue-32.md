@@ -1,4 +1,5 @@
 # #32: Slice T2-T6: Task-Migration nie gezogen (Alt-Tasks laufen auf urspruenglichen Pfaden)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#32 sha256:74bcbc3c4325c281ffe10f498db01df0aa6720f7ea9eda7081f739ae3ee33bf8 synced=2026-09-29T14:09:08Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#32](https://github.com/MaxHambi/freebuff-dev-setup/issues/32).
 > Label: `ready-for-human`. Status: **geschlossen (completed)** 2026-09-29 — Option A auf T2-T4 gezogen, T5/T6 als alte Reste gestrichen/geloescht (Operator-Entscheidung), plan.md-Amendment im Branch.

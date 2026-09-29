@@ -1,4 +1,5 @@
 # #53: Slice 0 — Plan-Basis ready-for-human-Closeout (Branch + Plan-Datei)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#53 sha256:875e8557c7c971e7db80e87cede4de1e616da6c116edf2bb88d3cbfa6cffe7db synced=2026-09-29T14:09:13Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#53](https://github.com/MaxHambi/freebuff-dev-setup/issues/53).
 > Label: `ready-for-agent`. Status offen.

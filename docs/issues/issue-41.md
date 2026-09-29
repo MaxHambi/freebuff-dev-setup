@@ -1,4 +1,5 @@
 # #41: Slice 5: TUI-Menue + CLI-Parametermodus (run.ps1)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#41 sha256:3093c71d25ae596e0d591dc7d3374d1d29bcb950693ff55d0c88757fd0162b0b synced=2026-09-29T14:09:12Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#41](https://github.com/MaxHambi/freebuff-dev-setup/issues/41).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #48, gemerged als `d79a918`.

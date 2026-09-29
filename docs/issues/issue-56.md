@@ -1,4 +1,5 @@
 # #56: Slice 3 — Diagnose-Hinweis auf ADR-010-Weg + #29 Re-Scope (STDIO-Verifikation)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#56 sha256:fdef5724e5ae46dea2bc5b34cd7ba47d7d2568bcb965aca24127e50ec70f1f14 synced=2026-09-29T14:09:15Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#56](https://github.com/MaxHambi/freebuff-dev-setup/issues/56).
 > Label: `ready-for-agent`. Status offen.

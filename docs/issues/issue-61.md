@@ -1,4 +1,5 @@
 # #61: .agents/skills ausduennen - Repo-Skills auf Blueprint-Workflow + git/gh/github-Set beschraenken (Slice 2 Struktur-Plan)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#61 sha256:97d46b322d355f8e4baf8d1ee36487d19f883f01c27da88114c8111c10db2cc4 synced=2026-09-29T14:09:15Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#61](https://github.com/MaxHambi/freebuff-dev-setup/issues/61).
 > Label: `ready-for-agent`. Status: in Arbeit (Slice 2 des Struktur-Plans

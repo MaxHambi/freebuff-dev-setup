@@ -1,4 +1,5 @@
 # #29: Nacharbeit: mempalace_*-Tools nach Freigabe live verifizieren
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#29 sha256:bac9d838641f2372675fb1c638a3e367a6f89c1a9066d8eef8a9c9dcb64b94b4 synced=2026-09-29T14:09:06Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#29](https://github.com/MaxHambi/freebuff-dev-setup/issues/29).
 > Label: `ready-for-agent`. Status: **closed (2026-09-29, nativ verifiziert)**.

@@ -1,4 +1,5 @@
 # #26: MemPalace: Wing tools_entwicklung zu freebuff_dev_setup umbenennen + neu minen
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#26 sha256:e102d0ceff3cf36a516562e2883113886a1170a474a72ea5a8b98f3140b3e380 synced=2026-09-29T14:09:05Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#26](https://github.com/MaxHambi/freebuff-dev-setup/issues/26).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #27, gemerged als `8f520f9`.

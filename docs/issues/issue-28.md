@@ -1,4 +1,5 @@
 # #28: Freebuff-MCP-Anbindung mempalace — freigeschaltet (globaler Pfad, ADR-010)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#28 sha256:45d6e110199a188e8355adb99d34a61544628a15619645eb7ee2ffab66c77c9f synced=2026-09-29T14:09:05Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#28](https://github.com/MaxHambi/freebuff-dev-setup/issues/28).
 > Label: `ready-for-human`. Status: **closed (2026-09-29)**.
