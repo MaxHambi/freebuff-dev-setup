@@ -30,7 +30,7 @@ $taskMap = @{
 
 # Task-Name -> Trigger (ST = Start-Time). Retry-Intervall in Minuten.
 $triggerMap = @{
-	'Node Watchdog'      = 'ST=00:00; Interval=30min; Duration=1d'
+	'Node Watchdog'      = 'ST=00:00; Interval=10min; Duration=1d'
 	'NodeProcessMonitor' = 'ST=00:00; Interval=5min; Duration=1d'
 	'NpmCleanup'         = 'ST=03:00; OnceDaily'
 	'ToolingCleanup'     = 'ST=04:00; OnceDaily'
