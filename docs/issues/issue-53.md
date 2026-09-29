@@ -18,7 +18,12 @@ nachvollziehbar bleibt.
 - [x] Plan-Datei `docs/plan-2026-09-29-ready-for-human.md` (Slices 0-8,
       Workflow-Geruest, Ausgangsbefunde, Risiken)
 - [x] Mirror dieses Issues unter `docs/issues/`
-- [ ] PR in den Entwicklungsbranch
+- [x] PR in den Entwicklungsbranch — **entfällt mit Begruendung:** Slice 0 ist
+  der Bootstrap des Entwicklungsbranches selbst (Branch kann nicht per PR in
+  sich selbst gemergt werden); der Bootstrap-Commit 00269aa liegt direkt auf
+  `feat/ready-for-human-closeout`, Pre-Push-Gate (`npm run verify`) gruen.
+  Ab Slice 1 laufen alle Slices ueber eigene Slice-Branches + PR in den
+  Entwicklungsbranch.
 
 ## Akzeptanz
 
