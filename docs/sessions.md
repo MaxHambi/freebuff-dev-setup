@@ -3,6 +3,16 @@
 Kurze Summaries pro Session: was wurde geliefert, entschieden, offen gelassen.
 Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
+## 2026-09-29 - Struktur- und Ordnungs-Mission (Slices 0-9, Plan rev. 4)
+
+**Geliefert** (Branch `feat/ready-for-human-closeout`, Commits `bd8cec0`..`8c25232`, 16 Slices-Commits): Slice 1 Closeout - skills-manager-Wiederherstellung (27 Dateien), #30 mit Re-Mine-/Suchnachweis geschlossen, PR #59 auf ready; Slice 2 - `.agents/skills/` auf Repo-Scope (16 Ordner committet, 20 User-Level-Duplikate entfernt), ADR-012; **Mirror-SHA-Header implementiert** (Closeout-Ghost, `scripts/mirror-sync.ps1`, 26 Mirrors gestempelt) + Konventions-Waechter `scripts/check-conventions.ps1` (Claude-Bann + Mirror-Sync) im `npm run verify`-Gate; Slice 3 - **ADR-001-RCA abgeschlossen, alle 4 Known-Fails behoben**: H2 Locale-Bug (netstat `ABHOeREN` vs. `LISTENING` → `Get-NetTCPConnection`), H6 PID-Reuse-Vergleich invertiert (korrigiert), H7 Harness-Spawns nicht detached (Fix `detached:true`); H1/H3/H5 widerlegt; Harness 21/21 PASS 2x, #14 geschlossen; Slice 4 - Skript-Inventar (12/14 behalten, `run-hidden.vbs` geloescht - null Referenzen, whitelist `node-monitor` raus, Ruflo-XML-Archivkommentar, skill-history-Hook-Ghost korrigiert), #62; Slice 5 - Blueprint-Plaene gefuellt + Overview generiert, README-Gate-Sektion aktuell, mempalace-Audit als historisch markiert; Slice 6 - **T7 erfuellt**: Task-Inventar bewies 3 Betriebsabweichungen (Watchdog-Task lief ohne plan.md-bindendes `-Apply` = Ghost, NpmCleanup 0x41303 ohne StartWhenAvailable, 5h44m-Zombie-Instanz = 0x800710E0-Ursache) - alle behoben, install-task.ps1 vergibt jetzt `-Apply`/StartWhenAvailable/PT5M, Runtime per deploy -Force aktualisiert (Log beweist `Ports=[3000]`, `Eltern=lebt`), XML-Backups neu, plan.md T1/T2/T7 final; Slice 7 - Implementierungs-Audit: 0 offene Ghost-Claims (#63); Slice 8 - Issues #16/#6/#20 begruendet geschlossen, Loesch-Kandidaten mirror-first in #64, **`docs/ROADMAP.md`** erstellt (#15 → #19 → #17), ADR-009-Rueckverlinkung.
+
+**Entscheidungen:** Plan rev. 3 (Ghost-Audit-Slice als Pflicht) und rev. 4 (Verifikationsdisziplin: Status-Claims nur mit Beweis) nach Operator-Nachforderung; ADR-012 Skills-Layout (Repo-Scope beschraenkt, Fallback-Kette Repo → User-Level → `.disabled` nur dokumentiert).
+
+**Verifikationspass (rev. 4, Claim → Beweis):** skills-manager restauriert = `git status skills-manager/` 0 Eintraege; #30 CLOSED via gh; PR #59 isDraft=false via gh; Repo-Skills 37 Ordner = 16 Keep + 21 repo-owned; mirror-sync -Check 26/26 OK; Claude-Bann 0 getrackte Artefakte; `npm run verify` gruen (27 Conventional Commits, CHANGELOG deckt 9 feat/fix); Watchdog-Harness 21/21 PASS (2x); Live-Task Result 0 + Log-Beweise; alle 12 ADRs Accepted.
+
+**Offen:** PR #59 Merge nach Operator-Review; Loesch-Kandidaten (#21-#26, #36-#43) nach Merge mirror-first loeschen (#64); ROADMAP #15 → #19 → #17; Denylist-Roundtrip (Operator vertagt); session-end-Hook-Entscheid.
+
 ## 2026-09-27 - PR #27 gemerged, Rename-Issues geschlossen, Board aufgeraeumt
 
 **Geliefert:** Branch `chore/rename-freebuff-dev-setup` mit 15 Commits

@@ -147,6 +147,26 @@ Beweis setzen (Befehl+Ausgabe, Commit-SHA oder Testlauf) - nie aus
 Erinnerung. Am Session-Ende: Verifikationspass ueber alle Gates und Claims
 der Session.
 
+Learnings (nicht aus Code ableitbar):
+- Watchdog-Port-Erkennung MUSS `Get-NetTCPConnection -State Listen` nutzen;
+  netstat-String-Matching bricht auf nicht-englischen Windows-UIs
+  (`ABHOeREN` statt `LISTENING`) - ADR-001/H2.
+- Node-spawned Kinder ueberleben auf Windows den Eltern-Exit nie (Job-
+  Objekt), ausser mit `detached: true` - relevant fuer alle Harness,
+  die echte Waisen testen wollen (ADR-001/H7).
+- Watchdog-Task laeuft bindend mit `-Apply` (plan.md); `install-task.ps1`
+  vergibt StartWhenAvailable + ExecutionTimeLimit (Watchdog PT5M) - ohne
+  StartWhenAllowed 0x41303, mit laenger haengenden Instanzen sonst
+  IgnoreNew-0x800710E0.
+- Skills-Fallback-Kette (ADR-012): Repo `.agents/skills/` → User-Level
+  `~/.agents/skills/` → `.disabled/` nur mit dokumentiertem Re-Enable;
+  Repo-Skill loeschen nur bei existierender User-Level-Kopie.
+- Issue-Mirror-Contract: Zeile 2 traegt `mirror-sync`-SHA-Header;
+  `scripts/mirror-sync.ps1 -Update` staempelt, `-Check` ist im Verify-Gate.
+  Issue-Loeschung: mirror-first, nie umgekehrt.
+- `deploy.ps1` ohne `-Force` ueberschreibt Runtime nie (KEEP-Logik) - nach
+  Code-Fixes am Watchdog ist ein `-Force`-Deploy + Log-Stichprobe Pflicht.
+
 ---
 
 <!-- mempalace-shared-brain:start (canonical source: mempalace repo integrations/shared/coordination-protocol.md — edit there, re-render with `mempalace rules --host maxhambi --harness freebuff --project freebuff-dev-setup`) -->
