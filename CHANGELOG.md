@@ -68,6 +68,14 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Changed
 
+- **MemPalace-Diagnose: Consent-Hinweis auf ADR-010-Weg korrigiert (#28, #56)** -
+  der WARN-Text von `memory-ingest/check-mempalace.ps1` verweist jetzt auf den
+  realen Weg (Server in der Freebuff-UI hinzufuegen - schreibt
+  `~/.agents/mcp.json` - nach Neustart freigeben) statt des in dieser
+  UI-Version nicht existierenden Projekt-Consent-Prompts; #29 re-gescoped
+  mit STDIO-Baseline (search/event_list/kg_query verifiziert, kg-Parameter
+  heisst `entity`).
+
 - **Projekt-Umbenennung: `tools-entwicklung` → `freebuff-dev-setup`** (Issues #21-#26) -
   GitHub-Repo (`MaxHambi/freebuff-dev-setup`, Weiterleitung aktiv), lokale
   Remote-URL, Ordner `D:reebuff-dev-setup`, Doku-/Config-Dateien,

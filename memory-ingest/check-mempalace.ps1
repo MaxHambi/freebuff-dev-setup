@@ -4,6 +4,8 @@
 # Prueft drei Ebenen (Freebuff-Restart-Check):
 #   1. Consent-State  - ~/.freebuff/mcp.json: mempalace-Eintrag vorhanden und
 #                       enabled? Plus: Registrierungsdatei .mcp.json im Repo.
+#                       Weg laut ADR-010: Server in der Freebuff-UI hinzufuegen
+#                       (schreibt ~/.agents/mcp.json), nach Neustart freigeben.
 #   2. Binary-Smoke   - mempalace-mcp.exe via STDIO (initialize + tools/list),
 #                       mit 30-s-Timeout ueber Background-Job.
 #   3. Palast-Suche   - mempalace search mit Test-Query (CLI-Fallback-Pfad).
@@ -60,7 +62,7 @@ if (-not (Test-Path $FreebuffMcpPath)) {
 		}
 		if (-not $entry) {
 			$consentStatus = 'WARN'
-			$consentDetail = 'kein mempalace-Eintrag - Consent-Prompt fuer .mcp.json in der Freebuff-UI bestaetigen'
+			$consentDetail = 'kein mempalace-Eintrag - Server in der Freebuff-UI hinzufuegen (schreibt ~/.agents/mcp.json, ADR-010), nach Neustart freigeben'
 		} elseif (-not (Get-PropSafe $entry 'enabled')) {
 			$consentStatus = 'WARN'
 			$consentDetail = 'mempalace-Eintrag vorhanden, aber disabled'
