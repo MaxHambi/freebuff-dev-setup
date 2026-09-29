@@ -49,6 +49,10 @@ if (-not (Test-Path $scriptPath)) {
 
 $action = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
 
+# plan.md (Task-Registrierung, bindend): der Watchdog-Task laeuft mit -Apply.
+# (T2-Abweichung: die Erstregistrierung lief ohne Flag und damit nur im DryRun.)
+if ($Task -eq 'Node Watchdog') { $action += ' -Apply' }
+
 Write-Host ("Registriere '{0}' -> {1}" -f $Task, $scriptPath)
 Write-Host ("Trigger-Vorlage: {0}" -f $triggerMap[$Task])
 
@@ -93,6 +97,25 @@ foreach ($part in $trigger -split '; ') {
 
 # /F ueberschreibt existierende Definitionen; /RL LIMITED (kein Hoehenrecht)
 & schtasks.exe /Create /TN $Task /TR $action @triggerArgs /F /RL LIMITED
+if ($LASTEXITCODE -ne 0) {
+	Write-Host ("Registrierung fehlgeschlagen (schtasks Exit {0})." -f $LASTEXITCODE) -ForegroundColor Red
+	exit $LASTEXITCODE
+}
+
+# StartWhenAvailable nachziehen: schtasks kennt dafuer keinen Schalter; per
+# Set-ScheduledTask + Settings-Objekt geht es ohne Hoehenrecht. Verpasste
+# Trigger (Laptop aus, Busy) werden sonst als 0x41303/0x800710E0 gemeldet,
+# ohne nachgeholt zu werden (Slice-6-Befund). ExecutionTimeLimit: plan.md
+# bindend 5 Min fuer den Watchdog, sonst 1 h.
+try {
+	$limit = if ($Task -eq 'Node Watchdog') { (New-TimeSpan -Minutes 5) } else { (New-TimeSpan -Hours 1) }
+	$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew `
+		-ExecutionTimeLimit $limit -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+	Set-ScheduledTask -TaskName $Task -Settings $settings | Out-Null
+	Write-Host ("StartWhenAvailable + ExecutionTimeLimit gesetzt fuer '{0}'." -f $Task)
+} catch {
+	Write-Host ("WARN Settings-Nachbesserung fehlgeschlagen: {0}" -f $_) -ForegroundColor Yellow
+}
 if ($LASTEXITCODE -ne 0) {
 	Write-Host ("Registrierung fehlgeschlagen (schtasks Exit {0})." -f $LASTEXITCODE) -ForegroundColor Red
 	exit $LASTEXITCODE

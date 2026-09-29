@@ -135,13 +135,13 @@ Deploy-Task-Map/Export bereits verdrahtet.
 **Blocked by:** –
 **AC-Kernpunkte:** Kill-Kriterien 1–3 implementiert · DryRun-Default + Report ·
 Whitelist · Selbstschutz · Baum-Kill · Log-Rotation · Exit-Codes · Tests grün
-**Status:** [x] erfuellt (2026-09-24, 18/22 Assertions PASS, 4 Known-Fails akzeptiert - RCA offen, siehe docs/decisions/ADR-001)
+**Status:** [x] erfuellt (2026-09-29, nach ADR-001-Closure: 21/21 Assertions PASS ohne Known-Fails; RCA belegt 2 Watchdog-Bugs + 1 Harness-Bug, alle behoben)
 
 ### Slice T2 — deploy + Task „Node Watchdog" registrieren
 **Blocked by:** T1
 **AC-Kernpunkte:** Runtime-Kopie in `.tools\node-watchdog\` · Task alle 10 Min ·
 Start-ScheduledTask → LastTaskResult 0 · XML in `task\`
-**Status:** [x] erfuellt (2026-09-29): Task registriert (Trigger korrekt auf 10 Min), XML in `task\`, Integrationstests gruen (4 Known-Fails gem. ADR-001 akzeptiert)
+**Status:** [x] erfuellt (2026-09-29): Task registriert (Trigger korrekt auf 10 Min), XML in `task\`; NACHBESSERUNG im Slice 6: Erstregistrierung lief ohne plan.md-bindendes `-Apply` (nur DryRun) - korrigiert + Settings (StartWhenAvailable, ExecutionTimeLimit 5 Min) ergaenzt
 
 ### Slice T3 — Migration NpmCleanup + ToolingCleanup (+ run-hidden.vbs)
 **Blocked by:** –
@@ -171,7 +171,8 @@ neu registriert (war previously unregistered) · XML in `task\`
 **Blocked by:** T2–T4 (T5/T6 gestrichen, siehe Amendment)
 **AC-Kernpunkte:** alle Tasks `Ready`/läuft · `LastTaskResult 0` ·
 XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
-**Status:** [ ] offen (blocked by T2–T4; MemoryIngest als Ergänzung bereits auf diesem Stand: Ready, Result 0, XML vorhanden)
+**Status:** [x] erfuellt (2026-09-29, Slice 6): alle 5 Tasks inventarisiert - Node Watchdog Ready/Result 0 (nach Zombie-Instanz-Kill + `-Apply`-Korrektur + Settings), NpmCleanup StartWhenAvailable nachgeholt (war 0x41303, Trigger 03:00 war verpasst), ToolingCleanup/MemoryIngest Result 0, RoutedWatch laufend (AtLogon, 0x41301 = laeuft ist normal); Runtime-Kopien via deploy -Force auf den gefixten Code gebracht (Logs beweisen `Ports=[3000]`, `Eltern=lebt`); XML-Roundtrip als Backup-Garantie dokumentiert (Import-Prozedur README; Ruflo-XML = Archiv mit Kommentar-Header).
+**Status-Rest:** Open questions in blueprint/context/project-overview.md (0x800710E0-Instance-Wechsel bei IgnoreNew ist Task-Designer-Rauschen, kein Fehler - belegt durch Result 0 + saubere Log-Laeufe)
 
 ---
 
@@ -184,3 +185,4 @@ XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
 | 2026-09-25 | Ordner + Repo auf `freebuff-dev-setup` umbenannt (Issues #21-#26); Doku/Configs umgestellt. |
 | 2026-09-26 | Abgleich Repo ↔ Betrieb: MemoryIngest als Ergänzung registriert (Ready, Result 0, XML in `task\`); T2–T6 liegen noch vor der Migration (Tasks zeigen auf Alt-Pfade, Node Watchdog/NodeProcessMonitor fehlen); XML-Backups in `task\` spiegeln den Ist-Zustand. Gate-Scope: `npm run lint` + CI linten jetzt auch `memory-ingest`. |
 | 2026-09-29 | Migration T2-T4 gezogen: Node Watchdog registriert (Trigger auf 10 Min korrigiert); NpmCleanup/ToolingCleanup/RoutedWatch auf `.tools\` re-registriert (RoutedWatch vor Move gestoppt; AtLogon jetzt per-user via Register-ScheduledTask, da `schtasks /SC ONLOGON` Admin verlangt). Amendment: T5/T6 als alte Reste gestrichen — NodeProcessMonitor war nie registriert, `node-monitor\`-Suite und `ruflo-policy-rotate.mjs` gelöscht, Task `Ruflo-PolicyLedger-Rotate-workspace` deregistriert (Operator-Entscheidung, #32). |
+| 2026-09-29 | Slice 3+6 (Struktur-Plan): ADR-001-RCA geschlossen (H2 Locale-Port-Bug, H6 PID-Reuse-Invertierung, H7 Harness-Spawns; 21/21 PASS), install-task.ps1 vergibt jetzt StartWhenAvailable + ExecutionTimeLimit und registriert den Watchdog mit `-Apply` (T2-Abweichung korrigiert), Runtime per deploy -Force aktualisiert, T7-Verifikation erfuellt (alle Tasks inventarisiert, Result 0 bewiesen). |
