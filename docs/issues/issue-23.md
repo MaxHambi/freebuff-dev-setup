@@ -1,4 +1,5 @@
 # #23: Git-Remote-URL auf neuen Repo-Namen umstellen
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#23 sha256:cfcb022a771cc7721403bcfdb4ae75b192bab70019b32732054e6fd4dabf0d07 synced=2026-09-29T14:09:03Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#23](https://github.com/MaxHambi/freebuff-dev-setup/issues/23).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #27, gemerged als `8f520f9`.

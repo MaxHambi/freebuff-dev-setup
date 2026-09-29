@@ -1,4 +1,5 @@
 # #43: Slice 7: Doku, Final-Smoke und Closures
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#43 sha256:7875f557bd71f9d2eefcbf1983e054a240cfa0f4bc7db00894baf443569f2fa8 synced=2026-09-29T14:09:13Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#43](https://github.com/MaxHambi/freebuff-dev-setup/issues/43).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #50 + #51 (Live-Findings-Fix), gemerged als `0a3d4b4` + `a91d90f`. Final-Smoke: Read-only-Anteile durchgefuehrt (Protokoll in PLAN.md Abschnitt 6); Denylist-Write-Roundtrip wartet auf Operator-Consent (Reste-Vermerk im Closure-Kommentar).

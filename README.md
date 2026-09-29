@@ -14,7 +14,7 @@ MemPalace-Gedaechtnis.
 | `memory-ingest/` | Session → Palast-Ingest (Scheduled Task `MemoryIngest`, Staleness-Live-Schutz, State-Inkrement, Diagnose-Script) | ADR-007, README-Abschnitt unten |
 | `skills/` | Eigene Agent Skills (Meta-Skill `using-skills` mit Gate + Router + Hooks) | unten, Abschnitt Skills-Verzeichnis |
 | `task/` | Exportierte Task-XMLs aller eigenen Scheduled Tasks (GUI-Backup) | unten, Wiederherstellung |
-| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-009) | `docs/index.md` |
+| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-011) | `docs/index.md` |
 | `scripts/` | Deploy-/Registrierungs-Helper + Quality-Gate (`npm run verify`) | unten, Deploy & Task-Registrierung |
 
 ## Skills-Manager (`skills-manager/`)
@@ -193,8 +193,8 @@ Welcher Hook lebt wo, was loest ihn aus, welcher ist (noch) nicht aktiv:
 
 | Hook | Ort | Ausloeser | Status |
 |------|-----|-----------|--------|
-| `scripts/hooks/pre-push` (Quality-Gate) | Git `core.hooksPath=scripts/hooks` | `git push` | **aktiv** - Lint, PowerShell-Syntaxcheck, bun-Tests |
-| `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **aktiv** - schreibt `skill-history.md` + eigenen Commit |
+| `scripts/hooks/pre-push` (Quality-Gate) | Git `core.hooksPath=scripts/hooks` | `git push` | **aktiv** - ruft `npm run verify` (Lint, tsc, Syntaxcheck, Konventions-Wächter, Tests, Drift-Checks) |
+| `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **nicht registriert** (bewusst offen; `.claude/settings.json` existiert im Repo nicht — Ghost-Claim „aktiv" in der Doku korrigiert; Registrierung ist ein Operator-Entscheid, Anleitung im Skriptkopf) |
 | `context-trim/analyze.js` | `~/.claude/settings.json` (User) | PostToolUse, Matcher `Write\|Edit` | aktiv (externes Tool, nicht Teil des Repos) |
 | `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **nicht registriert** (offener Follow-up; Anleitung: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`) |
 | `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | manuell - bewusst keine Session-Auto-Registrierung |
@@ -282,15 +282,17 @@ Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
 | `powershell-script-authoring` | manuell ergaenzt | PowerShell-Skripte erstellen, pruefen, paketieren |
 | `opentui` | installiert | Terminal-UIs mit OpenTUI (Core/React/Solid, Renderer-APIs) - historisch (TUI via ADR-006 verworfen, Dep bleibt bis Backlog-Entscheid) |
 | `to-prd`, `to-issues`, `setup-matt-pocock-skills` | installiert (mattpocock/skills) | PRD-/Issue-Workflows mit GitHub-Tracker und Triage-Labels |
-| `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert | Conventional-Commits-, Branch- und PR-Pipeline |
+| `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert + Repo-Scope (`.agents/skills/`, ADR-012) | Conventional-Commits-, Branch- und PR-Pipeline |
 | `changelog-automation`, `documentation-and-adrs`, `documentation-generation-doc-generate` | installiert | Changelog (Keep a Changelog), ADR- und Doku-Generierung |
 | `interview-style-doc-building`, `brain-to-docs`, `code-documentation-doc-generate` | installiert | Interviewbasierte Doku-Erstellung (eine Frage pro Antwort, Patch statt Overwrite; README+ADR aus Vision) |
 | `skill-designer` (+ `skill-writer` als Deep-Referenz) | installiert | Canonical-Workflow fuer Skill-Authoring; skill-writer liefert evaluation-path und description-optimization |
-| `session-docs-guardian` | in Sitzung erstellt (nicht im Repo) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` noch nicht registriert (siehe Hook-Landkarte) |
-| `gm`, `gm-continue` | installiert - **Eval offen (Issue #20)** | Verb-Daemon-Treiber mit eigener Runtime (`agentplug-runner.exe`, `plugkit.wasm`); Nutzung erst nach Eval-Empfehlung |
+| `session-docs-guardian` | eigenes Repo (`.agents/skills/session-docs-guardian/`, ADR-012) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` noch nicht registriert (siehe Hook-Landkarte) |
+| `gm`, `gm-continue` | installiert (nur User-Level; Repo-Kopien per ADR-012 entfernt) - **Eval offen (Issue #20)** | Verb-Daemon-Treiber mit eigener Runtime (`agentplug-runner.exe`, `plugkit.wasm`); Nutzung erst nach Eval-Empfehlung |
 | `wfgy-method`, `polaris-protocol`, `polaris-goal-compiler`, `fifth-dimension-engine` | installiert | WFGY 5.0 Reasoning-Disziplin: Drift-Reduktion, Goal-Compiler, Problem-Routen |
 | `agent-memory` | installiert | TencentDB Agent Memory (MemoryCore/MemoryHub/MemoryProxy/MemoryPanel) - persistenter Cross-Session-Speicher |
 | `aihubmixapi` | installiert | AIHubMix-API-Integration: SDK-Code, Modellwahl, Live-Quellen |
+| `agents-md`, `analyze-project`, `brainstorming`, `idea-refine`, `security-bluebook-builder` | Repo-Scope (`.agents/skills/`, ADR-012) | Session-/Projekt-Skills ohne User-Level-Kopie: Agent-Doku-Schlankeit, Session-/Repo-Analyse, Ideenausarbeitung, Security-Dossier |
+| `git-advanced-workflows`, `github`, `github-actions-advanced`, `github-actions-templates`, `github-presence`, `github-workflow-automation`, `gitops-workflow`, `blueprint` | Repo-Scope (`.agents/skills/`, ADR-012) | Git/GitHub-Workflows + Multi-PR-Bauplan-Generator (blueprint) |
 
 Deploy-Ziel eigener Skills: `%USERPROFILE%.agentsskills<name>`, danach
 `skills-sync.ps1` oder MCP `scan_skills` (siehe ADR-002: `scan_skills` ist
@@ -303,9 +305,9 @@ Reihenfolge: erst `deploy`, dann `install-task`, dann `export-tasks`.
 
 | Helper | Zweck |
 |---|---|
-| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `node-monitor`, `maintenance`, `routed-watch`, `ruflo-policy-rotate`, `memory-ingest`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). `*.log`-Dateien werden nie kopiert (gehören der laufenden Task). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
-| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NodeProcessMonitor`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`, `MemoryIngest`), echtes Anlegen/Überschreiben nur mit `-Register` (schtasks, `MemoryIngest` = taeglich 04:30 + 4 h-Wiederholung). Ohne `-Register` nur Vorschau von Aktion und Trigger. |
-| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`), inkl. `Ruflo-PolicyLedger-Rotate-workspace` und `MemoryIngest`. Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). |
+| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `maintenance`, `routed-watch`, `memory-ingest`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). `*.log`-Dateien werden nie kopiert (gehören der laufenden Task). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
+| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`, `MemoryIngest`), echtes Anlegen/Überschreiben nur mit `-Register` (schtasks, `MemoryIngest` = taeglich 04:30 + 4 h-Wiederholung; AtLogon per-user via `Register-ScheduledTask`). Ohne `-Register` nur Vorschau von Aktion und Trigger. |
+| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`). Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). `task/Ruflo-PolicyLedger-Rotate-workspace.xml` ist ein bewusstes Archiv des 2026-09-29 deregistrierten Fremd-Tasks (plan.md-Amendment) und wird nicht überschrieben. |
 
 Beispielaufrufe:
 
@@ -324,6 +326,8 @@ pwsh -File scripts/install-task.ps1 -Task MemoryIngest -Register   # echtes Anle
 pwsh -File scripts/export-tasks.ps1
 ```
 
+Offene Arbeiten und ihre Reihenfolge: [docs/ROADMAP.md](docs/ROADMAP.md).
+
 Konventionen: Runtime-Pfade zeigen immer auf `%USERPROFILE%\.tools`, nie ins Repo.
 Die exportierten XMLs enthalten absolute Pfade dieses Rechners und dienen nur als
 Backup - nie als Installationsquelle. Destruktive Schritte (Überschreiben mit
@@ -331,5 +335,15 @@ Backup - nie als Installationsquelle. Destruktive Schritte (Überschreiben mit
 
 ## Qualitätsgate
 
-`npm run lint` (Biome) · `npm run syntaxcheck` (PS-Parser) · `npm test`
-erzwungen durch `scripts/hooks/pre-push` (aktivieren: `git config core.hooksPath scripts/hooks`).
+`npm run verify` ist das kanonische Gate und deckt alles ab: Lint (Biome),
+Typecheck (`tsc --noEmit`), PowerShell-Syntaxcheck (62+ Skripte),
+Konventions-Wächter (`scripts/check-conventions.ps1`: Claude-Bann +
+Mirror-Sync-Header), Repo-Tests (nextdns-Pester + Smokes, Watchdog-DryRun),
+Bun-Tests (skills-manager + memory-ingest) und die Drift-Checks für
+Conventional Commits + CHANGELOG. Erzwungen durch `scripts/hooks/pre-push`
+(`core.hooksPath=scripts/hooks` ist gesetzt).
+
+Zusaetzlich (Windows, manuell): `pwsh -File node-watchdog/run-tests.ps1`
+(Watchdog-Integrationstests, 21/21 nach ADR-001-Closure) und
+`pwsh -File scripts/mirror-sync.ps1 -Check` (Mirror-Integritaet, auch im
+Verify-Gate enthalten).

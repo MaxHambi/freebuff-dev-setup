@@ -1,4 +1,5 @@
 # #22: GitHub-Repo MaxHambi/tools-entwicklung zu MaxHambi/freebuff-dev-setup umbenennen
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#22 sha256:09067752ae92612161ec8dfb709743c8ddb554e7714a75b654be13c6f648523c synced=2026-09-29T14:09:02Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#22](https://github.com/MaxHambi/freebuff-dev-setup/issues/22).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #27, gemerged als `8f520f9`.

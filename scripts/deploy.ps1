@@ -12,7 +12,7 @@ Set-StrictMode -Version Latest
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $targetRoot = Join-Path $env:USERPROFILE '.tools'
-$folders = @('node-watchdog', 'node-monitor', 'maintenance', 'routed-watch', 'ruflo-policy-rotate', 'memory-ingest')
+$folders = @('node-watchdog', 'maintenance', 'routed-watch', 'memory-ingest')
 
 foreach ($folder in $folders) {
 	$src = Join-Path $repoRoot $folder

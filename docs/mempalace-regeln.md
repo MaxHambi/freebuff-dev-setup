@@ -69,4 +69,4 @@ ins KG, nicht in einen Freitext-Drawer.
 - Audit + Befunde: `docs/mempalace-audit-2026-09-26.md`
 - Betrieb/Konfiguration: `Mem-Palace.md` (privat)
 - ADR-007 (Ingest), ADR-008 (Fallback/Diagnose), ADR-009 (`.mcp.json` lokal)
-- Offene Lücken: #28 (Consent), #29 (Live-Verifikation), #30 (`memory_ingest`-Room), #31 (Drawer + KG-Fakten)
+- Offene Lücken: keine (Stand 2026-09-29: #28/#29/#30/#31 abgeschlossen — nativer MCP-Pfad nach ADR-010, Room-Mapping verifiziert per Re-Mine)

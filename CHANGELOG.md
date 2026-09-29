@@ -9,6 +9,22 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
+- **Struktur-und-Ordnungs-Mission (2026-09-29, Plan:
+  `docs/plan-2026-09-29-struktur-ordnung.md`, rev. 3)**: Closeout der
+  ready-for-human-Reste - #30 (Room-Mapping `memory_ingest` in
+  `mempalace.yaml`) per Re-Mine- und Suchnachweis geschlossen;
+  Issue-Mirror-Index auf den GitHub-Stand korrigiert (#28/#29/#31/#32
+  waren bereits geschlossen, nur #30 war noch offen).
+  **Repo-Hygiene-Mechaniken neu:** Mirror-SHA-Header (Closeout-Versprechen
+  nachimplementiert, `scripts/mirror-sync.ps1`, alle 23 Mirrors gegen
+  GitHub-Bodies gestempelt) + Konventions-Wächter
+  (`scripts/check-conventions.ps1`: Claude-Bann + Mirror-Sync-Pflicht,
+  im `npm run verify`-Gate); Skills-Layout-Entscheid ADR-012 (Repo-Scope
+  beschraenkt, User-Level-Bibliothek, Fallback-Kette), 20 User-Level-
+  Duplikate aus `.agents/skills/` entfernt (#61); Implementierungs-Audit
+  gegen „dokumentiert aber nicht implementiert" als eigener Slice 7
+  (Ghost-Claims), Checkbox-Wahrheitspflicht im Plan verschärft.
+
 - **NextDNS-Manager-Modul (`nextdns-manager/`)**: Onboarding des Desktop-
   Monolith-Scripts als PowerShell-Modul-Projekt (Issues #36-#43, Plan:
   `nextdns-manager/PLAN.md`). Slice 1 (#37): Modul-Geruest (psd1/psm1),
@@ -67,6 +83,26 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   MCP-Consent) und ADR-009 (`.mcp.json` projekt-lokal).
 
 ### Changed
+
+- **Task-Migration abgeschlossen (plan.md T2-T4, #32)** - Node Watchdog
+  registriert (Trigger in `install-task.ps1` auf 10 Min korrigiert),
+  NpmCleanup/ToolingCleanup/RoutedWatch auf `%USERPROFILE%\.tools\`
+  umgezogen (RoutedWatch vor Move gestoppt inkl. innerem Watcher;
+  AtLogon-Registrierung jetzt per-user via `Register-ScheduledTask`, da
+  `schtasks /SC ONLOGON` eine any-user-Aufgabe anlegt und Admin verlangt).
+  plan.md-Amendment: T5/T6 (NodeProcessMonitor, Ruflo-PolicyLedger-Rotate)
+  als alte Reste gestrichen und geloescht (Operator-Entscheidung);
+  `maintenance/` und `routed-watch/` wurden aus den Alt-Pfaden ins Repo
+  übernommen, XML-Backups aktualisiert, XML-Roundtrip an NpmCleanup
+  verifiziert.
+
+- **MemPalace-Diagnose: Consent-Hinweis auf ADR-010-Weg korrigiert (#28, #56)** -
+  der WARN-Text von `memory-ingest/check-mempalace.ps1` verweist jetzt auf den
+  realen Weg (Server in der Freebuff-UI hinzufuegen - schreibt
+  `~/.agents/mcp.json` - nach Neustart freigeben) statt des in dieser
+  UI-Version nicht existierenden Projekt-Consent-Prompts; #29 re-gescoped
+  mit STDIO-Baseline (search/event_list/kg_query verifiziert, kg-Parameter
+  heisst `entity`).
 
 - **Projekt-Umbenennung: `tools-entwicklung` → `freebuff-dev-setup`** (Issues #21-#26) -
   GitHub-Repo (`MaxHambi/freebuff-dev-setup`, Weiterleitung aktiv), lokale
@@ -168,6 +204,15 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   Wann Worktree, Benennungsschema, PR-Sequenz, Cleanup, Zustandschecks.
 
 ### Fixed
+
+- **Watchdog: alle 4 Known-Fails behoben, ADR-001-RCA abgeschlossen (#14)** -
+  Locale-Bug im Port-Mapping (netstat liefert auf deutschem Windows
+  `ABHOeREN` statt `LISTENING`, Port-Map war immer leer → jetzt
+  `Get-NetTCPConnection -State Listen`), invertierte PID-Reuse-Heuristik
+  (flaggte Prozesse mit lebendem Elternteil als verwaist → Vergleich
+  korrigiert) und Harness-Test-Spawns ohne `detached: true` (Node-
+  Job-Objekt raeumte Test-Kinder beim Wrapper-Exit ab). Harness laeuft
+  21/21 PASS ohne Known-Fail-Marken (2x verifiziert); H1/H3/H5 widerlegt.
 
 - PowerShell-Repo-Scripts (`syntaxcheck`, `deploy`, `install-task`,
   `export-tasks`) in der package.json wiederhergestellt, die beim Anlegen des

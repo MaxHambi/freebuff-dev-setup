@@ -34,6 +34,7 @@ The workflow is defined by the local skills and context files below.
 - `blueprint/context/current-feature.md` - the one feature, fix, or rollback being built right now
 - `docs/issue-fibel.md` - Issue-Layouts, Label-Statusuebergaenge und Handoff-Regeln (Schwester der Worktree-Fibel)
 - `docs/mempalace-regeln.md` - verbindliche MemPalace-Regeln (Recall-Protokoll, Drawer-/KG-Konvention, Ingest, Diagnose)
+- `docs/mempalace-uebersicht.md` - Inhaltsverzeichnis des MemPalace-Palasts (was liegt wo; Einstieg auch via `mempalace search "Palast-Index"`, siehe ADR-011)
 
 ## Workflow
 
@@ -127,17 +128,44 @@ Bun/TypeScript-Teil (skills-manager) und PowerShell-Operations-Teil:
 - Lint: `npx biome lint skills-manager --max-diagnostics=none` und `npx biome lint memory-ingest --max-diagnostics=none`
 - Typecheck: `bunx tsc --noEmit`
 - PowerShell-Syntaxcheck: `npm run syntaxcheck` (alle Repo-PS-Skripte)
+- Konventions-Wächter: `pwsh -File scripts/check-conventions.ps1` (Claude-Bann: keine getrackten CLAUDE.md/.claude-Artefakte + Mirror-Sync-Header-Pflicht)
 - Analyse-CLI: `bun run skills-manager/src/analyze.ts [--root <pfad>] [--quiet]`
 - Doku-Gates (CI-identisch): `bun run skills-manager/scripts/check-commits.ts --base origin/master` und `check-changelog.ts --base origin/master`
 - Watchdog-Integrationstests (nur Windows): `pwsh -File node-watchdog/run-tests.ps1`
 - Memory-Ingest (Session -> Palast): `pwsh -File memory-ingest/ingest.ps1` (DryRun: `-DryRun`; Task `MemoryIngest` via `install-task.ps1 -Register`) - Details in README-Abschnitt "Memory-Ingest"
 - MemPalace-Diagnose (Consent/Binary/Suche): `pwsh -File memory-ingest/check-mempalace.ps1` (Exit 0/1/2)
+- Issue-Mirror-Sync: `pwsh -File scripts/mirror-sync.ps1 [-Update]` (SHA-256-Header je Mirror gegen GitHub-Issue-Body; `-Check` schlägt bei Drift/fehlendem Header fehl)
 - Deploy-Pipeline (Reihenfolge): `npm run deploy` → `npm run install-task` → `npm run export-tasks`
 - **Verify (kanonisches Gate, alles oben zusammen):** `npm run verify` - der Pre-Push-Hook (`scripts/hooks/pre-push`) ruft genau diesen Befehl
 
 Quality-Gate: `scripts/hooks/pre-push` (Lint + Syntaxcheck + Tests) laeuft
 bei jedem Push (`core.hooksPath=scripts/hooks` ist gesetzt). Conventional
 Commits und CHANGELOG `[Unreleased]` sind CI-pflichtig (Drift-Checks).
+
+Verifikationsdisziplin: Status-Claims („erledigt/implementiert“) nur mit
+Beweis setzen (Befehl+Ausgabe, Commit-SHA oder Testlauf) - nie aus
+Erinnerung. Am Session-Ende: Verifikationspass ueber alle Gates und Claims
+der Session.
+
+Learnings (nicht aus Code ableitbar):
+- Watchdog-Port-Erkennung MUSS `Get-NetTCPConnection -State Listen` nutzen;
+  netstat-String-Matching bricht auf nicht-englischen Windows-UIs
+  (`ABHOeREN` statt `LISTENING`) - ADR-001/H2.
+- Node-spawned Kinder ueberleben auf Windows den Eltern-Exit nie (Job-
+  Objekt), ausser mit `detached: true` - relevant fuer alle Harness,
+  die echte Waisen testen wollen (ADR-001/H7).
+- Watchdog-Task laeuft bindend mit `-Apply` (plan.md); `install-task.ps1`
+  vergibt StartWhenAvailable + ExecutionTimeLimit (Watchdog PT5M) - ohne
+  StartWhenAllowed 0x41303, mit laenger haengenden Instanzen sonst
+  IgnoreNew-0x800710E0.
+- Skills-Fallback-Kette (ADR-012): Repo `.agents/skills/` → User-Level
+  `~/.agents/skills/` → `.disabled/` nur mit dokumentiertem Re-Enable;
+  Repo-Skill loeschen nur bei existierender User-Level-Kopie.
+- Issue-Mirror-Contract: Zeile 2 traegt `mirror-sync`-SHA-Header;
+  `scripts/mirror-sync.ps1 -Update` staempelt, `-Check` ist im Verify-Gate.
+  Issue-Loeschung: mirror-first, nie umgekehrt.
+- `deploy.ps1` ohne `-Force` ueberschreibt Runtime nie (KEEP-Logik) - nach
+  Code-Fixes am Watchdog ist ein `-Force`-Deploy + Log-Stichprobe Pflicht.
 
 ---
 

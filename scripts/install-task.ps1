@@ -21,7 +21,6 @@ $runtimeRoot = Join-Path $env:USERPROFILE '.tools'
 # Task-Name -> Script-Pfad (relativ zum Runtime-Root)
 $taskMap = @{
 	'Node Watchdog'        = 'node-watchdog\node-watchdog.ps1'
-	'NodeProcessMonitor'   = 'node-monitor\node-monitor.ps1'
 	'NpmCleanup'           = 'maintenance\npm-cleanup.ps1'
 	'ToolingCleanup'       = 'maintenance\tooling-cleanup.ps1'
 	'RoutedWatch'          = 'routed-watch\watch-wrapper.ps1'
@@ -30,8 +29,7 @@ $taskMap = @{
 
 # Task-Name -> Trigger (ST = Start-Time). Retry-Intervall in Minuten.
 $triggerMap = @{
-	'Node Watchdog'      = 'ST=00:00; Interval=30min; Duration=1d'
-	'NodeProcessMonitor' = 'ST=00:00; Interval=5min; Duration=1d'
+	'Node Watchdog'      = 'ST=00:00; Interval=10min; Duration=1d'
 	'NpmCleanup'         = 'ST=03:00; OnceDaily'
 	'ToolingCleanup'     = 'ST=04:00; OnceDaily'
 	'RoutedWatch'        = 'AtLogon'
@@ -51,6 +49,10 @@ if (-not (Test-Path $scriptPath)) {
 
 $action = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
 
+# plan.md (Task-Registrierung, bindend): der Watchdog-Task laeuft mit -Apply.
+# (T2-Abweichung: die Erstregistrierung lief ohne Flag und damit nur im DryRun.)
+if ($Task -eq 'Node Watchdog') { $action += ' -Apply' }
+
 Write-Host ("Registriere '{0}' -> {1}" -f $Task, $scriptPath)
 Write-Host ("Trigger-Vorlage: {0}" -f $triggerMap[$Task])
 
@@ -60,8 +62,27 @@ if (-not $Register) {
 	exit 0
 }
 
-# ---------------------------------------------------------------- schtasks
+# ---------------------------------------------------------------- schtasks / Register-ScheduledTask
 $trigger = $triggerMap[$Task]
+
+if ($trigger -eq 'AtLogon') {
+	# AtLogon als per-user-Aufgabe: schtasks /SC ONLOGON legt eine any-user-Aufgabe
+	# an und verlangt Admin ("Zugriff verweigert"). Register-ScheduledTask mit
+	# InteractiveToken-Principal registriert ohne Hoehenrecht - siehe #32 (T4).
+	$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
+	$taskAction = New-ScheduledTaskAction -Execute 'powershell.exe' `
+		-Argument ('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "{0}"' -f $scriptPath)
+	$logonTrigger = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"
+	$settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew `
+		-ExecutionTimeLimit (New-TimeSpan -Seconds 0) `
+		-AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
+		-RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)
+	Register-ScheduledTask -TaskName $Task -Action $taskAction -Trigger $logonTrigger `
+		-Settings $settings -Principal $principal -Force | Out-Null
+	Write-Host ("Aufgabe '{0}' registriert (per-user AtLogon)." -f $Task)
+	exit 0
+}
+
 $triggerArgs = @()
 foreach ($part in $trigger -split '; ') {
 	if ($part -like 'ST=*') { $triggerArgs += @('/ST', $part.Substring(3)) }
@@ -76,6 +97,25 @@ foreach ($part in $trigger -split '; ') {
 
 # /F ueberschreibt existierende Definitionen; /RL LIMITED (kein Hoehenrecht)
 & schtasks.exe /Create /TN $Task /TR $action @triggerArgs /F /RL LIMITED
+if ($LASTEXITCODE -ne 0) {
+	Write-Host ("Registrierung fehlgeschlagen (schtasks Exit {0})." -f $LASTEXITCODE) -ForegroundColor Red
+	exit $LASTEXITCODE
+}
+
+# StartWhenAvailable nachziehen: schtasks kennt dafuer keinen Schalter; per
+# Set-ScheduledTask + Settings-Objekt geht es ohne Hoehenrecht. Verpasste
+# Trigger (Laptop aus, Busy) werden sonst als 0x41303/0x800710E0 gemeldet,
+# ohne nachgeholt zu werden (Slice-6-Befund). ExecutionTimeLimit: plan.md
+# bindend 5 Min fuer den Watchdog, sonst 1 h.
+try {
+	$limit = if ($Task -eq 'Node Watchdog') { (New-TimeSpan -Minutes 5) } else { (New-TimeSpan -Hours 1) }
+	$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew `
+		-ExecutionTimeLimit $limit -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+	Set-ScheduledTask -TaskName $Task -Settings $settings | Out-Null
+	Write-Host ("StartWhenAvailable + ExecutionTimeLimit gesetzt fuer '{0}'." -f $Task)
+} catch {
+	Write-Host ("WARN Settings-Nachbesserung fehlgeschlagen: {0}" -f $_) -ForegroundColor Yellow
+}
 if ($LASTEXITCODE -ne 0) {
 	Write-Host ("Registrierung fehlgeschlagen (schtasks Exit {0})." -f $LASTEXITCODE) -ForegroundColor Red
 	exit $LASTEXITCODE

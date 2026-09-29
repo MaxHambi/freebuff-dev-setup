@@ -1,4 +1,5 @@
 # #38: Slice 2: Core-Schicht (Api/Auth/ErrorHandling/Pagination/Config)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#38 sha256:ab4d65f795ef1caff30cb53071c08802157af32209eb66f14d9aa4d240f3f5fd synced=2026-09-29T14:09:10Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#38](https://github.com/MaxHambi/freebuff-dev-setup/issues/38).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #45, gemerged als `3a07e98`.

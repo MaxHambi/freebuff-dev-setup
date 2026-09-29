@@ -2,7 +2,10 @@
 
 ## Status
 
-Accepted
+Accepted — der tatsächliche Freigabe-Weg (globaler Pfad `~/.agents/mcp.json`
+via Freebuff-UI, ADR-010) hat den hier beschriebenen Projekt-Consent-Fluss
+inzwischen ersetzt; die Ignore-Entscheidung für `.mcp.json` bleibt unverändert
+gültig.
 
 ## Date
 

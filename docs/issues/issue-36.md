@@ -1,4 +1,5 @@
 # #36: PRD/Umbrella: NextDNS-Manager - Onboarding, Refactor, Verification
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#36 sha256:c58ca87e65b1be12b2fa4812d4fa3a7f3ca8ae12e352306686ede347058e643b synced=2026-09-29T14:09:08Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#36](https://github.com/MaxHambi/freebuff-dev-setup/issues/36).
 > Label: `needs-triage`. Status: **geschlossen (completed)** - Mission abgeschlossen; alle 7 Slices gemerged (#44-#51), alle 10 PLAN.md-Befunde behoben, Reste-Vermerk (Write-Roundtrip) in #43.

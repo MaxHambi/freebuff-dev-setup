@@ -1,4 +1,5 @@
 # #24: Doku/Configs: tools-entwicklung zu freebuff-dev-setup umbenennen
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#24 sha256:5c7a7bb0bc6fc907d31aafda979e54a8a815b18287b78af678e9149a9ba2fdc7 synced=2026-09-29T14:09:04Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#24](https://github.com/MaxHambi/freebuff-dev-setup/issues/24).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #27, gemerged als `8f520f9`.

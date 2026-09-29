@@ -11,13 +11,17 @@
 #   T6 Log-Rotation (>5 MB)
 #
 # Orphan-Erzeugung ohne cmd-Quoting-Hoelle: Node-Wrapper starten die Kandidaten
-# ueber Env-Variablen (WD_*-Scripts), der Wrapper wird dann per taskkill (ohne
-# /T) beendet -> der gestartete Node-Prozess ist verwaist.
+# ueber Env-Variablen (WD_*-Scripts) DETACHED (detached:true) - sonst raeumt
+# Nodes Windows-Job-Objekt die Enkel beim Wrapper-Exit ab (PROBE E1/E3,
+# ADR-001/H7: nicht-detached Kinder ueberleben den Eltern-Exit auf dieser
+# Maschine nie). Der Wrapper wird dann per taskkill (ohne /T) beendet -> der
+# gestartete Node-Prozess ist verwaist.
 #
 # Exit 1 wenn ein Test fehlschlaegt. Auf Nicht-Windows: SKIP (Exit 0).
 
 param(
-	[switch]$SkipApply
+	[switch]$SkipApply,
+	[switch]$RcaDump
 )
 
 $ErrorActionPreference = 'Stop'
@@ -105,12 +109,37 @@ function Test-Alive {
 	return $null -ne (Get-Process -Id $PidToCheck -ErrorAction SilentlyContinue)
 }
 
+# RCA-Dump (ADR-001): Kandidatenzeilen + Elternkette der Test-Prozesse sichtbar
+# machen. Nur mit -RcaDump, veraendert keine Assertions.
+function Show-RcaDump {
+	param([string]$Label, [string]$LogFile)
+	if (-not $RcaDump) { return }
+	Write-Host ("--- RCA-DUMP [{0}] ---" -f $Label) -ForegroundColor Cyan
+	Write-Host ("treePids={0} keepPids={1} portPids={2}" -f ($treePids -join ','), ($keepPids -join ','), ($portPids -join ','))
+	foreach ($p in @($treePids) + @($keepPids) + @($portPids)) {
+		$alive = Test-Alive $p
+		$ci = Get-CimInstance Win32_Process -Filter "ProcessId = $p" -ErrorAction SilentlyContinue
+		$parent = '?'
+		if ($ci) {
+			$pci = Get-CimInstance Win32_Process -Filter "ProcessId = $($ci.ParentProcessId)" -ErrorAction SilentlyContinue
+			$parent = if ($pci) { "lebt (gestartet $($pci.CreationDate))" } else { 'tot' }
+		}
+		Write-Host ("  PID {0}: alive={1} parent={2}" -f $p, $alive, $parent)
+	}
+	if (Test-Path $LogFile) {
+		Write-Host '  Log-KANDIDAT-Zeilen:'
+		Get-Content $LogFile | Where-Object { $_ -match 'KANDIDAT' } | ForEach-Object { Write-Host ("    {0}" -f $_) }
+	} else {
+		Write-Host '  Log fehlt!'
+	}
+}
+
 # Node-Scripts ueber Env-Variablen reichen (keine Anfuehrungszeichen im Script noetig)
 $env:WD_TREE_CHILD = "/*wd-selftest-tree*/require('child_process').spawn(process.execPath,['-e',process.env.WD_GRAND_CHILD],{stdio:'ignore'});setInterval(function(){},2147483647);"
 $env:WD_GRAND_CHILD = "/*wd-selftest-tree*/setInterval(function(){},2147483647);"
 $env:WD_KEEP_CHILD = "/*wd-selftest-keep*/setInterval(function(){},2147483647);"
-$wrapperTreeScript = "/*wd-selftest-wrapper*/require('child_process').spawn(process.execPath,['-e',process.env.WD_TREE_CHILD],{stdio:'ignore'});setInterval(function(){},2147483647);"
-$wrapperKeepScript = "/*wd-selftest-wrapper*/require('child_process').spawn(process.execPath,['-e',process.env.WD_KEEP_CHILD],{stdio:'ignore'});setInterval(function(){},2147483647);"
+$wrapperTreeScript = "/*wd-selftest-wrapper*/require('child_process').spawn(process.execPath,['-e',process.env.WD_TREE_CHILD],{stdio:'ignore',detached:true});setInterval(function(){},2147483647);"
+$wrapperKeepScript = "/*wd-selftest-wrapper*/require('child_process').spawn(process.execPath,['-e',process.env.WD_KEEP_CHILD],{stdio:'ignore',detached:true});setInterval(function(){},2147483647);"
 
 try {
 	# ---------- T1: DryRun-Default ----------
@@ -156,9 +185,10 @@ try {
 	$rc = Invoke-Watchdog (@($baseArgs) + @('-WhitelistPath', $wlA, '-MaxAgeHours', '8', '-IdleCpuSeconds', '120'))
 	Assert-True ($rc -eq 0) 'T2 DryRun Exit 0' ("Exit war $rc")
 	$candsA = @(Get-CandidatePids -LogFile $log)
-	Assert-True ([bool]($candsA -contains $treePids[0])) 'T2 Orphan erkannt (Tree-Eltern)' -KnownFail
+	Show-RcaDump -Label 'nach T2/T3-DryRun (candsA)' -LogFile $log
+	Assert-True ([bool]($candsA -contains $treePids[0])) 'T2 Orphan erkannt (Tree-Eltern)'
 	$portLine = (Get-Content $log) | Where-Object { $_ -match ('KANDIDAT PID {0} ' -f $portPids[0]) }
-	Assert-True ([bool]($null -ne $portLine -and ($portLine -match 'stale-port'))) 'T3 Stale-Port erkannt (PortStaleHours 0)' -KnownFail
+	Assert-True ([bool]($null -ne $portLine -and ($portLine -match 'stale-port'))) 'T3 Stale-Port erkannt (PortStaleHours 0)'
 
 	# Extra-Kandidaten (echte System-Leftovers) -> schuetzen, nie anfassen
 	$ours = @(); $ours += $treePids; $ours += $keepPids; $ours += $portPids
@@ -178,7 +208,8 @@ try {
 	Assert-True (-not [bool]($candsB | Where-Object { $_ -eq $keepPids[0] })) 'T4 Whitelist-Prozess NICHT Kandidat'
 	$rc = Invoke-Watchdog (@($baseArgs) + @('-WhitelistPath', $wlB, '-IncludeWhitelisted'))
 	$candsC = @(Get-CandidatePids -LogFile $log)
-	Assert-True ([bool]($candsC | Where-Object { $keepPids -contains $_ })) 'T4 -IncludeWhitelisted listet Whitelist-Prozess' -KnownFail
+	Show-RcaDump -Label 'nach T4-Override (candsC)' -LogFile $log
+	Assert-True ([bool]($candsC | Where-Object { $keepPids -contains $_ })) 'T4 -IncludeWhitelisted listet Whitelist-Prozess'
 	Assert-True ((Get-Content $log -Raw) -match 'WHITELISTED-override') 'T4 Override-Markierung im Report'
 
 	# ---------- T5: Apply inkl. Baum (nur eigene Kandidaten) ----------
@@ -188,12 +219,13 @@ try {
 		$rc = Invoke-Watchdog (@($baseArgs) + @('-WhitelistPath', $wlB, '-Apply'))
 		Assert-True ($rc -eq 0) 'T5 Apply Exit 0' ("Exit war $rc")
 		Start-Sleep -Milliseconds 1500
+		Show-RcaDump -Label 'nach T5-Apply' -LogFile $log
 		Assert-True (-not (Test-Alive $treePids[0])) 'T5 Orphan-Eltern beendet'
 		if ($treePids.Count -ge 2) {
 			Assert-True (-not (Test-Alive $treePids[$treePids.Count - 1])) 'T5 Kind im Baum beendet (taskkill /T)'
 		}
 		Assert-True (-not (Test-Alive $portPids[0])) 'T5 Port-Server beendet'
-		Assert-True (Test-Alive $keepPids[0]) 'T5 Whitelist-Prozess ueberlebt Apply' -KnownFail
+		Assert-True (Test-Alive $keepPids[0]) 'T5 Whitelist-Prozess ueberlebt Apply'
 		$extrasAlive = $true
 		foreach ($extra in $extras) { if (-not (Test-Alive $extra)) { $extrasAlive = $false } }
 		Assert-True $extrasAlive 'T5 externe Kandidaten unangetastet'
