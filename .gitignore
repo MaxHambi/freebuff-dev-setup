@@ -18,6 +18,9 @@ release/
 # Runtime-Artefakte des Watchdogs (liegen in .tools, nie im Repo)
 node-watchdog/*.log
 
+# AFK-Report-Artefakte (lokal generierte Vollreports, Slice 8: nie ins Repo)
+nextdns-manager/nextdns-fullreport-*.txt
+
 
 # Lokale Git-Worktrees (isolierte Sitzungen)
 .worktrees/

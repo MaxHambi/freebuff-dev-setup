@@ -68,6 +68,18 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Changed
 
+- **Task-Migration abgeschlossen (plan.md T2-T4, #32)** - Node Watchdog
+  registriert (Trigger in `install-task.ps1` auf 10 Min korrigiert),
+  NpmCleanup/ToolingCleanup/RoutedWatch auf `%USERPROFILE%\.tools\`
+  umgezogen (RoutedWatch vor Move gestoppt inkl. innerem Watcher;
+  AtLogon-Registrierung jetzt per-user via `Register-ScheduledTask`, da
+  `schtasks /SC ONLOGON` eine any-user-Aufgabe anlegt und Admin verlangt).
+  plan.md-Amendment: T5/T6 (NodeProcessMonitor, Ruflo-PolicyLedger-Rotate)
+  als alte Reste gestrichen und geloescht (Operator-Entscheidung);
+  `maintenance/` und `routed-watch/` wurden aus den Alt-Pfaden ins Repo
+  übernommen, XML-Backups aktualisiert, XML-Roundtrip an NpmCleanup
+  verifiziert.
+
 - **MemPalace-Diagnose: Consent-Hinweis auf ADR-010-Weg korrigiert (#28, #56)** -
   der WARN-Text von `memory-ingest/check-mempalace.ps1` verweist jetzt auf den
   realen Weg (Server in der Freebuff-UI hinzufuegen - schreibt
