@@ -54,20 +54,22 @@ entfernen.
 **Abhaengigkeiten:** keiner (Einsatz-getrieben). **Groesse:** klein
 (nach Einsatz).
 
-## 5. Session-Doku-Hook entscheiden (#62-Follow-up)
+## 5. Session-Doku-Hook entscheiden (#62-Follow-up) — ✅ entschieden 2026-09-29
 
-**Ziel:** `session-docs-guardian`-Hook `session-end.ps1` registrieren
-(Anleitung: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`)
-oder bewusst streichen und die Hook-Landkarte bereinigen. Operator-Entscheid.
+**Entscheid (Operator, AFK-Mission 2026-09-29):** Hook **bewusst nicht
+registriert**. Die Hook-Landkarte (README) ist bereinigt; der End-of-Session-
+Doku-Audit laeuft skill-getrieben im Session-Closeout (session-docs-guardian
+als Skill, nicht als Hook). Anleitung zur spaeteren Registrierung bleibt
+erhalten: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`.
 
-**Abhaengigkeiten:** keiner. **Groesse:** klein.
+## 6. Nach dem Merge von PR #59 — ✅ erledigt 2026-09-29 (AFK-Mission)
 
-## 6. Nach dem Merge von PR #59 (eigener kleiner Lauf)
-
-- #63 (Audit) und #62 (Inventar) schliessen; danach die im Slice-8-Issue
-  (#64) bestatigten Loesch-Kandidaten mirror-first loeschen
-  (#21–#26, #36–#43; #28–#32/#53/#54/#56 erst nach PR-#59-Merge).
-- Issue-Mirror-Index (`docs/issues/README.md`) final abgleichen.
+- PR #59 gemerged (`617fd9c`); 22 Loesch-Kandidaten mirror-first geloescht
+  (Los A + Los B), Mirror-Tombstones `sha256:gone` gestempelt,
+  `mirror-sync -Check` gruen.
+- Issue-Mirror-Index (`docs/issues/README.md`) abgeglichen (Zeilen
+  #61–#64 ergaenzt, Tombstone-Zeilen umgestellt).
+- Closures #62/#63/#64 mit Abschlusskommentaren (siehe Issues).
 
 ## Nicht-Roadmap (bewusst)
 

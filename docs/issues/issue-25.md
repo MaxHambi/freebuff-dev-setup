@@ -1,5 +1,5 @@
 # #25: Skill-Extensions: 23 PS1-Skripte auf neuen Ordnerpfad umstellen
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#25 sha256:280cb155f69f78ef011410c3df89be04e80c3c0553ef1c45e773caf573730c27 synced=2026-09-29T14:09:04Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#25 sha256:gone synced=2026-09-29T17:42:28Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#25](https://github.com/MaxHambi/freebuff-dev-setup/issues/25).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #27, gemerged als `8f520f9`.

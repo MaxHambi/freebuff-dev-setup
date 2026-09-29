@@ -1,5 +1,5 @@
 # #30: mempalace.yaml: Room-Mapping memory_ingest ergaenzen (Edit-Tool-Blockade)
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#30 sha256:cc69249de230611c0bddd5de19ee42e556556273aac82803076563fa46c0512c synced=2026-09-29T14:09:07Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#30 sha256:gone synced=2026-09-29T17:42:30Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#30](https://github.com/MaxHambi/freebuff-dev-setup/issues/30).
 > Label: `ready-for-human`. **Status: geschlossen (2026-09-29, Slice 1 des

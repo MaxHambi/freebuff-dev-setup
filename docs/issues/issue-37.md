@@ -1,5 +1,5 @@
 # #37: Slice 1: Onboarding nextdns-manager als Modul-Projekt
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#37 sha256:b979df1b4d4ef7c4d381f0a7c869c609cb02fc4f0ce8aae17ee036b877514bd9 synced=2026-09-29T14:09:09Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#37 sha256:gone synced=2026-09-29T17:42:32Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#37](https://github.com/MaxHambi/freebuff-dev-setup/issues/37).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #44, gemerged als `a5e9c39`.

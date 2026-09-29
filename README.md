@@ -196,7 +196,7 @@ Welcher Hook lebt wo, was loest ihn aus, welcher ist (noch) nicht aktiv:
 | `scripts/hooks/pre-push` (Quality-Gate) | Git `core.hooksPath=scripts/hooks` | `git push` | **aktiv** - ruft `npm run verify` (Lint, tsc, Syntaxcheck, Konventions-Wächter, Tests, Drift-Checks) |
 | `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **nicht registriert** (bewusst offen; `.claude/settings.json` existiert im Repo nicht — Ghost-Claim „aktiv" in der Doku korrigiert; Registrierung ist ein Operator-Entscheid, Anleitung im Skriptkopf) |
 | `context-trim/analyze.js` | `~/.claude/settings.json` (User) | PostToolUse, Matcher `Write\|Edit` | aktiv (externes Tool, nicht Teil des Repos) |
-| `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **nicht registriert** (offener Follow-up; Anleitung: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`) |
+| `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **bewusst nicht registriert (Operator-Entscheid 2026-09-29)** — End-of-Session-Doku-Audit läuft skill-getrieben im Session-Closeout; Anleitung bleibt: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md` |
 | `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | manuell - bewusst keine Session-Auto-Registrierung |
 | `node-watchdog.ps1` | Windows Scheduled Tasks (Slices T2+, `plan.md`) | Zeitplan | Betrieb statt Hook |
 
@@ -286,7 +286,7 @@ Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
 | `changelog-automation`, `documentation-and-adrs`, `documentation-generation-doc-generate` | installiert | Changelog (Keep a Changelog), ADR- und Doku-Generierung |
 | `interview-style-doc-building`, `brain-to-docs`, `code-documentation-doc-generate` | installiert | Interviewbasierte Doku-Erstellung (eine Frage pro Antwort, Patch statt Overwrite; README+ADR aus Vision) |
 | `skill-designer` (+ `skill-writer` als Deep-Referenz) | installiert | Canonical-Workflow fuer Skill-Authoring; skill-writer liefert evaluation-path und description-optimization |
-| `session-docs-guardian` | eigenes Repo (`.agents/skills/session-docs-guardian/`, ADR-012) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` noch nicht registriert (siehe Hook-Landkarte) |
+| `session-docs-guardian` | eigenes Repo (`.agents/skills/session-docs-guardian/`, ADR-012) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` bewusst nicht registriert (Operator-Entscheid 2026-09-29, siehe Hook-Landkarte) |
 | `gm`, `gm-continue` | installiert (nur User-Level; Repo-Kopien per ADR-012 entfernt) - **Eval offen (Issue #20)** | Verb-Daemon-Treiber mit eigener Runtime (`agentplug-runner.exe`, `plugkit.wasm`); Nutzung erst nach Eval-Empfehlung |
 | `wfgy-method`, `polaris-protocol`, `polaris-goal-compiler`, `fifth-dimension-engine` | installiert | WFGY 5.0 Reasoning-Disziplin: Drift-Reduktion, Goal-Compiler, Problem-Routen |
 | `agent-memory` | installiert | TencentDB Agent Memory (MemoryCore/MemoryHub/MemoryProxy/MemoryPanel) - persistenter Cross-Session-Speicher |

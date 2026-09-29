@@ -1,5 +1,5 @@
 # #21: Ordner D:\tools-entwicklung zu D:\freebuff-dev-setup umbenennen (Stop-the-world)
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#21 sha256:9563fd0e94c5486600dee408a58cf0574af17fbdd07b4843e722ce42c9adf24b synced=2026-09-29T14:09:02Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#21 sha256:gone synced=2026-09-29T17:42:26Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#21](https://github.com/MaxHambi/freebuff-dev-setup/issues/21).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #27, gemerged als `8f520f9`.

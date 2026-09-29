@@ -37,8 +37,8 @@ Ingest-Pipeline fuer MemPalace.
    (#19, haengt an 6).
 8. **Skills-Sync automatisieren** (offen) — Anbindung + Idempotenz (#17).
 9. **gm/gm-continue-Evaluierung** (offen) — Supply-Chain-Pinning (#20).
-10. **Session-Doku-Hook entscheiden** (offen) — `session-end.ps1` registrieren
-    oder streichen (#62-Follow-up).
+10. **Session-Doku-Hook** (erledigt 2026-09-29) — bewusst nicht registriert
+    (Operator-Entscheid); Doku-Audit läuft skill-getrieben im Session-Closeout.
 
 ## Data model
 

@@ -1,5 +1,5 @@
 # #31: Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#31 sha256:51f97bb76eff7297fb9757ecab8415c42468a9a3670e2cf09679e7fde02bf39b synced=2026-09-29T14:09:07Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#31 sha256:gone synced=2026-09-29T17:42:30Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#31](https://github.com/MaxHambi/freebuff-dev-setup/issues/31).
 > Label: `ready-for-agent`. Status offen (Schliessung nach Merge).

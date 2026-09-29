@@ -1,10 +1,12 @@
 # Plan: ready-for-human Closeout (2026-09-29, rev. 2 — genehmigt)
 
-> **ABGESCHLOSSEN 2026-09-29** — alle Slices erledigt oder explizit vertagt
-> (Slice 7 Denylist-Roundtrip: Operator-Vertrag); PR #59 ist ready for
-> review. Diese Datei bleibt als historische Referenz; die Nachfolge-
-> Arbeit lebt im Struktur- und Ordnungs-Plan
-> `docs/plan-2026-09-29-struktur-ordnung.md`.
+> **ARCHIVIERT 2026-09-29 (in-place)** — alle Slices erledigt oder explizit
+> vertagt/entschieden; PR #59 ist gemerged (`617fd9c`). Diese Datei bleibt
+> als historische Referenz an dieser Stelle (in-place-Archivierung: Mirror-
+> und ADR-Links bleiben gueltig); die Nachfolge-Arbeit lebt im Struktur- und
+> Ordnungs-Plan `docs/plan-2026-09-29-struktur-ordnung.md`.
+> Slice 7 (Denylist-Roundtrip) wurde am 2026-09-29 per Operator-Beschluss
+> im AFK-Mission nachgeholt (Live-Protokoll in `docs/sessions.md`).
 
 > Quelle: Mission-Freigabe in der Session vom 29.09.2026. Dieser Plan ist die
 > Arbeitsschritt-Referenz fuer den Entwicklungsbranch

@@ -31,5 +31,6 @@
   auf 6/7 auf).
 - [ ] 9. **gm/gm-continue-Evaluierung** — Supply-Chain-Pinning,
   Konventions-Konflikte (#20; User-Level-Bibliothek, Repo-Kopien entfernt).
-- [ ] 10. **Session-Doku-Hook entscheiden** — `session-end.ps1` registrieren
-  oder bewusst streichen (Follow-up aus #62-Inventar).
+- [x] 10. **Session-Doku-Hook entscheiden** — entschieden 2026-09-29: Hook
+  bewusst NICHT registriert (Operator-Entscheid); README-Hook-Landkarte
+  bereinigt; Doku-Audit läuft skill-getrieben im Session-Closeout.

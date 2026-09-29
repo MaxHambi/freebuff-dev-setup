@@ -1,5 +1,5 @@
 # #42: Slice 6: Pester-Suite + PSScriptAnalyzer im Verify-Gate
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#42 sha256:a3020ecb763de43920ef2643f391e4f5fb96a594868caf4ab6d2765610e8dc55 synced=2026-09-29T14:09:12Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#42 sha256:gone synced=2026-09-29T17:42:34Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#42](https://github.com/MaxHambi/freebuff-dev-setup/issues/42).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** via PR #49, gemerged als `14fb078`.
