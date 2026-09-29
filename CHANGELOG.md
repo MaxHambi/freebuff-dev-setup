@@ -205,6 +205,15 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Fixed
 
+- **Watchdog: alle 4 Known-Fails behoben, ADR-001-RCA abgeschlossen (#14)** -
+  Locale-Bug im Port-Mapping (netstat liefert auf deutschem Windows
+  `ABHOeREN` statt `LISTENING`, Port-Map war immer leer → jetzt
+  `Get-NetTCPConnection -State Listen`), invertierte PID-Reuse-Heuristik
+  (flaggte Prozesse mit lebendem Elternteil als verwaist → Vergleich
+  korrigiert) und Harness-Test-Spawns ohne `detached: true` (Node-
+  Job-Objekt raeumte Test-Kinder beim Wrapper-Exit ab). Harness laeuft
+  21/21 PASS ohne Known-Fail-Marken (2x verifiziert); H1/H3/H5 widerlegt.
+
 - PowerShell-Repo-Scripts (`syntaxcheck`, `deploy`, `install-task`,
   `export-tasks`) in der package.json wiederhergestellt, die beim Anlegen des
   Skills-Manager-Projektgerüsts verloren gegangen waren – das Pre-Push-Gate
