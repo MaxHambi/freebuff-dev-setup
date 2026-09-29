@@ -1,4 +1,5 @@
 # #63: Implementierungs-Audit - dokumentiert vs. implementiert, Ghost-Claims geprueft (Slice 7 Struktur-Plan)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#63 sha256:5fbbdf52989309830aeb800818fa808f3442025b4f706ae51d5577a603082862 synced=2026-09-29T15:19:43Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#63](https://github.com/MaxHambi/freebuff-dev-setup/issues/63).
 > Label: `ready-for-agent`. Status: abgeschlossen (Slice 7 des Struktur-Plans

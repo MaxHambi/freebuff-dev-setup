@@ -1,4 +1,5 @@
 # #64: GitHub-Raeumung - Issues schliessen/loeschen + ROADMAP (Slice 8 Struktur-Plan)
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#64 sha256:8358cc9465f3d525feaf27f76ead9214b12c71811f73d4069590f2029f7bdb8a synced=2026-09-29T15:19:44Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#64](https://github.com/MaxHambi/freebuff-dev-setup/issues/64).
 > Label: `ready-for-agent`. Status: in Arbeit (Slice 8 des Struktur-Plans
