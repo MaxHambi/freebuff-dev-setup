@@ -9,6 +9,25 @@ Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
 **A4 Denylist-Write-Roundtrip (live, `closeout-test-20260929.example`, Profil 7af771):** Roundtrip **fand einen echten Bug** — erster echter Live-Write des Moduls: HTTP 400 (`must be object`), weil `Invoke-NextDnsHttpRequest` (nextdns-manager/src/40-Api.ps1) keinen Content-Type sendet. **Root Cause bewiesen** durch Gegenprobe (identischer Body + `ContentType: application/json` → POST OK, Eintrag sichtbar 374→375, DELETE raeumt 375→374, Endzustand = Ausgangszustand; Modul-Lesepfad verifiziert 374 Entries). Unit-Mocks decken Request-Header strukturell nicht. Fix + Integrationstest: **Issue #65** (bewusst nicht in der Mission gefixt — Non-Goal, Operator-Ok abwarten). Vermerk: initiale „Liste: 1"-Messung war ein Auswertungsfehler des Agents (Result-Objekt statt `.Entries` gezaehlt) — kein Read-Pfad-Befund, korrigiert.
 
+**Phase B — Vollumsetzungs-Verifikation Plan rev. 4 (Claim → Beweis, AFK-Abend):**
+
+| Slice | Plan-Claim | Beweis (AFK-Verifikation) | Status |
+|---|---|---|---|
+| S0 | Plan festhalten | Commits `bd8cec0`/`35c9451` in git log; Plan in master via PR #59 | ✅ |
+| S1 | skills-manager Restore, verify, #30 close, PR ready | skills-manager unveraendert (git status 0); verify mehrfach gruen heute; #30 geloescht nach Mirror-Sicherung; PR #59 MERGED `617fd9c` | ✅ |
+| S2 | Keep 14 / Delete 22 / Safety | Live-Inventory: 37 Ordner = 21 Blueprint-Workflow + 13 git/gh/github+Session + `idea-refine` + `security-bluebook-builder` (Safety belegt); kein c4-*/gm/etc.-Rest; ADR-012 Accepted | ✅ |
+| S3 | 4 Known-Fails (H1–H5) testgetrieben | ADR-001 Accepted + #14 geschlossen; **Abweichung 1:** reale Hypothesen H2/H6/H7 (H6/H7 lagen ausserhalb der Plan-H-Liste, wurden nachgetragen); **Abweichung 2:** Plan-Gate „22/22" vs. bewiesene **21/21 PASS** (3 Laeufe heute, 21 PASS-Zeilen) — Planzahl war Schatzflaeche, 21 ist Autoritaet | ✅ mit 2 dokumentierten Abweichungen |
+| S4 | Inventar + Reststellen | #62-Mirror-Matrix 14/14; `run-hidden.vbs` weg; whitelist sauber; README-Sektionen ohne Alt-Referenzen; #62 geschlossen | ✅ |
+| S5 | Struktur + Doku | Blueprint-Plaene + Overview in master; mempalace-audit historisch markiert; Ready-for-human-Plan in-place archiviert (`137e283`); `.cline`/`.freebuff` dokumentiert | ✅ |
+| S6 | T7: alle Tasks Ready/Result 0 + XML-Round-Trip | Live-Abfrage: Node Watchdog/NpmCleanup/ToolingCleanup/MemoryIngest Ready + Result 0 (Laufzeiten 29.09.); RoutedWatch AtLogon, 0xC000013A = kontrollierter Sweep-Exit nach 10 s (watch.log bestätigt) — deckungsgleich mit plan.md-T7; **XML-Round-Trip (loeschen→Import) nie als dedizierter Test gefahren** → bewusst-offen, Import-Prozedur dokumentiert (README), Ruflo-Archiv-XML vorhanden | ✅ mit 1 bewusst-offen |
+| S7 | Audit 0 Ghost-Claims | #63 geschlossen mit Beweistabelle; Verify + Konventions-Waechter heute mehrfach gruen | ✅ |
+| S8 | ADRs/Issues + ROADMAP | 12/12 ADRs Accepted (live extrahiert); 22 Loeschungen + Tombstones; ROADMAP verlinkt + aktuell; Mirror-Index vollstaendig | ✅ |
+| S9 | Closeout: sessions.md, Learnings, MemPalace | sessions.md-Eintraege vorhanden; AGENTS.md-Learnings (6 Bullets); MemPalace MCP live, ADR-012-Decision-Drawer als Rank-1-Treffer wiedergefunden; Milestone-Drawer nicht per Einzelquery isoliert → subsumiert durch Phase-D-Drawer | ✅ mit kleinem Rest |
+
+Kleine Luecke sofort nachgezogen: Mirror-Index-Zeilen #61–#64 (fehlten aus der Session) → Commit `137e283`.
+
+**Phase B2 — Skill-Verifikation (geplant vs. ausgefuehrt):** Alle in der Plan-Spalte verankerten Skills als ausgefuehrt nachgewiesen (Methodik-Artefakte je Zeile); bewusste Auslassungen (`/discovery` — Plan ist selbst das Discovery-Produkt; `/prototype` — keine UI-Flaeche; Blueprint-Bau-/Betriebs-Skills — nicht gebraucht) mit Begruendung in **ADR-013** (Accepted). Fallback-Kette ADR-012 unangetastet.
+
 **Entscheidungen (Operator-Walkthrough vor AFK):** Squash-Merge + Branch-Loeschung; beide Loesch-Lose; Roundtrip jetzt ausfuehren; session-end-Hook bewusst NICHT registrieren; #15 heute nur Analyse (Fix eigener Lauf).
 
 **Offen:** Fix #65 (1-Zeilen-Fix, wartet auf Operator-Ok); Phasen B/B2/C der Mission.
