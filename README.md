@@ -193,8 +193,8 @@ Welcher Hook lebt wo, was loest ihn aus, welcher ist (noch) nicht aktiv:
 
 | Hook | Ort | Ausloeser | Status |
 |------|-----|-----------|--------|
-| `scripts/hooks/pre-push` (Quality-Gate) | Git `core.hooksPath=scripts/hooks` | `git push` | **aktiv** - Lint, PowerShell-Syntaxcheck, bun-Tests |
-| `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **aktiv** - schreibt `skill-history.md` + eigenen Commit |
+| `scripts/hooks/pre-push` (Quality-Gate) | Git `core.hooksPath=scripts/hooks` | `git push` | **aktiv** - ruft `npm run verify` (Lint, tsc, Syntaxcheck, Konventions-Wächter, Tests, Drift-Checks) |
+| `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **nicht registriert** (bewusst offen; `.claude/settings.json` existiert im Repo nicht — Ghost-Claim „aktiv" in der Doku korrigiert; Registrierung ist ein Operator-Entscheid, Anleitung im Skriptkopf) |
 | `context-trim/analyze.js` | `~/.claude/settings.json` (User) | PostToolUse, Matcher `Write\|Edit` | aktiv (externes Tool, nicht Teil des Repos) |
 | `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **nicht registriert** (offener Follow-up; Anleitung: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`) |
 | `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | manuell - bewusst keine Session-Auto-Registrierung |
@@ -305,9 +305,9 @@ Reihenfolge: erst `deploy`, dann `install-task`, dann `export-tasks`.
 
 | Helper | Zweck |
 |---|---|
-| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `node-monitor`, `maintenance`, `routed-watch`, `ruflo-policy-rotate`, `memory-ingest`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). `*.log`-Dateien werden nie kopiert (gehören der laufenden Task). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
-| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NodeProcessMonitor`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`, `MemoryIngest`), echtes Anlegen/Überschreiben nur mit `-Register` (schtasks, `MemoryIngest` = taeglich 04:30 + 4 h-Wiederholung). Ohne `-Register` nur Vorschau von Aktion und Trigger. |
-| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`), inkl. `Ruflo-PolicyLedger-Rotate-workspace` und `MemoryIngest`. Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). |
+| `scripts/deploy.ps1` | Spiegelt die Task-Ordner (`node-watchdog`, `maintenance`, `routed-watch`, `memory-ingest`) nach `%USERPROFILE%\.tools`. Merge-Logik: existierende Dateien bleiben stehen (`KEEP`), Überschreiben nur mit `-Force` (`COPY`). `*.log`-Dateien werden nie kopiert (gehören der laufenden Task). Noch nicht vorhandene Ordner werden übersprungen (`SKIP`). |
+| `scripts/install-task.ps1` | Registriert Scheduled Tasks auf die Runtime-Pfade. Task-Auswahl per `-Task` (bekannt: `Node Watchdog`, `NpmCleanup`, `ToolingCleanup`, `RoutedWatch`, `MemoryIngest`), echtes Anlegen/Überschreiben nur mit `-Register` (schtasks, `MemoryIngest` = taeglich 04:30 + 4 h-Wiederholung; AtLogon per-user via `Register-ScheduledTask`). Ohne `-Register` nur Vorschau von Aktion und Trigger. |
+| `scripts/export-tasks.ps1` | Sichert registrierte Tasks als XML nach `task\<Name>.xml` (`schtasks /query /tn <name> /xml`). Nicht registrierte Tasks → `SKIP`. Diese XMLs sind das Backup für die GUI-Wiederherstellung (siehe oben). `task/Ruflo-PolicyLedger-Rotate-workspace.xml` ist ein bewusstes Archiv des 2026-09-29 deregistrierten Fremd-Tasks (plan.md-Amendment) und wird nicht überschrieben. |
 
 Beispielaufrufe:
 

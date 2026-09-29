@@ -9,7 +9,6 @@
 # mein-kritischer-service.js
 
 # Der Watchdog selbst und das eigene Monitoring duerfen nie ins Visier geraten:
-node-monitor
 node-watchdog
 # Tooling, das auf Dev-Ports lauschen darf:
 # vite.config.ts

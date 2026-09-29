@@ -1,9 +1,0 @@
-' run-hidden.vbs - startet ein PowerShell-Skript gaenzlich ohne sichtbares Fenster
-' Aufruf: wscript.exe run-hidden.vbs "C:\Pfad\zum\skript.ps1"
-Option Explicit
-Dim sh, cmd
-If WScript.Arguments.Count < 1 Then WScript.Quit 1
-Set sh = CreateObject("WScript.Shell")
-cmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & WScript.Arguments(0) & """"
-' 0 = SW_HIDE (kein Fenster ab Prozessstart), True = warten (Task bleibt "Running" solange das Skript laeuft)
-sh.Run cmd, 0, True
