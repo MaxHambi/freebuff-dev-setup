@@ -282,15 +282,17 @@ Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
 | `powershell-script-authoring` | manuell ergaenzt | PowerShell-Skripte erstellen, pruefen, paketieren |
 | `opentui` | installiert | Terminal-UIs mit OpenTUI (Core/React/Solid, Renderer-APIs) - historisch (TUI via ADR-006 verworfen, Dep bleibt bis Backlog-Entscheid) |
 | `to-prd`, `to-issues`, `setup-matt-pocock-skills` | installiert (mattpocock/skills) | PRD-/Issue-Workflows mit GitHub-Tracker und Triage-Labels |
-| `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert | Conventional-Commits-, Branch- und PR-Pipeline |
+| `git-pr-workflows-git-workflow`, `git-pr-workflows-pr-enhance` | installiert + Repo-Scope (`.agents/skills/`, ADR-012) | Conventional-Commits-, Branch- und PR-Pipeline |
 | `changelog-automation`, `documentation-and-adrs`, `documentation-generation-doc-generate` | installiert | Changelog (Keep a Changelog), ADR- und Doku-Generierung |
 | `interview-style-doc-building`, `brain-to-docs`, `code-documentation-doc-generate` | installiert | Interviewbasierte Doku-Erstellung (eine Frage pro Antwort, Patch statt Overwrite; README+ADR aus Vision) |
 | `skill-designer` (+ `skill-writer` als Deep-Referenz) | installiert | Canonical-Workflow fuer Skill-Authoring; skill-writer liefert evaluation-path und description-optimization |
-| `session-docs-guardian` | in Sitzung erstellt (nicht im Repo) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` noch nicht registriert (siehe Hook-Landkarte) |
-| `gm`, `gm-continue` | installiert - **Eval offen (Issue #20)** | Verb-Daemon-Treiber mit eigener Runtime (`agentplug-runner.exe`, `plugkit.wasm`); Nutzung erst nach Eval-Empfehlung |
+| `session-docs-guardian` | eigenes Repo (`.agents/skills/session-docs-guardian/`, ADR-012) | End-of-Session-Doku-Audit: AGENTS/CHANGELOG/ADR/README-Stale-Pruefung, Session-Summary, Skill-Registrierung; Hook `hooks/session-end.ps1` noch nicht registriert (siehe Hook-Landkarte) |
+| `gm`, `gm-continue` | installiert (nur User-Level; Repo-Kopien per ADR-012 entfernt) - **Eval offen (Issue #20)** | Verb-Daemon-Treiber mit eigener Runtime (`agentplug-runner.exe`, `plugkit.wasm`); Nutzung erst nach Eval-Empfehlung |
 | `wfgy-method`, `polaris-protocol`, `polaris-goal-compiler`, `fifth-dimension-engine` | installiert | WFGY 5.0 Reasoning-Disziplin: Drift-Reduktion, Goal-Compiler, Problem-Routen |
 | `agent-memory` | installiert | TencentDB Agent Memory (MemoryCore/MemoryHub/MemoryProxy/MemoryPanel) - persistenter Cross-Session-Speicher |
 | `aihubmixapi` | installiert | AIHubMix-API-Integration: SDK-Code, Modellwahl, Live-Quellen |
+| `agents-md`, `analyze-project`, `brainstorming`, `idea-refine`, `security-bluebook-builder` | Repo-Scope (`.agents/skills/`, ADR-012) | Session-/Projekt-Skills ohne User-Level-Kopie: Agent-Doku-Schlankeit, Session-/Repo-Analyse, Ideenausarbeitung, Security-Dossier |
+| `git-advanced-workflows`, `github`, `github-actions-advanced`, `github-actions-templates`, `github-presence`, `github-workflow-automation`, `gitops-workflow`, `blueprint` | Repo-Scope (`.agents/skills/`, ADR-012) | Git/GitHub-Workflows + Multi-PR-Bauplan-Generator (blueprint) |
 
 Deploy-Ziel eigener Skills: `%USERPROFILE%.agentsskills<name>`, danach
 `skills-sync.ps1` oder MCP `scan_skills` (siehe ADR-002: `scan_skills` ist
