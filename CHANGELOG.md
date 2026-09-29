@@ -10,11 +10,20 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 ### Added
 
 - **Struktur-und-Ordnungs-Mission (2026-09-29, Plan:
-  `docs/plan-2026-09-29-struktur-ordnung.md`)**: Closeout der
+  `docs/plan-2026-09-29-struktur-ordnung.md`, rev. 3)**: Closeout der
   ready-for-human-Reste - #30 (Room-Mapping `memory_ingest` in
   `mempalace.yaml`) per Re-Mine- und Suchnachweis geschlossen;
   Issue-Mirror-Index auf den GitHub-Stand korrigiert (#28/#29/#31/#32
   waren bereits geschlossen, nur #30 war noch offen).
+  **Repo-Hygiene-Mechaniken neu:** Mirror-SHA-Header (Closeout-Versprechen
+  nachimplementiert, `scripts/mirror-sync.ps1`, alle 23 Mirrors gegen
+  GitHub-Bodies gestempelt) + Konventions-Wächter
+  (`scripts/check-conventions.ps1`: Claude-Bann + Mirror-Sync-Pflicht,
+  im `npm run verify`-Gate); Skills-Layout-Entscheid ADR-012 (Repo-Scope
+  beschraenkt, User-Level-Bibliothek, Fallback-Kette), 20 User-Level-
+  Duplikate aus `.agents/skills/` entfernt (#61); Implementierungs-Audit
+  gegen „dokumentiert aber nicht implementiert" als eigener Slice 7
+  (Ghost-Claims), Checkbox-Wahrheitspflicht im Plan verschärft.
 
 - **NextDNS-Manager-Modul (`nextdns-manager/`)**: Onboarding des Desktop-
   Monolith-Scripts als PowerShell-Modul-Projekt (Issues #36-#43, Plan:

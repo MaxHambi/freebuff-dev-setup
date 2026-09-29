@@ -1,8 +1,10 @@
-# Plan: Struktur & Ordnung in Projekt/Repo/GitHub (2026-09-29, rev. 2 — genehmigt)
+# Plan: Struktur & Ordnung in Projekt/Repo/GitHub (2026-09-29, rev. 3 — genehmigt)
 
-> Quelle: Operator-Auftrag in der Session vom 29.09.2026. Dieser Plan ist die
-> Arbeitsschritt-Referenz und bleibt bis zum Abschluss unverändert an dieser
-> Stelle (Aenderungen nur als eigener Commit mit Begruendung).
+> Quelle: Operator-Auftrag in der Session vom 29.09.2026; rev. 2 um GitHub-
+> Aufraeumung + ROADMAP; **rev. 3 (Operator-Nachforderung)**: Implementie-
+> rungs-Audit gegen „dokumentiert aber nicht implementiert“ (Ghost-Claims) —
+> der Mirror-SHA-Header war geplant, aber nie umgesetzt worden; so etwas darf
+> nie wieder still passieren.
 > Workflow: Issue → Issue-Comment → Branch → PR → Merge (wie bisher).
 > Master-Commits sind erlaubt, wo kein Feature-Branch existiert; wo einer
 > existiert (PR #59), laeuft der Closeout darueber.
@@ -48,11 +50,12 @@ Diese Plan-Datei auf dem Branch `feat/ready-for-human-closeout` committen
 | 4 | Skript-Inventar: Notwendigkeit/Qualitaet/Nutzfaktor + Reststellen | master, Issue + `chore/scripts-inventory` | `/analyze-project`, `/brainstorm` (inline) | Report + verify |
 | 5 | Struktur-Umsetzung: Dateien loeschen/fuehren, Doku aktualisieren | master, Issue + `chore/structure-cleanup` | `/architect`+`/overhaul` (inline), `/agents-md`, `/session-docs-guardian` | verify |
 | 6 | Gesamtverifikation + plan.md-T7 | master, Issue + `chore/final-verification` | `/analyze-project` (Auswertung) | verify + Harness + T7-Report |
-| 7 | GitHub-Ordnung: ADRs/Issues schliessen, loeschen, ROADMAP | master, Issue + `chore/github-cleanup` | git-pr-workflows, `/session-docs-guardian` | Roadmap-Datei + clean Issue-Liste |
-| 8 | Session-Closeout: Doku, Learnings, MemPalace | master, `docs/session-closeout` | `/learn`, `/session-docs-guardian`, `/overview` | verify + sessions.md |
+| 7 | **Implementierungs-Audit: Ghost-Claims & stille Bruecken** | master, Issue + `chore/implementation-audit` | `/analyze-project` (Klassifikation), `/overhaul` (inline) | Audit-Report + 0 offene Ghost-Claims |
+| 8 | GitHub-Ordnung: ADRs/Issues schliessen, loeschen, ROADMAP | master, Issue + `chore/github-cleanup` | git-pr-workflows, `/session-docs-guardian` | Roadmap-Datei + clean Issue-Liste |
+| 9 | Session-Closeout: Doku, Learnings, MemPalace | master, `docs/session-closeout` | `/learn`, `/session-docs-guardian`, `/overview` | verify + sessions.md |
 
-Reihenfolge: 1 → (2 ∥ 3) → 4 → 5 → 6 → 7 → 8. Slices 2 und 3 sind unabhaengig
-und koennen parallel laufen.
+Reihenfolge: 1 → (2 ∥ 3) → 4 → 5 → 6 → 7 → 8 → 9. Slices 2 und 3 sind
+unabhaengig und koennen parallel laufen.
 
 ## Skill-Fallback-Kette (gilt fuer alle Slices)
 
@@ -187,7 +190,37 @@ Beweis:
    bleiben oder nach `docs/`).
 3. Scheduled-Task-Eingriffe nur mit Operator-Koordination, DryRun zuerst.
 
-## Slice 7 — GitHub-Ordnung: ADRs/Issues aufraeumen + ROADMAP
+## Slice 7 — Implementierungs-Audit: Ghost-Claims & stille Bruecken
+
+Anlass (Operator-Nachforderung, rev. 3): der Mirror-SHA-Header war im
+Closeout-Plan Slice 8 verankert, wurde aber nie implementiert. Ziel: jede
+„dokumentiert vs. implementiert“-Luecke finden — in beide Richtungen.
+
+1. **Seed-Liste bekannter Kandidaten pruefen** (Beweis je Zeile: Befehl +
+   Ausgabe oder Commit-SHA):
+   - Mirror-SHA-Header (Closeout-Plan Slice 8) — **seit diesem Slice
+     implementiert** (scripts/mirror-sync.ps1, 23 Mirrors gestempelt,
+     Check im Verify-Gate).
+   - session-docs-guardian-Hook `session-end.ps1` (README-Hook-Landkarte
+     meldet „nicht registriert“) — Implementierungsstand verifizieren oder
+     als bewusst offen dokumentieren.
+   - Slice 7 (Denylist-Write-Roundtrip, Closeout-Plan) — von Operator
+     vertagt; als bewusst offen (nicht Ghost) klassifizieren.
+   - ADR-006-Backlog: opentui-Dependency (package.json) - bewusst bis
+     Backlog-Entscheid; dokumentieren, nicht still entfernen.
+2. **Systematischer Durchlauf Doku -> Realitaet:** alle behavioralen
+   Aussagen in README, AGENTS.md, docs/ gegen den Ist-Stand pruefen
+   (Commands ausfuehren, Pfade/Zeilen verifizieren, Features
+   nachvollziehen). Je Abweichung: implementieren, Doku korrigieren oder
+   als explizit offen klassifizieren — nie still lassen.
+3. **Systematischer Durchlauf Realitaet -> Doku:** Implementierungen ohne
+   Doku-Verweis finden (Skripte/Module, die nichts/niemand referenziert):
+   dokumentieren oder als Kandidat fuer Slice 5 (Loeschung) listen.
+4. **Report:** Tabelle im Issue (Claim, Beweis, Status:
+   implementiert/korrigiert/bewusst-offen), Mirrors/CHANGELOG nachziehen;
+   „bewusst-offen“-Posten mit Inhaber/Issue verlinken.
+
+## Slice 8 — GitHub-Ordnung: ADRs/Issues aufraeumen + ROADMAP
 
 1. **ADR-Status finalisieren:** ADR-001 → Accepted (durch Slice 3; falls noch
    offen, hier nachziehen); alle anderen ADRs auf Status-Korrektheit pruefen
@@ -215,13 +248,14 @@ Beweis:
    Groesse. README + `docs/index.md` verlinken die Roadmap; Roadmap wird im
    Slice-Issue zur Abnahme vorgelegt.
 
-## Slice 8 — Session-Closeout
+## Slice 9 — Session-Closeout
 
 1. `/session-docs-guardian`: `docs/sessions.md`-Summary (inkl.
    Roadmap-Referenz), ADR-Statusberichte, CHANGELOG, README-Tabellen final.
 2. `/learn` (inline): nicht-offensichtliche Learnings dieser Session in
    AGENTS.md (je 1–3 Zeilen; z. B. skills-manager-Wiederherstellung,
-   Skill-Fallback-Kette, ADR-001-RCA-Ergebnis).
+   Skill-Fallback-Kette, ADR-001-RCA-Ergebnis, Mirror-Sync-Contract,
+   Ghost-Audit-Befunde).
 3. MemPalace: Result-Drawer + KG-Fakten (Skills-Layout-Entscheid ADR-012,
    Known-Fails-RCA-Ergebnis, Roadmap-Stand) — Identity
    `maxhambi:freebuff:freebuff-dev-setup`.
@@ -237,6 +271,19 @@ Beweis:
   nur slice-zugehoerige Pfade stagen (nie `git add -A`).
 - Merge erst nach gruenem `npm run verify`; Drift-Checks erzwingen Conventional
   Commits + CHANGELOG-Pflege.
+- **Mirror-Sync-Contract (seit Slice 2 maschinell geprueft):** jeder
+  Issue-Mirror traegt in Zeile 2 einen `mirror-sync`-Header (SHA-256 ueber den
+  GitHub-Issue-Body). `scripts/mirror-sync.ps1 -Update` staempelt,
+  `-Check` schlaegt bei Drift oder fehlendem Header fehl und laeuft im
+  Verify-Gate (`scripts/check-conventions.ps1`). Geloeschte Issues bekommen
+  `sha256:gone` (Mirror-first-Regel).
+- **Checkbox-Wahrheitspflicht (verschaeft, rev. 3):** eine Plan-Checkbox wird
+  erst gesetzt, wenn der Zustand bewiesen ist (Befehl + Ausgabe oder Commit-
+  SHA). „Dokumentiert, aber nicht implementiert“ ist ein Prozessverstoess —
+  bei Entdeckung sofort: Audit-Slice 7, Report im Issue, Fix im selben Slice.
+- **Skill-Fallback-Kette:** Repo `.agents/skills/` → User-Level
+  `~/.agents/skills/` → nur wenn dort nichts passt, mit dokumentiertem
+  Re-Enable `.disabled/`.
 - MemPalace-Pflichten pro Slice nach `docs/mempalace-regeln.md`.
 
 ## Nicht-Ziele
