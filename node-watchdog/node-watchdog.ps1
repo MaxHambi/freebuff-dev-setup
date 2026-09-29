@@ -113,22 +113,22 @@ $allProcesses = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue
 $byPid = @{}
 foreach ($p in $allProcesses) { $byPid[[int]$p.ProcessId] = $p }
 
-# Port-Besitzer aus netstat lesen (ein Aufruf, dann Lookup)
+# Port-Besitzer aus Get-NetTCPConnection lesen (locale-unabhaengig; der
+# netstat-Ansatz scheiterte auf nicht-englischen Windows-UIs, weil der Parser
+# 'LISTENING' erwartet, dort aber z. B. 'ABHOeREN' steht - ADR-001/H2).
 $portOwners = @{}   # "port" -> HashSet von PIDs
-$netstatLines = & netstat.exe -ano 2>$null
-foreach ($line in $netstatLines) {
-	$t = $line.Trim()
-	if (-not $t.StartsWith('TCP')) { continue }
-	$parts = $t -split '\s+'
-	# TCP  local-address  remote-address  state  pid  (LISTENING-Zeilen)
-	if ($parts.Count -lt 5 -or $parts[3] -ne 'LISTENING') { continue }
-	$localPort = ($parts[1] -split ':')[-1]
-	$ownerPid = 0
-	if (-not [int]::TryParse($parts[4], [ref]$ownerPid)) { continue }
-	if (-not $portOwners.ContainsKey($localPort)) {
-		$portOwners[$localPort] = New-Object 'System.Collections.Generic.HashSet[int]'
+try {
+	$listenConns = Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue
+	foreach ($conn in $listenConns) {
+		$localPort = [string]$conn.LocalPort
+		$ownerPid = [int]$conn.OwningProcess
+		if (-not $portOwners.ContainsKey($localPort)) {
+			$portOwners[$localPort] = New-Object 'System.Collections.Generic.HashSet[int]'
+		}
+		$null = $portOwners[$localPort].Add($ownerPid)
 	}
-	$null = $portOwners[$localPort].Add($ownerPid)
+} catch {
+	Write-Log ("WARN Port-Mapping fehlgeschlagen: {0}" -f $_)
 }
 
 # ---------------------------------------------------------------- Bewertung
@@ -163,8 +163,11 @@ foreach ($proc in $allProcesses) {
 		try {
 			$parentCreated = $parentObj.CreationDate
 			$childCreated = $proc.CreationDate
-			if ($parentCreated -and $childCreated -and ($parentCreated -lt $childCreated)) {
-				# Eltern-Startzeit juenger als Kind -> PID-Reuse, urspruenglicher Elternteil tot
+			if ($parentCreated -and $childCreated -and ($parentCreated -gt $childCreated)) {
+				# Eltern-Startzeit JUENGER als Kind -> PID-Reuse, urspruenglicher
+				# Elternteil tot. (Vorher invertiert: parentCreated < childCreated
+				# ist der Normalfall jeder Eltern-Kind-Beziehung und flaggte
+				# Prozesse mit lebendem Elternteil als verwaist - ADR-001/H6.)
 				$parentStatus = 'PID-Reuse (verwaist)'
 				$isOrphan = $true
 			} else {

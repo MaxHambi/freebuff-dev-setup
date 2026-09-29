@@ -2,10 +2,11 @@
 
 ## Status
 
-Offen (Proposed) - RCA nicht abgeschlossen; die 4 Fails sind per Nutzerentscheid
-akzeptiert und im Test-Harness als Known-Fails markiert. Dieser ADR wird
-geschlossen (Accepted mit Fix oder Superseded), sobald jede Hypothese
-verifiziert oder widerlegt ist.
+**Accepted (2026-09-29)** - RCA abgeschlossen; alle 4 Known-Fails sind
+verstanden und behoben (2 Watchdog-Fixes, 1 Harness-Fix, 1 Folge-Effekt).
+Der Harness laeuft 21/21 PASS ohne Known-Fail-Marken (2x hintereinander
+verifiziert). Die KnownFail-Mechanik im Harness bleibt fuer kuenftige
+Faelle erhalten.
 
 ## Datum
 
@@ -101,6 +102,32 @@ Marker pruefen.
 - Nachfolge: RCA-Hypothesen H1-H5 in einer Folgesitzung verifizieren; bei
   bestaetigtem H4 die drei betroffenen Assertions umbenennen/umformulieren
   (Test-Bug, kein Watchdog-Bug), bei H1-H3/H5 den Watchdog fixen.
+
+## Loesung (2026-09-29, RCA abgeschlossen)
+
+Die Deep-RCA wurde mit einem Instrumentierungsdump im Harness
+(`-RcaDump`: Kandidatenzeilen + Elternkette je Test-PID) und isolierten
+Prozess-Experimenten (PROBE A-E3) gefuehrt. Verdicts:
+
+| Hypothese | Verdict | Beweis |
+|---|---|---|
+| H1 Sortierung/Index-Drift | **widerlegt** | Dump zeigte die echten Kandidatenlisten; kein Index-Drift |
+| H2 Stale-Port-Zuordnung | ** bestaetigt (Locale-Bug)** | PROBE A: netstat zeigt auf deutschem Windows `ABHOeREN` statt `LISTENING`; der Parser erzeugte dadurch IMMER eine leere Port-Map. Fix: `Get-NetTCPConnection -State Listen` (locale-unabhaengig) statt netstat-String-Matching |
+| H3 Doppel-Log-Lese | widerlegt | Logdatei war bei jeder Assertion vorhanden und gefuellt |
+| H4 Whitelist-Matching-Grenze | im Kern bestaetigt | Kandidat ist nur, wer ein Kill-Kriterium erfuellt; der frische Keep-Node hatte keines. Effektiv maskiert durch H7 (Keep-Node war schon tot) |
+| H5 Keep-Node-Verwaaisung/Marker | widerlegt | Marker-Matching funktioniert; Keep-Node war an H7 gestorben |
+| **H6 (neu): PID-Reuse-Heuristik invertiert** | **bestaetigt (Watchdog-Bug)** | Code verglich `parentCreated < childCreated` - das ist der Normalfall jeder Eltern-Kind-Beziehung und flaggte Prozesse mit LEBENDEM Elternteil als verwaist (RCA-Dump: Port-Server mit lebendem Elternteil als `PID-Reuse (verwaist)`). Fix: Vergleich auf `-gt` gedreht |
+| **H7 (neu): Harness-Spawn nicht detached** | **bestaetigt (Harness-Bug)** | PROBE E1: Kinder sterben beim Wrapper-Exit auch graceful (Node/Windows-Job-Objekt-Semantik); PROBE E3: mit `detached: true` ueberleben sie. Die 4 Original-Fails entstanden, weil die Test-Prozesse VOR dem Watchdog-Lauf schon tot waren. Fix: beide Wrapper spawnen `detached:true` |
+
+Konsequenz-Fixes in diesem Zug:
+
+1. `node-watchdog.ps1`: Port-Mapping via `Get-NetTCPConnection` (H2),
+   PID-Reuse-Vergleich korrigiert (H6).
+2. `run-tests.ps1`: detached-Spawns (H7), `-RcaDump`-Instrumentierung,
+   alle 4 `-KnownFail`-Marken entfernt.
+3. Bei Gelegenheit geprueft und OK: der live registrierte Task meldete
+   waehrend der RCA `LastTaskResult 2147946720` (0x800710E0, skipped)
+   - wird in Slice 6 (T7-Verifikation) weiterverfolgt.
 
 ## Verwandtes
 
