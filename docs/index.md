@@ -30,6 +30,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/decisions/ADR-010-freebuff-mcp-config-pfad.md` | Freebuff-MCP: globaler Pfad `~/.agents/mcp.json` + Attestierungs-Ledger `~/.freebuff/mcp.json` (supersedt Consent-Fluss aus ADR-009) | Accepted |
 | `docs/decisions/ADR-011-mempalace-uebersicht-navigation.md` | MemPalace-Selbstbeschreibung: Uebersichts-Datei + Navigations-Drawer „Palast-Index" | Accepted |
 | `docs/decisions/ADR-012-skills-layout-repo-scope.md` | Skills-Layout: Repo-Scope beschraenkt, User-Level-Bibliothek, Fallback-Kette | Accepted |
+| `docs/decisions/ADR-013-skill-einsatz-struktur-mission.md` | Skill-Einsatz der Struktur-Mission: geplant vs. ausgefuehrt, Auslassungen begruendet | Accepted |
 
 ## Skills-Manager (`skills-manager/`)
 

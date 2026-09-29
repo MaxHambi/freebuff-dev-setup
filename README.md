@@ -222,7 +222,9 @@ die Wartung erfolgt außerhalb des Repos.
 - Installiert unter `%LOCALAPPDATA%\Programs\Routed\bin\routed.cmd`, Version
   wird mit `routed --version` geprüft.
 - Indexiert Skills über alle Tool-Hosts hinweg in einer lokalen SQLite-DB
-  (`routed scan_skills` → Stand: 2.864 Skills, 2026-09-25).
+  (`routed scan_skills`; Stand 2026-09-29: **436 indexiert** — Discovery-Lücke
+  der aktuellen routed-Version dokumentiert in #15: 1968 SKILL.md in der
+  User-Bibliothek, CLI-Scan sieht sie nicht).
 - **MCP-Tools** (konfiguriert in `.cline/mcp_settings.json`, Server `routed`):
   `route_skill` (Prompt → bester Skill), `get_skill` (SKILL.md nach ID/Name),
   `list_skills` (Index durchsuchen), `scan_skills` (Index neu aufbauen).
