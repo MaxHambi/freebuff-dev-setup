@@ -1,7 +1,7 @@
 # #32: Slice T2-T6: Task-Migration nie gezogen (Alt-Tasks laufen auf urspruenglichen Pfaden)
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#32](https://github.com/MaxHambi/freebuff-dev-setup/issues/32).
-> Label: `ready-for-human`. Status offen.
+> Label: `ready-for-human`. Status: **geschlossen (completed)** 2026-09-29 — Option A auf T2-T4 gezogen, T5/T6 als alte Reste gestrichen/geloescht (Operator-Entscheidung), plan.md-Amendment im Branch.
 
 ## Ausgangslage (Abgleich 2026-09-26, belegt per Get-ScheduledTask / .tools-Inventar)
 
@@ -28,13 +28,13 @@ gezogen werden soll, liegt beim Operator.
 
 ## Checkliste (Reihenfolge laut plan.md)
 
-- [ ] Entscheidung: Migration T2-T6 ziehen oder Plan offiziell anpassen/schrumpfen
-- [ ] T2: Node Watchdog registrieren (alle 10 Min, Runtime-Pfad, -Apply) + XML
-- [ ] T3: NpmCleanup + ToolingCleanup (+ run-hidden.vbs) nach .tools\maintenance\, re-registrieren + XML
-- [ ] T4: RoutedWatch stoppen, Wrapper nach .tools\routed-watch\, re-registrieren + XML
-- [ ] T5: NodeProcessMonitor nach .tools\node-monitor\, neu registrieren + XML
-- [ ] T6: ruflo-policy-rotate.mjs (+ Helfer) nach .tools\ruflo-policy-rotate\, Pfad-Referenzen anpassen, re-registrieren + XML
-- [ ] T7: Gesamtverifikation (LastTaskResult 0 je Task, XML-Round-Trip-Test) + plan.md-Slices auf [x]
+- [x] Entscheidung: Migration T2-T6 ziehen oder Plan offiziell anpassen/schrumpfen — **Amendment 2026-09-29: T2-T4 ziehen, T5/T6 streichen + Reste loeschen**
+- [x] T2: Node Watchdog registrieren (Trigger korrekt auf 10 Min gefixt, Runtime-Pfad, -Apply) + XML — erster Lauf LastResult 0
+- [x] T3: NpmCleanup + ToolingCleanup (+ run-hidden.vbs) nach .tools\maintenance\, re-registrieren + XML
+- [x] T4: RoutedWatch stoppen (inkl. innerem Watcher), Wrapper nach .tools\routed-watch\, per-user AtLogon-Re-Registrierung via Register-ScheduledTask (schtasks /SC ONLOGON braucht Admin), re-registrieren + XML
+- [x] T5: **gestrichen (Amendment)** — NodeProcessMonitor war nie registriert; Suite `D:\workspace\scripts\node-monitor\` geloescht
+- [x] T6: **gestrichen (Amendment)** — Task deregistriert, `D:\workspace\scripts\ruflo-policy-rotate.mjs` geloescht (Skript waere nach `.tools` ohnehin zerbrochen: WORKSPACE_ROOT ist relativ zum Skriptpfad)
+- [x] T7: Gesamtverifikation (alle 5 Tasks Ready/Running mit LastResult 0 bzw. laufend, XML-Round-Trip an NpmCleanup bewiesen) + plan.md-Slices auf [x]
 
 ## Referenzen
 
