@@ -18,7 +18,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 
 | ADR | Thema | Status |
 |-----|-------|--------|
-| `docs/decisions/ADR-001-watchdog-test-known-fails.md` | 4 Known-Fails im Watchdog-Test-Harness (Deep-RCA) | Offen, Verifikation als Issue #14 |
+| `docs/decisions/ADR-001-watchdog-test-known-fails.md` | 4 Known-Fails im Watchdog-Test-Harness — RCA abgeschlossen (H2/H6/H7 behoben, H1/H3/H5 widerlegt), 21/21 PASS | Accepted (#14) |
 | `docs/decisions/ADR-002-routed-index-single-source.md` | routed-Indexierung: MCP `scan_skills` massgeblich | Accepted |
 | `docs/decisions/ADR-003-one-worktree-per-issue.md` | Worktree-Strategie: master-first, temporaer, Issue-first | Accepted |
 | `docs/decisions/ADR-004-skills-manager-testing-seams.md` | Zwei Test-Seams (Lib + TUI-Renderer) | Accepted |
