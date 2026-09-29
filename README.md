@@ -14,7 +14,7 @@ MemPalace-Gedaechtnis.
 | `memory-ingest/` | Session → Palast-Ingest (Scheduled Task `MemoryIngest`, Staleness-Live-Schutz, State-Inkrement, Diagnose-Script) | ADR-007, README-Abschnitt unten |
 | `skills/` | Eigene Agent Skills (Meta-Skill `using-skills` mit Gate + Router + Hooks) | unten, Abschnitt Skills-Verzeichnis |
 | `task/` | Exportierte Task-XMLs aller eigenen Scheduled Tasks (GUI-Backup) | unten, Wiederherstellung |
-| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-009) | `docs/index.md` |
+| `docs/decisions/` | Architekturentscheidungen als ADRs (ADR-001 bis ADR-011) | `docs/index.md` |
 | `scripts/` | Deploy-/Registrierungs-Helper + Quality-Gate (`npm run verify`) | unten, Deploy & Task-Registrierung |
 
 ## Skills-Manager (`skills-manager/`)

@@ -34,6 +34,7 @@ The workflow is defined by the local skills and context files below.
 - `blueprint/context/current-feature.md` - the one feature, fix, or rollback being built right now
 - `docs/issue-fibel.md` - Issue-Layouts, Label-Statusuebergaenge und Handoff-Regeln (Schwester der Worktree-Fibel)
 - `docs/mempalace-regeln.md` - verbindliche MemPalace-Regeln (Recall-Protokoll, Drawer-/KG-Konvention, Ingest, Diagnose)
+- `docs/mempalace-uebersicht.md` - Inhaltsverzeichnis des MemPalace-Palasts (was liegt wo; Einstieg auch via `mempalace search "Palast-Index"`, siehe ADR-011)
 
 ## Workflow
 

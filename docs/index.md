@@ -27,6 +27,8 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/decisions/ADR-007-memory-ingest-scheduled-task.md` | Memory-Ingest als Scheduled Task (Staleness-Live-Schutz, State-Inkrement, Idempotenz am Quellpfad) | Accepted |
 | `docs/decisions/ADR-008-mempalace-cli-fallback-diagnose.md` | MemPalace ohne MCP-Consent: CLI-/STDIO-Fallback + Diagnose-Gate (Exit 0/1/2) | Accepted |
 | `docs/decisions/ADR-009-mcp-json-projektlokal.md` | `.mcp.json` bleibt projekt-lokal: gitignore + Index-Entfernung statt Team-Commit | Accepted |
+| `docs/decisions/ADR-010-freebuff-mcp-config-pfad.md` | Freebuff-MCP: globaler Pfad `~/.agents/mcp.json` + Attestierungs-Ledger `~/.freebuff/mcp.json` (supersedt Consent-Fluss aus ADR-009) | Accepted |
+| `docs/decisions/ADR-011-mempalace-uebersicht-navigation.md` | MemPalace-Selbstbeschreibung: Uebersichts-Datei + Navigations-Drawer „Palast-Index" | Accepted |
 
 ## Skills-Manager (`skills-manager/`)
 
@@ -63,6 +65,7 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 |-------|-------|
 | `docs/issues/` | Issue-Mirror: Bodies der repo-weiten Issues (Repo = Quell der Wahrheit, GitHub = Tracker) |
 | `docs/mempalace-regeln.md` | Verbindliche MemPalace-Regeln fuer Agenten (Recall, Drawer, KG, Ingest) |
+| `docs/mempalace-uebersicht.md` | Inhaltsverzeichnis des Palasts (Rooms, Drawer-Kategorien, Suchbeispiele — ADR-011) |
 | `docs/mempalace-audit-2026-09-26.md` | MemPalace-Integrations-Audit (Befunde + Reparaturen, Stand 26.09.2026) |
 | `docs/sessions.md` | Session-Summaries (was wann geliefert wurde) |
 | `docs/worktree-fibel.md` | Worktree-Kurzguide (wann/wie/weg, passend zu ADR-003) |
