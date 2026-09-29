@@ -150,10 +150,23 @@ Index in `docs/issues/README.md` ergaenzt:
    > (2) Splatting von $null an parameterlose Funktionen (CLI-Fix).
    > (3) JSON-Parameter-Variante -ActionParameterJson fuer Cross-Shell-CLI
    > inkl. Reihenfolge-Fix (Merge VOR dem Mandatory-Check).
+   >
+   > **Denylist-Write-Roundtrip nachgeholt 2026-09-29 (AFK-Mission, Operator-
+   > Consent im Walkthrough):** Der erste echte Live-Write des Moduls fand
+   > einen Bug: `Add-NextDnsDenylistEntry` → HTTP 400 (`must be object`),
+   > weil `Invoke-NextDnsHttpRequest` KEINEN Content-Type sendet (JSON-Body
+   > kommt als non-JSON an). Gegenprobe am selben Endpoint mit identischem
+   > Body + `ContentType: application/json`: POST erfolgreich, Eintrag
+   > sichtbar (374 → 375), DELETE raeumt sauber (→ 374, Endzustand =
+   > Ausgangszustand). Root Cause bewiesen; Fix + Integrationstest: **Issue
+   > #65** (bewusst NICHT in dieser Mission gefixt — Non-Goal, Operator-Ok
+   > abwarten). Unit-Mocks (Set-NextDnsHttpDelegate) decken Request-Header
+   > strukturell nicht.
 
    - [x] `Test-Connection` (Profil-Liste + eigenes Profil)
-   - [ ] Denylist-Write-Roundtrip (Test-Domain add/verify/remove) - wartet
-         auf Operator-Consent
+   - [x] Denylist-Write-Roundtrip (Test-Domain add/verify/remove) —
+         2026-09-29 ausgefuehrt (Operator-Consent, AFK-Mission); Live-Write-
+         Bug gefunden → Issue #65, Endzustand sauber (374 Eintraege)
    - [x] Full-Report ohne Logs → Datei geprueft (Errors=0)
    - [x] Logs-Pagination klein (Limit 30)
 

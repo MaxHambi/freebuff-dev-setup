@@ -106,8 +106,13 @@ Slice 1)
 - [ ] Umsetzung je Entscheidung + Mirror + PR → Merge
 
 ### Slice 7 — optional: Denylist-Write-Roundtrip (Operator-Consent)
-- [ ] `Add-Denylist` Test-Domain → `Get-Denylist` verifizieren →
-      `Remove-Denylist` → Endzustand; Ergebnis an #43
+- [x] `Add-Denylist` Test-Domain → `Get-Denylist` verifizieren →
+      `Remove-Denylist` → Endzustand — **2026-09-29 im AFK-Mission
+      ausgefuehrt** (Operator-Consent im Walkthrough): Roundtrip deckte
+      echten Live-Write-Bug auf (fehlender Content-Type, HTTP 400 „must
+      be object" → **Issue #65**); Gegenprobe mit explizitem Content-Type
+      beweist Root Cause; Endzustand sauber (374 Eintraege). Protokoll:
+      `docs/sessions.md`, `nextdns-manager/PLAN.md`.
 
 ### Slice 8 — Abschluss
 - [ ] Housekeeping AFK-Report (`nextdns-manager/nextdns-fullreport-*.txt`
