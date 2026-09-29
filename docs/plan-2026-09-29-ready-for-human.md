@@ -1,5 +1,11 @@
 # Plan: ready-for-human Closeout (2026-09-29, rev. 2 — genehmigt)
 
+> **ABGESCHLOSSEN 2026-09-29** — alle Slices erledigt oder explizit vertagt
+> (Slice 7 Denylist-Roundtrip: Operator-Vertrag); PR #59 ist ready for
+> review. Diese Datei bleibt als historische Referenz; die Nachfolge-
+> Arbeit lebt im Struktur- und Ordnungs-Plan
+> `docs/plan-2026-09-29-struktur-ordnung.md`.
+
 > Quelle: Mission-Freigabe in der Session vom 29.09.2026. Dieser Plan ist die
 > Arbeitsschritt-Referenz fuer den Entwicklungsbranch
 > `feat/ready-for-human-closeout` und bleibt bis zum Final-Merge unverändert

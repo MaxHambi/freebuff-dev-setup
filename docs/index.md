@@ -60,6 +60,15 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 | `memory-ingest/test/lib.test.ts` | 16 Unit-Tests gegen tmp-Fixtures |
 | `README.md` (Abschnitt "Memory-Ingest") | Betrieb, Live-Schutz, Idempotenz, Wartung |
 
+## Blueprint-Planung (AI-Quelle der Wahrheit)
+
+| Datei | Zweck |
+|-------|-------|
+| `blueprint/project-plan.md` | Was & Warum (Problem, Users, Data, Tech, Deployment) |
+| `blueprint/build-plan.md` | Arbeitsliste (MVP erledigt, Post-MVP = ROADMAP-Reihenfolge) |
+| `blueprint/context/project-overview.md` | Generierte Konsolidierung - wird jede Session geladen |
+| `blueprint/context/findings.md` | Audit-Befunde mit Status (P0/P1 blocken /complete) |
+
 ## Verlauf
 
 | Datei | Zweck |
@@ -67,7 +76,7 @@ Einstieg: `skills-manager/docs/INDEX.md`. Darunter:
 | `docs/issues/` | Issue-Mirror: Bodies der repo-weiten Issues (Repo = Quell der Wahrheit, GitHub = Tracker) |
 | `docs/mempalace-regeln.md` | Verbindliche MemPalace-Regeln fuer Agenten (Recall, Drawer, KG, Ingest) |
 | `docs/mempalace-uebersicht.md` | Inhaltsverzeichnis des Palasts (Rooms, Drawer-Kategorien, Suchbeispiele — ADR-011) |
-| `docs/mempalace-audit-2026-09-26.md` | MemPalace-Integrations-Audit (Befunde + Reparaturen, Stand 26.09.2026) |
+| `docs/mempalace-audit-2026-09-26.md` | MemPalace-Integrations-Audit vom 26.09.2026 - **historisch**: Befunde sind in ADR-007/008/010/011 und `docs/mempalace-uebersicht.md` aufgegangen |
 | `docs/sessions.md` | Session-Summaries (was wann geliefert wurde) |
 | `docs/worktree-fibel.md` | Worktree-Kurzguide (wann/wie/weg, passend zu ADR-003) |
 | `CHANGELOG.md` | Aenderungen nach Keep a Changelog |

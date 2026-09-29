@@ -333,5 +333,15 @@ Backup - nie als Installationsquelle. Destruktive Schritte (Überschreiben mit
 
 ## Qualitätsgate
 
-`npm run lint` (Biome) · `npm run syntaxcheck` (PS-Parser) · `npm test`
-erzwungen durch `scripts/hooks/pre-push` (aktivieren: `git config core.hooksPath scripts/hooks`).
+`npm run verify` ist das kanonische Gate und deckt alles ab: Lint (Biome),
+Typecheck (`tsc --noEmit`), PowerShell-Syntaxcheck (62+ Skripte),
+Konventions-Wächter (`scripts/check-conventions.ps1`: Claude-Bann +
+Mirror-Sync-Header), Repo-Tests (nextdns-Pester + Smokes, Watchdog-DryRun),
+Bun-Tests (skills-manager + memory-ingest) und die Drift-Checks für
+Conventional Commits + CHANGELOG. Erzwungen durch `scripts/hooks/pre-push`
+(`core.hooksPath=scripts/hooks` ist gesetzt).
+
+Zusaetzlich (Windows, manuell): `pwsh -File node-watchdog/run-tests.ps1`
+(Watchdog-Integrationstests, 21/21 nach ADR-001-Closure) und
+`pwsh -File scripts/mirror-sync.ps1 -Check` (Mirror-Integritaet, auch im
+Verify-Gate enthalten).

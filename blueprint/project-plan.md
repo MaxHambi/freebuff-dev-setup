@@ -1,42 +1,87 @@
-# Project Plan
+# Project Plan — freebuff-dev-setup (Tasks & Watchdogs als Code)
 
-> One of the two planning docs you provide. Use as much detail as the project
-> needs, including rationale, constraints, examples, edge cases, and explicit
-> exclusions that should guide later feature work. Draft it directly, develop it
-> through any AI conversation, or optionally run `/discovery` for a guided deep
-> planning session. The content is always yours to direct. When it is filled in,
-> run `/overview` to generate the project overview from this plus `build-plan.md`.
+> Was & Warum. Quelle der Wahrheit fuer den Zweck des Projekts; die
+> Feature-/Arbeitsliste lebt in `build-plan.md`. Zuletzt aktualisiert
+> 2026-09-29 (Struktur- und Ordnungs-Mission).
 
-## 1. Problem - What problem are we solving?
+## 1. Problem
 
-Add the problem that this project solves and its main purpose
+Der Windows-Entwicklungsrechner lief gestreute, handgepflegte Automatisierungen:
+Scheduled Tasks zeigten auf verstreute Pfade (`%LOCALAPPDATA%`, `D:\workspace`),
+XML-Backups fehlten, und das Agenten-Gedaechtnis (MemPalace) wurde unregelmaessig
+und ohne Live-Schutz gepflegt. Defekte Tasks waren nicht wiederherstellbar,
+Leftover-Prozesse blockierten Ports, und Session-Wissen ging verloren.
 
-## 2. Users - Who is this for?
+Dieses Repo macht die Betriebsautomatisierung als Code nachvollziehbar und
+wiederherstellbar: definierte Skripte, deployte Runtime, Task-Backups als XML
+und ein Ingest-Pipeline fuer das Agenten-Gedaechtnis.
 
-What kind of users are you focusing on? eg. new programmers, college students, single people
+## 2. Users
 
-## 3. Features - What does the MVP need?
+- **Operator (Max Hambi):** betreibt den Rechner und die Tasks; braucht
+  Verlaesslichkeit, Wiederherstellbarkeit und klare Doku.
+- **Agenten-Sessions (Freebuff/Codex/Claude, via AGENTS.md-Adapter):**
+  arbeiten in diesem Repo; brauchen Konventionen, Gates, Skill-Layout und
+  MemPalace-Regeln, um konsistent zu handeln.
 
-High level list of features. One line each, don't go into deep detail
+## 3. Features (MVP-Kern)
 
-## 4. Data - What are we storing?
+- **Node-Watchdog:** killt nachweisliche `node`/`electron`/`esbuild`-Leftovers
+  (Orphan, Idle-Aged, Stale-Port) inkl. Prozessbaum, DryRun-Default.
+- **Task-Konsolidierung:** alle eigenen Scheduled Tasks auf
+  `%USERPROFILE%\.tools`, XML-Backup je Task.
+- **Memory-Ingest:** Session-Transcripte inkrementell ins MemPalace
+  (Live-Schutz, State-Inkrement, Idempotenz).
+- **Quality-Gate:** `npm run verify` als Pre-Push-Pflicht (Lint, tsc,
+  Syntaxcheck, Konventions-Waechter, Tests, Drift-Checks).
+- **Doku-/Skills-Ordnung:** ADRs, Issue-Mirror mit Sync-Header, Repo-Skills
+  auf Blueprint-Workflow + git/gh/github-Set beschraenkt (ADR-012).
 
-List of data that will be stored eg. users, products, stats
+## 4. Data
 
-## 5. Tech - What stack are we using?
+- **Task-XMLs (`task/`):** exportierte Scheduled-Task-Definitionen
+  (Wiederherstellbarkeit; Ruflo-XML = bewusstes Archiv).
+- **Whitelist (`node-watchdog/whitelist.txt`):** Substring-Muster gegen
+  CommandLine/ExecutablePath.
+- **Ingest-State (`memory-ingest-state.json`):** Inkrement-Zeiger je Thread
+  (Gitignored, neben dem Export-Ordner).
+- **Issue-Mirror (`docs/issues/`):** GitHub-Bodies gespiegelt, Zeile 2 traegt
+  `mirror-sync`-SHA-Header (skriptgeprueft).
+- **MemPalace-Palast:** Drawers/KG ausserhalb des Repos (ADR-007/008/010/011).
 
-The stack this project will use eg. Next.js, Neon Postgres, ShadCN UI, Claude Haiku for content generation
+## 5. Tech
 
-## 6. Monetize - How will this make money?
+- **PowerShell (pwsh):** Watchdog, Deploy/Task-Helper, Tests, Diagnose.
+- **Bun/TypeScript:** skills-manager (Analyse-CLI), memory-ingest
+  Export/State (lib.ts = pure Test-Seam nach ADR-004).
+- **GitHub + gh CLI:** Tracker, Issues, PRs, Mirror-Integritaet.
+- **MemPalace:** Agenten-Gedaechtnis (CLI + MCP), Wing `freebuff_dev_setup`.
+- **Scheduled Tasks:** Runtime-Betrieb via `%USERPROFILE%\.tools`.
 
-Explain how you plan to make money. eg. Ads, memberships, etc
+## 6. Monetize
 
-## 7. UI/UX - How should this look and feel?
+Nicht relevant (persoenliches Infrastruktur-/Workflow-Projekt).
 
-Describe the look and feel. Add examples if you want
+## 7. UI/UX
 
-## 8. Deployment - Where and how will this ship?
+Kein Produkt-UI. Bedienflaechen sind PowerShell-Skripte (Konsolen-Output mit
+klaren Exit-Codes), die nextdns-manager-TUI (eigenstaendiges Modul) und
+GitHub-Issues/PRs als Tracker. Doku-UX: `README.md` (Betrieb),
+`docs/index.md` (Landkarte), AGENTS.md (Agenten-Konventionen, <100 Zeilen).
 
-Target host if known, such as Render or Vercel. Include app type, build command,
-start command or output directory, env vars by name, database or storage needs,
-workers or cron jobs, health check path, and domain notes if you know them.
+## 8. Deployment
+
+- **Runtime:** `%USERPROFILE%\.tools` (Spiegel aus dem Repo via
+  `npm run deploy`); Tasks zeigen auf Runtime-Pfade, nie ins Repo.
+- **Registrierung:** `npm run install-task` (schtasks bzw. per-user
+  Register-ScheduledTask fuer AtLogon), Backup via `npm run export-tasks`.
+- **CI:** GitHub-Workflow `ci.yml` (Lint + Syntaxcheck + Bun-Tests +
+  Drift-Checks) und `skills-manager.yml`.
+- **Gate:** `npm run verify` (Pre-Push-Hook ruft genau diesen Befehl).
+
+## 9. Nicht-Ziele
+
+- nextdns-manager ist ein eigenstaendiges Modul-Projekt im Repo ( eigener
+  PLAN, eigene CI-Teile); hier nur Betriebs-Verweise.
+- Kein Cross-Platform-Anspruch: Watchdog/Tasks sind Windows-only;
+  Tests skippings auf Nicht-Windows.
