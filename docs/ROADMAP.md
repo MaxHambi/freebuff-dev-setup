@@ -19,6 +19,17 @@ verstetigen.
 **Abhaengigkeiten:** keine. **Groesse:** mittel (Untersuchung + Fix +
 Verifikationslauf).
 
+**Stand 2026-09-29 (AFK-Analyse, Befunde auf #15):** Divergenz mechanistisch
+erklaert — der CLI-Scan sieht die User-Bibliothek nicht (`.agents\skills`
+steht in keiner Environment-Pfadliste); der alte 2867-Index enthielt
+Stale-/Doppel-Anteile (~218 Rows: geloeschtes `.claude\skills`, Alt-Pfad
+`tools-entwicklung`, Marketplace-Embedded-Dopplung). Offen bleibt die
+Discovery-Luecke der aktuellen routed-Version (v1.6.95): 1968 SKILL.md auf
+Disk vs. 398 discovered per MCP-Scan. Betriebsrisiko live bewiesen:
+`routed scan` prunte 2512 Eintraege in einem Lauf — **Empfehlung:
+`skills-sync.ps1` bis zur Umstellung stilllegen** (→ #17). Fix-Kriterien:
+Index-Zahl == Disk-Zahl je Root; dauerhafter Disk-vs-Index-Check (#17).
+
 ## 2. SkillSpector-Integration (#19)
 
 **Ziel:** Risk-Scan (Security-Score, Risk-Klassen) als optionale Quelle in
