@@ -9,6 +9,13 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
+- **Struktur-und-Ordnungs-Mission (2026-09-29, Plan:
+  `docs/plan-2026-09-29-struktur-ordnung.md`)**: Closeout der
+  ready-for-human-Reste - #30 (Room-Mapping `memory_ingest` in
+  `mempalace.yaml`) per Re-Mine- und Suchnachweis geschlossen;
+  Issue-Mirror-Index auf den GitHub-Stand korrigiert (#28/#29/#31/#32
+  waren bereits geschlossen, nur #30 war noch offen).
+
 - **NextDNS-Manager-Modul (`nextdns-manager/`)**: Onboarding des Desktop-
   Monolith-Scripts als PowerShell-Modul-Projekt (Issues #36-#43, Plan:
   `nextdns-manager/PLAN.md`). Slice 1 (#37): Modul-Geruest (psd1/psm1),
