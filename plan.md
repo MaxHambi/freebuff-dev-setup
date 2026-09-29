@@ -6,6 +6,11 @@
 > die verbindliche Vorgabe dafür.
 > Bei jedem Statuswechsel den `Status`-Block des jeweiligen Slice aktualisieren.
 > Keine Tokens/Credentials in dieser Datei.
+>
+> **Amendment 2026-09-29 (Operator-Entscheidung, #32):** T5 (NodeProcessMonitor)
+> und T6 (Ruflo-PolicyLedger-Rotate) werden **nicht migriert**, sondern als alte
+> Reste gestrichen und geloescht (Task deregistriert, Dateien entfernt). Die
+> Migration umfasst nur T2-T4.
 
 ---
 
@@ -31,10 +36,8 @@ Entwicklung erfolgt **hier im Repo**, Runtime-Kopien liegen danach unter
 D:\freebuff-dev-setup\
 ├── node-watchdog\            Watchdog-Suite (Scripts, Tests, Doku)
 ├── memory-ingest\            Memory-Ingest: Session → Palast (ADR-007, Ergänzung 2026-09-26)
-├── node-monitor\             Migrations-Quelle: D:\workspace\scripts\node-monitor
 ├── maintenance\              npm-cleanup.ps1 · tooling-cleanup.ps1 · run-hidden.vbs
 ├── routed-watch\             watch-wrapper.ps1 (Quelle: %LOCALAPPDATA%\Routed)
-├── ruflo-policy-rotate\      ruflo-policy-rotate.mjs (+ adr/, ruflo-adr-patch/ falls referenziert)
 ├── task\                     exportierte Task-XMLs (alle Tasks)
 ├── scripts\                  Deploy-/Registrierungs-Helper (install-task.ps1 etc.)
 ├── plan.md · AGENTS.md
@@ -43,7 +46,7 @@ D:\freebuff-dev-setup\
 ### Runtime (Ziel nach Deploy)
 ```
 %USERPROFILE%\.tools\
-├── node-watchdog\ · node-monitor\ · maintenance\ · routed-watch\ · ruflo-policy-rotate\
+├── node-watchdog\ · maintenance\ · routed-watch\ · memory-ingest\
 └── task\   ← XML-Exporte aller Tasks
 ```
 
@@ -84,12 +87,12 @@ D:\freebuff-dev-setup\
 
 | Task | Script (bisher) | Runtime-Ziel | Status |
 |---|---|---|---|
-| NpmCleanup | `%LOCALAPPDATA%\Maintenance\npm-cleanup.ps1` | `.tools\maintenance\` | registriert |
-| ToolingCleanup | `%LOCALAPPDATA%\Maintenance\tooling-cleanup.ps1` | `.tools\maintenance\` | registriert |
-| RoutedWatch | `%LOCALAPPDATA%\Routed\watch-wrapper.ps1` | `.tools\routed-watch\` | registriert + läuft (vor Move stoppen) |
-| NodeProcessMonitor | `D:\workspace\scripts\node-monitor\` | `.tools\node-monitor\` | **nicht registriert** → neu registrieren |
-| Ruflo-PolicyLedger-Rotate-workspace | `D:\workspace\scripts\ruflo-policy-rotate.mjs` | `.tools\ruflo-policy-rotate\` | registriert |
-| Node Watchdog | neu | `.tools\node-watchdog\` | neu anzulegen |
+| NpmCleanup | `%LOCALAPPDATA%\Maintenance\npm-cleanup.ps1` | `.tools\maintenance\` | **migriert 2026-09-29** |
+| ToolingCleanup | `%LOCALAPPDATA%\Maintenance\tooling-cleanup.ps1` | `.tools\maintenance\` | **migriert 2026-09-29** |
+| RoutedWatch | `%LOCALAPPDATA%\Routed\watch-wrapper.ps1` | `.tools\routed-watch\` | **migriert 2026-09-29**, läuft auf Runtime-Pfad |
+| NodeProcessMonitor | `D:\workspace\scripts\node-monitor\` | – | **gestrichen (Amendment 2026-09-29):** Reste gelöscht |
+| Ruflo-PolicyLedger-Rotate-workspace | `D:\workspace\scripts\ruflo-policy-rotate.mjs` | – | **gestrichen (Amendment 2026-09-29):** Task deregistriert, Skript gelöscht |
+| Node Watchdog | neu | `.tools\node-watchdog\` | **registriert 2026-09-29** (alle 10 Min) |
 
 `run-hidden.vbs` ist geteilt (NpmCleanup + ToolingCleanup) und wandert mit in
 `maintenance\`; beide Tasks zeigen danach auf den neuen Pfad.
@@ -120,8 +123,6 @@ Deploy-Task-Map/Export bereits verdrahtet.
 
 - XMLs enthalten absolute Pfade (`C:\Users\Max Hambi\...`); Hinweis im
   Skript-Kopf: bei Re-Import auf anderem Rechner Aktionspfad anpassen.
-- `ruflo-policy-rotate.mjs` referenziert ggf. `scripts/adr` +
-  `scripts/ruflo-adr-patch` → vor Move prüfen und Pfade im Script anpassen.
 - Drittanbieter-Ordner `%USERPROFILE%\tools\` (aleapp etc.) bleibt unberührt.
 - Workflow: Trunk-Based, atomic Commits (`chore: ...`), Squash-Merge-PRs,
   Pre-Push-Hook erzwingt Lint/Test. Commits erst nach grünem Gate.
@@ -140,37 +141,37 @@ Whitelist · Selbstschutz · Baum-Kill · Log-Rotation · Exit-Codes · Tests gr
 **Blocked by:** T1
 **AC-Kernpunkte:** Runtime-Kopie in `.tools\node-watchdog\` · Task alle 10 Min ·
 Start-ScheduledTask → LastTaskResult 0 · XML in `task\`
-**Status:** [ ] offen — Abgleich 2026-09-26: Runtime-Kopie `.tools\node-watchdog\` existiert, Task **nicht registriert**, XML fehlt
+**Status:** [x] erfuellt (2026-09-29): Task registriert (Trigger korrekt auf 10 Min), XML in `task\`, Integrationstests gruen (4 Known-Fails gem. ADR-001 akzeptiert)
 
 ### Slice T3 — Migration NpmCleanup + ToolingCleanup (+ run-hidden.vbs)
 **Blocked by:** –
 **AC-Kernpunkte:** Scripts nach `.tools\maintenance\` · beide Tasks auf neue
 Pfade re-registriert · Logs erscheinen · XMLs in `task\`
-**Status:** [ ] offen — Abgleich 2026-09-26: Tasks Ready, laufen aber weiterhin auf `%LOCALAPPDATA%\Maintenance\` (Migration nicht gezogen); XMLs zeigen den Alt-Zustand
+**Status:** [x] erfuellt (2026-09-29): Skripte ins Repo (`maintenance/`), Tasks auf `.tools\maintenance\` re-registriert, XMLs aktualisiert
 
 ### Slice T4 — Migration RoutedWatch
 **Blocked by:** –
 **AC-Kernpunkte:** Task gestoppt vor Move · Wrapper nach `.tools\routed-watch\` ·
 re-registriert und läuft wieder · XML in `task\`
-**Status:** [ ] offen — Abgleich 2026-09-26: Task Ready, Wrapper weiterhin `%LOCALAPPDATA%\Routed\` (Migration nicht gezogen)
+**Status:** [x] erfuellt (2026-09-29): Task gestoppt (inkl. innerem Watcher), Wrapper ins Repo + `.tools\routed-watch\`, per-user AtLogon-Re-Registrierung via Register-ScheduledTask (schtasks /SC ONLOGON braucht Admin), läuft wieder, XML aktualisiert
 
 ### Slice T5 — Migration NodeProcessMonitor
 **Blocked by:** –
 **AC-Kernpunkte:** Suite nach `.tools\node-monitor\` · Task aus Runtime-Pfad
 neu registriert (war previously unregistered) · XML in `task\`
-**Status:** [ ] offen — Abgleich 2026-09-26: unverändert (weder Task noch Runtime-Kopie vorhanden)
+**Status:** [x] gestrichen (Amendment 2026-09-29, Operator-Entscheidung #32): alter Rest — Task war nie registriert, Suite am 2026-09-29 aus `D:\workspace\scripts\node-monitor\` gelöscht
 
 ### Slice T6 — Migration Ruflo-PolicyLedger-Rotate
 **Blocked by:** –
 **AC-Kernpunkte:** `.mjs` + referenzierte Helfer nach `.tools\ruflo-policy-rotate\`
 · Pfad-Referenzen im Script angepasst · Task re-registriert · XML in `task\`
-**Status:** [ ] offen — Abgleich 2026-09-26: Task Ready, läuft weiterhin auf `D:\workspace\scripts\` (Migration nicht gezogen)
+**Status:** [x] gestrichen (Amendment 2026-09-29, Operator-Entscheidung #32): alter Rest — Task `Ruflo-PolicyLedger-Rotate-workspace` deregistriert, Skript `D:\workspace\scripts\ruflo-policy-rotate.mjs` gelöscht (Alt-XML in `task\` bleibt als Archiv)
 
 ### Slice T7 — Gesamtverifikation + Report
-**Blocked by:** T2–T6
+**Blocked by:** T2–T4 (T5/T6 gestrichen, siehe Amendment)
 **AC-Kernpunkte:** alle Tasks `Ready`/läuft · `LastTaskResult 0` ·
 XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
-**Status:** [ ] offen (blocked by T2–T6; MemoryIngest als Ergänzung bereits auf diesem Stand: Ready, Result 0, XML vorhanden)
+**Status:** [ ] offen (blocked by T2–T4; MemoryIngest als Ergänzung bereits auf diesem Stand: Ready, Result 0, XML vorhanden)
 
 ---
 
@@ -182,3 +183,4 @@ XML-Round-Trip-Test bestanden · Abschluss-Report im Chat
 | 2026-09-24 | Repo angelegt (seit 2026-09-25: `D:reebuff-dev-setup`); Implementierung in neuer Sitzung. |
 | 2026-09-25 | Ordner + Repo auf `freebuff-dev-setup` umbenannt (Issues #21-#26); Doku/Configs umgestellt. |
 | 2026-09-26 | Abgleich Repo ↔ Betrieb: MemoryIngest als Ergänzung registriert (Ready, Result 0, XML in `task\`); T2–T6 liegen noch vor der Migration (Tasks zeigen auf Alt-Pfade, Node Watchdog/NodeProcessMonitor fehlen); XML-Backups in `task\` spiegeln den Ist-Zustand. Gate-Scope: `npm run lint` + CI linten jetzt auch `memory-ingest`. |
+| 2026-09-29 | Migration T2-T4 gezogen: Node Watchdog registriert (Trigger auf 10 Min korrigiert); NpmCleanup/ToolingCleanup/RoutedWatch auf `.tools\` re-registriert (RoutedWatch vor Move gestoppt; AtLogon jetzt per-user via Register-ScheduledTask, da `schtasks /SC ONLOGON` Admin verlangt). Amendment: T5/T6 als alte Reste gestrichen — NodeProcessMonitor war nie registriert, `node-monitor\`-Suite und `ruflo-policy-rotate.mjs` gelöscht, Task `Ruflo-PolicyLedger-Rotate-workspace` deregistriert (Operator-Entscheidung, #32). |

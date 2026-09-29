@@ -12,11 +12,9 @@ New-Item -ItemType Directory -Force -Path $taskDir | Out-Null
 
 $taskNames = @(
 	'Node Watchdog',
-	'NodeProcessMonitor',
 	'NpmCleanup',
 	'ToolingCleanup',
 	'RoutedWatch',
-	'Ruflo-PolicyLedger-Rotate-workspace',
 	'MemoryIngest'
 )
 

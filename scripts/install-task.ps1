@@ -21,7 +21,6 @@ $runtimeRoot = Join-Path $env:USERPROFILE '.tools'
 # Task-Name -> Script-Pfad (relativ zum Runtime-Root)
 $taskMap = @{
 	'Node Watchdog'        = 'node-watchdog\node-watchdog.ps1'
-	'NodeProcessMonitor'   = 'node-monitor\node-monitor.ps1'
 	'NpmCleanup'           = 'maintenance\npm-cleanup.ps1'
 	'ToolingCleanup'       = 'maintenance\tooling-cleanup.ps1'
 	'RoutedWatch'          = 'routed-watch\watch-wrapper.ps1'
@@ -31,7 +30,6 @@ $taskMap = @{
 # Task-Name -> Trigger (ST = Start-Time). Retry-Intervall in Minuten.
 $triggerMap = @{
 	'Node Watchdog'      = 'ST=00:00; Interval=10min; Duration=1d'
-	'NodeProcessMonitor' = 'ST=00:00; Interval=5min; Duration=1d'
 	'NpmCleanup'         = 'ST=03:00; OnceDaily'
 	'ToolingCleanup'     = 'ST=04:00; OnceDaily'
 	'RoutedWatch'        = 'AtLogon'
