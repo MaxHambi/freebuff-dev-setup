@@ -28,6 +28,10 @@ Kleine Luecke sofort nachgezogen: Mirror-Index-Zeilen #61–#64 (fehlten aus der
 
 **Phase B2 — Skill-Verifikation (geplant vs. ausgefuehrt):** Alle in der Plan-Spalte verankerten Skills als ausgefuehrt nachgewiesen (Methodik-Artefakte je Zeile); bewusste Auslassungen (`/discovery` — Plan ist selbst das Discovery-Produkt; `/prototype` — keine UI-Flaeche; Blueprint-Bau-/Betriebs-Skills — nicht gebraucht) mit Begruendung in **ADR-013** (Accepted). Fallback-Kette ADR-012 unangetastet.
 
+**Phase C — Audit (nur Vorschlaege, Report auf #15/Update 8):** 11 Positionen — 1x P0 (skills-sync.ps1 ruft Legacy-`routed scan`; live bewiesener Prune 2512 Rows), 2x P1 (nextdns Write-Bug #65; routed Discovery-Luecke 1968 vs. 398), 8x P2 (Help-Falle, PSSA-Glitch, XML-Round-Trip-Test, Wegwerf-Issues, Drawer-Retrieval, Mirror-Intro, Plan-Schaetzzahlen, CHANGELOG). Zwei eigene heutige Doku-Drifts sofort behoben (`05d58ea`).
+
+**Finale Gates (AFK-Ende):** `npm run verify` gruen; Harness 21/21 (3 Laeufe); mirror-sync -Check 26/26; GitHub: nur noch #15/#17/#19 (+#65) offen; master = origin/master.
+
 **Entscheidungen (Operator-Walkthrough vor AFK):** Squash-Merge + Branch-Loeschung; beide Loesch-Lose; Roundtrip jetzt ausfuehren; session-end-Hook bewusst NICHT registrieren; #15 heute nur Analyse (Fix eigener Lauf).
 
 **Offen:** Fix #65 (1-Zeilen-Fix, wartet auf Operator-Ok); Phasen B/B2/C der Mission.
