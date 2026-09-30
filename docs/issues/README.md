@@ -3,8 +3,11 @@
 Diese Spiegelung folgt der Issue-Fibel: PRD-/Slice-/Issue-Bodies werden im
 Repo gespiegelt, GitHub ist der Tracker. **Abweichung dokumentiert:** Die
 Skills-Manager-Slices leben bewusst unter `skills-manager/docs/issues/` (ihre
-Doku-Welt); dieser Ordner hier spiegelt die repo-weiten Session-Issues (Operations, MemPalace, Task-Migration, Rename). Aktualisierungen im Tracker werden
-hier nachgezogen.
+Doku-Welt); dieser Ordner hier spiegelt die repo-weiten Session-Issues (Operations, MemPalace, Task-Migration, Rename) — seit 2026-09-30 auch die
+Skills-Manager-Slices #2–#10 als Body-Mirrors mit mirror-sync-Header
+(die Detail-Spiegel mit Implementierungsnotizen bleiben unter
+`skills-manager/docs/issues/`, weiterhin ohne Header). Aktualisierungen im
+Tracker werden hier nachgezogen.
 
 **Gelöschte Issues:** Wird ein Issue auf GitHub gelöscht, bleibt der Mirror
 als Quelle bestehen — sein mirror-sync-Header wird auf `sha256:gone`
@@ -16,7 +19,16 @@ Closure-Kommentar.
 
 | Issue | Titel | Label | Status |
 |---|---|---|---|
-| [#1](https://github.com/MaxHambi/freebuff-dev-setup/issues/1) | PRD: Skills-Manager - Analyse, Gruppierung & OpenTUI-Installer | ready-for-agent | geschlossen (completed) — Slices #2–#10; Slice-Spiegel unter `skills-manager/docs/issues/` (ohne Header, dokumentierte Abweichung) |
+| [#1](https://github.com/MaxHambi/freebuff-dev-setup/issues/1) | PRD: Skills-Manager - Analyse, Gruppierung & OpenTUI-Installer | ready-for-agent | geschlossen (completed) — Slices #2–#10 abgeleitet; TUI-Zukunft ADR-006 |
+| [#2](https://github.com/MaxHambi/freebuff-dev-setup/issues/2) | Slice 1: Analyse-CLI - Scan, Klassifizierung, Index & Report | ready-for-agent | geschlossen — Raeumung C7 (2026-09-30) |
+| [#3](https://github.com/MaxHambi/freebuff-dev-setup/issues/3) | Slice 2: TUI-Baum read-only - Gruppen, Navigation, Beschreibungspanel | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
+| [#4](https://github.com/MaxHambi/freebuff-dev-setup/issues/4) | Slice 3: Multi-Select, Filter & Badges in der TUI | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
+| [#5](https://github.com/MaxHambi/freebuff-dev-setup/issues/5) | Slice 4: Install-Flow - Pfad-Dialog, Copy-Engine, Summary | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
+| [#6](https://github.com/MaxHambi/freebuff-dev-setup/issues/6) | Slice 5: Mirror-Gruppierung - Buckets, routed-Fallback, Dry-Run | ready-for-agent | geschlossen — Raeumung C7 (2026-09-30) |
+| [#7](https://github.com/MaxHambi/freebuff-dev-setup/issues/7) | Slice 6: Delta-Index - inkrementelle Analyse mit Move-Erkennung | ready-for-agent | geschlossen — Raeumung C7 (2026-09-30) |
+| [#8](https://github.com/MaxHambi/freebuff-dev-setup/issues/8) | Slice 7: Watcher & Mirror-Sync - Update-Erkennung im laufenden Betrieb | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
+| [#9](https://github.com/MaxHambi/freebuff-dev-setup/issues/9) | Slice 8: Semantische Suche via routed (/) | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
+| [#10](https://github.com/MaxHambi/freebuff-dev-setup/issues/10) | Slice 9: TUI-Live-Integration - Watcher-Thread, Rescan, Feinschliff | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
 | #21 | Ordner D:\tools-entwicklung zu D:\freebuff-dev-setup umbenennen (Stop-the-world) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-21.md](issue-21.md), `sha256:gone` |
 | #22 | GitHub-Repo MaxHambi/tools-entwicklung zu MaxHambi/freebuff-dev-setup umbenennen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-22.md](issue-22.md), `sha256:gone` |
 | #23 | Git-Remote-URL auf neuen Repo-Namen umstellen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-23.md](issue-23.md), `sha256:gone` |
