@@ -1,5 +1,5 @@
 #3: Slice 2: TUI-Baum read-only - Gruppen, Navigation, Beschreibungspanel
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#3 sha256:8c4c9786c13589371ee946f0bac401d305397a79fe86938ae54bda57db3f95b4 synced=2026-09-30T05:24:00Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#3 sha256:gone synced=2026-09-30T06:03:20Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#3](https://github.com/MaxHambi/freebuff-dev-setup/issues/3).
 > Label: `ready-for-agent` / `wontfix`. Status: **geschlossen (not planned, wontfix)** — TUI-Slice; Zukunft durch ADR-006 entschieden (OpenTUI-Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

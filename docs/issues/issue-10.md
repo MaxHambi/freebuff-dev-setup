@@ -1,5 +1,5 @@
 #10: Slice 9: TUI-Live-Integration - Watcher-Thread, Rescan, Feinschliff
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#10 sha256:8e25728b0c29f4f093ca00929dbf6fc97a1fbadd54119cf5d2c9efaf33a9750a synced=2026-09-30T05:23:53Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#10 sha256:gone synced=2026-09-30T06:03:14Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#10](https://github.com/MaxHambi/freebuff-dev-setup/issues/10).
 > Label: `ready-for-agent` / `wontfix`. Status: **geschlossen (not planned, wontfix)** — TUI-Slice; Zukunft durch ADR-006 entschieden (OpenTUI-Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

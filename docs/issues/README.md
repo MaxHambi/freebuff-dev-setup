@@ -19,16 +19,16 @@ Closure-Kommentar.
 
 | Issue | Titel | Label | Status |
 |---|---|---|---|
-| [#1](https://github.com/MaxHambi/freebuff-dev-setup/issues/1) | PRD: Skills-Manager - Analyse, Gruppierung & OpenTUI-Installer | ready-for-agent | geschlossen (completed) — Slices #2–#10 abgeleitet; TUI-Zukunft ADR-006 |
-| [#2](https://github.com/MaxHambi/freebuff-dev-setup/issues/2) | Slice 1: Analyse-CLI - Scan, Klassifizierung, Index & Report | ready-for-agent | geschlossen — Raeumung C7 (2026-09-30) |
-| [#3](https://github.com/MaxHambi/freebuff-dev-setup/issues/3) | Slice 2: TUI-Baum read-only - Gruppen, Navigation, Beschreibungspanel | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
-| [#4](https://github.com/MaxHambi/freebuff-dev-setup/issues/4) | Slice 3: Multi-Select, Filter & Badges in der TUI | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
-| [#5](https://github.com/MaxHambi/freebuff-dev-setup/issues/5) | Slice 4: Install-Flow - Pfad-Dialog, Copy-Engine, Summary | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
-| [#6](https://github.com/MaxHambi/freebuff-dev-setup/issues/6) | Slice 5: Mirror-Gruppierung - Buckets, routed-Fallback, Dry-Run | ready-for-agent | geschlossen — Raeumung C7 (2026-09-30) |
-| [#7](https://github.com/MaxHambi/freebuff-dev-setup/issues/7) | Slice 6: Delta-Index - inkrementelle Analyse mit Move-Erkennung | ready-for-agent | geschlossen — Raeumung C7 (2026-09-30) |
-| [#8](https://github.com/MaxHambi/freebuff-dev-setup/issues/8) | Slice 7: Watcher & Mirror-Sync - Update-Erkennung im laufenden Betrieb | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
-| [#9](https://github.com/MaxHambi/freebuff-dev-setup/issues/9) | Slice 8: Semantische Suche via routed (/) | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
-| [#10](https://github.com/MaxHambi/freebuff-dev-setup/issues/10) | Slice 9: TUI-Live-Integration - Watcher-Thread, Rescan, Feinschliff | wontfix | geschlossen — Raeumung C7 (2026-09-30) |
+| #1 | PRD: Skills-Manager - Analyse, Gruppierung & OpenTUI-Installer | ready-for-agent | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-1.md](issue-1.md), `sha256:gone` |
+| #2 | Slice 1: Analyse-CLI - Scan, Klassifizierung, Index & Report | ready-for-agent | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-2.md](issue-2.md), `sha256:gone` |
+| #3 | Slice 2: TUI-Baum read-only - Gruppen, Navigation, Beschreibungspanel | wontfix | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-3.md](issue-3.md), `sha256:gone` |
+| #4 | Slice 3: Multi-Select, Filter & Badges in der TUI | wontfix | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-4.md](issue-4.md), `sha256:gone` |
+| #5 | Slice 4: Install-Flow - Pfad-Dialog, Copy-Engine, Summary | wontfix | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-5.md](issue-5.md), `sha256:gone` |
+| #6 | Slice 5: Mirror-Gruppierung - Buckets, routed-Fallback, Dry-Run | ready-for-agent | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-6.md](issue-6.md), `sha256:gone` |
+| #7 | Slice 6: Delta-Index - inkrementelle Analyse mit Move-Erkennung | ready-for-agent | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-7.md](issue-7.md), `sha256:gone` |
+| #8 | Slice 7: Watcher & Mirror-Sync - Update-Erkennung im laufenden Betrieb | wontfix | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-8.md](issue-8.md), `sha256:gone` |
+| #9 | Slice 8: Semantische Suche via routed (/) | wontfix | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-9.md](issue-9.md), `sha256:gone` |
+| #10 | Slice 9: TUI-Live-Integration - Watcher-Thread, Rescan, Feinschliff | wontfix | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-10.md](issue-10.md), `sha256:gone` |
 | #21 | Ordner D:\tools-entwicklung zu D:\freebuff-dev-setup umbenennen (Stop-the-world) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-21.md](issue-21.md), `sha256:gone` |
 | #22 | GitHub-Repo MaxHambi/tools-entwicklung zu MaxHambi/freebuff-dev-setup umbenennen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-22.md](issue-22.md), `sha256:gone` |
 | #23 | Git-Remote-URL auf neuen Repo-Namen umstellen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-23.md](issue-23.md), `sha256:gone` |
@@ -41,8 +41,8 @@ Closure-Kommentar.
 | #30 | mempalace.yaml: Room-Mapping memory_ingest ergaenzen (Edit-Tool-Blockade) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-30.md](issue-30.md), `sha256:gone` |
 | #31 | Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-31.md](issue-31.md), `sha256:gone` |
 | #32 | Slice T2-T6: Task-Migration nie gezogen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-32.md](issue-32.md), `sha256:gone` |
-| [#34](https://github.com/MaxHambi/freebuff-dev-setup/issues/34) | test: project-mirror E2E (Wegwerf-Issue) | needs-triage | geschlossen (completed) — Raeumungs-Kandidat (C7, 2026-09-30) |
-| [#35](https://github.com/MaxHambi/freebuff-dev-setup/issues/35) | test: DELETE-Reproduktion (Wegwerf) | – | geschlossen (completed) — Raeumungs-Kandidat (C7, 2026-09-30) |
+| #34 | test: project-mirror E2E (Wegwerf-Issue) | needs-triage | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-34.md](issue-34.md), `sha256:gone` |
+| #35 | test: DELETE-Reproduktion (Wegwerf) | – | **gelöscht (2026-09-30)** — Mirror als Quelle: [issue-35.md](issue-35.md), `sha256:gone` |
 | #36 | PRD/Umbrella: NextDNS-Manager - Onboarding, Refactor, Verification | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-36.md](issue-36.md), `sha256:gone` |
 | #37 | Slice 1: Onboarding nextdns-manager als Modul-Projekt | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-37.md](issue-37.md), `sha256:gone` |
 | #38 | Slice 2: Core-Schicht (Api/Auth/ErrorHandling/Pagination/Config) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-38.md](issue-38.md), `sha256:gone` |

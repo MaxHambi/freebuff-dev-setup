@@ -103,5 +103,15 @@ erhalten: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md`.
 ## Nicht-Roadmap (bewusst)
 
 - Denylist-Write-Roundtrip (Closeout-Slice 7): von Operator vertagt, kein
-  Roadmap-Posten bis zur Revokation.
+  Roadmap-Posten bis zur Revokation. **Update 2026-09-30:** Roundtrip lief
+  im AFK-Mission und fand den echten Bug #65 — dieser ist gefixt und live
+  bewiesen (Report-Durchgang 2026-09-30); Posten damit erledigt.
 - opentui-Dependency: bleibt bis Backlog-Entscheid (ADR-006-Kontext).
+
+## Raeumungs-Legende
+
+- **2026-09-30 (C7):** 12 weitere Issues geloescht (#1–#10 PRD/Slices,
+  #34/#35 Wegwerf) — 38 Mirror-Dateien sind damit durchgehend die Quelle
+  fuer alle geloeschten Issues (`sha256:gone`-Header, Mirror-Index
+  vollstaendig). Traeger-Historie lebt in den Mirrors und in
+  `skills-manager/docs/issues/`.

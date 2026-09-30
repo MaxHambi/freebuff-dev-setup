@@ -1,5 +1,5 @@
 # #1: PRD: Skills-Manager - Analyse, Gruppierung & OpenTUI-Installer
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#1 sha256:344e7a6bce8c60b2b894e4162d0a2ea5d126e799ed8cde6083e1fed5938ecfa9 synced=2026-09-30T03:55:42Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#1 sha256:gone synced=2026-09-30T06:03:13Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#1](https://github.com/MaxHambi/freebuff-dev-setup/issues/1).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** — PRD nach Merge von PRs #11–#13 abgearbeitet; Slices #2–#10 abgeleitet. TUI-Zukunft: ADR-006 (Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

@@ -1,5 +1,5 @@
 # #34: test: project-mirror E2E (Wegwerf-Issue)
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#34 sha256:25066f67905572fc255b3d7c2c21ef9da893960d4cf640def8b25a676300e734 synced=2026-09-30T03:55:47Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#34 sha256:gone synced=2026-09-30T06:03:23Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#34](https://github.com/MaxHambi/freebuff-dev-setup/issues/34).
 > Label: `needs-triage`. Status: **geschlossen (completed)** — E2E-Test abgeschlossen.

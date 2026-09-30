@@ -1,5 +1,5 @@
 # #35: test: DELETE-Reproduktion (Wegwerf)
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#35 sha256:ee1e99b7fda6fe88b990d3cff7d8befcc7aa329c87e0dd67df001cbfc4708672 synced=2026-09-30T03:55:48Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#35 sha256:gone synced=2026-09-30T06:03:23Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#35](https://github.com/MaxHambi/freebuff-dev-setup/issues/35).
 > Label: –. Status: **geschlossen (completed)** — Wegwerf-Issue.

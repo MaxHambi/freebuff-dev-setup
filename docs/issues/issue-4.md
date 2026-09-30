@@ -1,5 +1,5 @@
 #4: Slice 3: Multi-Select, Filter & Badges in der TUI
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#4 sha256:184a897dc79c48af58e078f2a146e318d1845eea6b0e54e1fa7780acb544d518 synced=2026-09-30T05:24:06Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#4 sha256:gone synced=2026-09-30T06:03:26Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#4](https://github.com/MaxHambi/freebuff-dev-setup/issues/4).
 > Label: `ready-for-agent` / `wontfix`. Status: **geschlossen (not planned, wontfix)** — TUI-Slice; Zukunft durch ADR-006 entschieden (OpenTUI-Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

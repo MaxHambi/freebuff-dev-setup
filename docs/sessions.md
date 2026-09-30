@@ -37,8 +37,17 @@ Dateikopf). Fix-Pfad aktiviert: `ROUTED_CONFIG_PATH` (User-Level, `setx`) ->
 Biome 2.3.6 -> 2.5.14), Branch lokal+remote geloescht; danach `npm ci`
 (lokal 2.5.14 aktiv) und Verify mit der neuen Version gruen (Exit 0).
 
-**Offen:** Raeumung #1-#10/#34/#35 in der UI
-(mirror-first steht lueckenlos), Rest-P2 (C4-C6, C8, C10), #15-Vollsatz der
+**Raeumung #1-#10/#34/#35 (C7) durchgefuehrt (2026-09-30):** Zuerst
+Korrektur zu Update 10: die neun Slice-Issues #2-#10 hatten KEINE Body-
+Mirrors (die skills-manager-Slice-Doku traegt keine SHA-Header) - neun
+Mirrors mit Closure-Links nachgezogen (Commit `2d09e67`, mirror-sync
+38/38). Danach Loeschung der 12 Issues via angemeldeter Browser-Session
+(Sidebar-Delete-Button je Issue mit Confirm-Dialog; API beweist danach
+404/410 fuer alle 12). Tombstone-Stempel `sha256:gone` fuer 12 Mirrors
+(mirror-sync: 38 Mirrors, -Check Exit 0), Mirror-Index auf geloescht
+umgestellt (35 Tombstone-Zeilen), ROADMAP-Raeumungs-Legende ergaenzt.
+
+**Offen:** Rest-P2 (C4-C6, C8, C10), #15-Vollsatz der
 User-Lib (nach routed-Fix + Host-Neustart: `scan_skills`-Registrierung +
 Stale-Bereinigung 40 Rows), Hinweis: NextDNS-ApiKey-Rotation empfohlen
 (Roundtrip-Skript gab Config-Echo im lokalen Terminal aus).

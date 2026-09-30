@@ -1,5 +1,5 @@
 #8: Slice 7: Watcher & Mirror-Sync - Update-Erkennung im laufenden Betrieb
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#8 sha256:53e72785b30d7976cc637e254bb56f514a7fcecf8cac849f40f3c45456ed7f4f synced=2026-09-30T05:24:15Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#8 sha256:gone synced=2026-09-30T06:03:36Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#8](https://github.com/MaxHambi/freebuff-dev-setup/issues/8).
 > Label: `ready-for-agent` / `wontfix`. Status: **geschlossen (not planned, wontfix)** — TUI-Slice; Zukunft durch ADR-006 entschieden (OpenTUI-Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

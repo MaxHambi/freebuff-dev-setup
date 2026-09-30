@@ -1,5 +1,5 @@
 #9: Slice 8: Semantische Suche via routed (/)
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#9 sha256:853959928a383ea5c52f22a7077ac0fe3ebd47dc8fdab2fbe74bfbbb52430982 synced=2026-09-30T05:24:16Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#9 sha256:gone synced=2026-09-30T06:03:37Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#9](https://github.com/MaxHambi/freebuff-dev-setup/issues/9).
 > Label: `ready-for-agent` / `wontfix`. Status: **geschlossen (not planned, wontfix)** — TUI-Slice; Zukunft durch ADR-006 entschieden (OpenTUI-Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

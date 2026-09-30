@@ -1,5 +1,5 @@
 #7: Slice 6: Delta-Index - inkrementelle Analyse mit Move-Erkennung
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#7 sha256:66fe839b332f1c18ecdc94cf53c70b9aa975b346116af03a0b98a4eb88b3594e synced=2026-09-30T05:24:15Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#7 sha256:gone synced=2026-09-30T06:03:36Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#7](https://github.com/MaxHambi/freebuff-dev-setup/issues/7).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** — Delta-Index in PR #12 geliefert (2026-09-24).

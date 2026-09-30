@@ -1,5 +1,5 @@
 #2: Slice 1: Analyse-CLI - Scan, Klassifizierung, Index & Report
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#2 sha256:24c2e1967db8b9840e72c10bd470b1ce24d6094b5ee9efcd8721d471ce3bb721 synced=2026-09-30T05:23:53Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#2 sha256:gone synced=2026-09-30T06:03:15Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#2](https://github.com/MaxHambi/freebuff-dev-setup/issues/2).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** — Analyse-CLI geliefert via PR #12 (2026-09-24).

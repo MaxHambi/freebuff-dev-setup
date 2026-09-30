@@ -1,5 +1,5 @@
 #5: Slice 4: Install-Flow - Pfad-Dialog, Copy-Engine, Summary
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#5 sha256:e36f4fe4ce90beb589434c7106ad73ccd7f3ba96d7d48fa03199af420681aa61 synced=2026-09-30T05:24:09Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#5 sha256:gone synced=2026-09-30T06:03:30Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#5](https://github.com/MaxHambi/freebuff-dev-setup/issues/5).
 > Label: `ready-for-agent` / `wontfix`. Status: **geschlossen (not planned, wontfix)** — TUI-Slice; Zukunft durch ADR-006 entschieden (OpenTUI-Eigenbau eingestellt, externe Tools skill-manager/SkillSpector).

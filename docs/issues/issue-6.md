@@ -1,5 +1,5 @@
 #6: Slice 5: Mirror-Gruppierung - Buckets, routed-Fallback, Dry-Run
-<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#6 sha256:ebed45814e4a86b9d1cf229a2303022de5e07c1888cb489f4da8e05275f73a51 synced=2026-09-30T05:24:11Z -->
+<!-- mirror-sync: source=github:MaxHambi/freebuff-dev-setup#6 sha256:gone synced=2026-09-30T06:03:32Z -->
 
 > Spiegel des GitHub-Issues [MaxHambi/freebuff-dev-setup#6](https://github.com/MaxHambi/freebuff-dev-setup/issues/6).
 > Label: `ready-for-agent`. Status: **geschlossen (completed)** — Mirror-Gruppierung als Backlog-Thematik der Analyse-CLI weitergeführt (ADR-006-Kontext).
