@@ -10,6 +10,8 @@
 #   - Dispatch-Tabelle (vollstaendig, Keys eindeutig, Funktionen existieren)
 #   - Write-Safety: WhatIf ohne HTTP-Call, errors[] je Domain, ConfirmImpact=High
 #   - Font-Erkennung (Icon-Modi)
+#   - HTTP-Request-Contract: ContentType application/json bei JSON-Body,
+#     keiner bei Body-losen Calls (Issue #65, live bewiesen 2026-09-29)
 
 BeforeAll {
 	$modulePath = Join-Path -Path $PSScriptRoot -ChildPath '..\NextDnsManager.psd1'
@@ -333,5 +335,49 @@ Describe 'Config' {
 		$cfg.ApiKey = $oldKey
 		$cfg.ProfileId = $oldProfile
 		{ Assert-NextDnsConfigReady } | Should -Not -Throw
+	}
+}
+
+Describe 'HTTP-Request-Contract (Issue #65)' {
+	# Seam-Hinweis: Der Delegate (Set-NextDnsHttpDelegate) springt VOR
+	# Invoke-NextDnsHttpRequest ein und kann den ContentType des echten
+	# Calls strukturell nicht sehen (Luecke, die #65 zunaechst versteckt
+	# hielt). Deshalb hier der echte Pfad: Invoke-WebRequest wird gemockt.
+	# Wichtig: Stale Delegates aus frueheren Describes zusaetzlich
+	# zuruecksetzen, sonst werden diese Tests nie erreicht.
+	BeforeAll {
+		Set-NextDnsHttpDelegate -Delegate $null
+	}
+
+	It 'sendet Content-Type application/json, wenn ein JSON-Body mitgeht' {
+		InModuleScope NextDnsManager {
+			$script:SeenRequest = $null
+			Mock Invoke-WebRequest {
+				param($Uri, $Method, $Headers, $Body, $ContentType, $TimeoutSec, $ErrorAction)
+				$script:SeenRequest = [PSCustomObject]@{ ContentType = $ContentType; Body = $Body; Method = $Method }
+				[PSCustomObject]@{ StatusCode = 200; Content = '{"data":{"id":"ct"}}'; Headers = $null }
+			}
+			$r = Invoke-NextDnsApi -Method 'POST' -Endpoint '/profiles/abc123/denylist' -Body @{ id = 'contract-test.example'; active = $true }
+			$r.Ok | Should -BeTrue
+			$script:SeenRequest.Method | Should -Be 'POST'
+			$script:SeenRequest.ContentType | Should -Be 'application/json'
+			$script:SeenRequest.Body | Should -Match 'contract-test\.example'
+		}
+	}
+
+	It 'sendet keinen Content-Type bei Body-losen Calls (GET)' {
+		InModuleScope NextDnsManager {
+			$script:SeenRequest = $null
+			Mock Invoke-WebRequest {
+				param($Uri, $Method, $Headers, $Body, $ContentType, $TimeoutSec, $ErrorAction)
+				$script:SeenRequest = [PSCustomObject]@{ ContentType = $ContentType; Body = $Body; Method = $Method }
+				[PSCustomObject]@{ StatusCode = 200; Content = '{"data":[]}'; Headers = $null }
+			}
+			$r = Invoke-NextDnsApi -Method 'GET' -Endpoint '/profiles/abc123/denylist'
+			$r.Ok | Should -BeTrue
+			$script:SeenRequest.Method | Should -Be 'GET'
+			$script:SeenRequest.ContentType | Should -BeNullOrEmpty
+			$script:SeenRequest.Body | Should -BeNullOrEmpty
+		}
 	}
 }

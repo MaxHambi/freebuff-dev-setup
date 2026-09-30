@@ -40,7 +40,14 @@ function Invoke-NextDnsHttpRequest {
 			TimeoutSec = $TimeoutSec
 			ErrorAction = 'Stop'
 		}
-		if ($JsonBody) { $params.Body = $JsonBody }
+		if ($JsonBody) {
+			$params.Body = $JsonBody
+			# Issue #65: Invoke-WebRequest rat sonst text/plain und die NextDNS-
+			# API antwortet mit HTTP 400 ("must be object"). Der Content-Type
+			# gehoert zwingend zum JSON-Body dazu (live bewiesen 2026-09-29:
+			# identischer Body mit ContentType -> POST OK).
+			$params.ContentType = 'application/json'
+		}
 		$resp = Invoke-WebRequest @params
 		return [PSCustomObject]@{
 			StatusCode = [int]$resp.StatusCode
