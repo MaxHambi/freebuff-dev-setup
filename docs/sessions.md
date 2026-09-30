@@ -33,7 +33,11 @@ Dateikopf). Fix-Pfad aktiviert: `ROUTED_CONFIG_PATH` (User-Level, `setx`) ->
 (inkl. npm-Metadaten-Fehler `gather/routed`/`0.0.1`). #17-Kontext aktualisiert
 (Disk-vs-Index-Check, Spazaten-Sync nach routed-Fix, Re-Enable-Entscheid).
 
-**Offen:** PR #33-Merge (Diff-Review), Raeumung #1-#10/#34/#35 in der UI
+**PR #33 gemerged (2026-09-30):** Squash-Merge `e7f6256` (dependabot
+Biome 2.3.6 -> 2.5.14), Branch lokal+remote geloescht; danach `npm ci`
+(lokal 2.5.14 aktiv) und Verify mit der neuen Version gruen (Exit 0).
+
+**Offen:** Raeumung #1-#10/#34/#35 in der UI
 (mirror-first steht lueckenlos), Rest-P2 (C4-C6, C8, C10), #15-Vollsatz der
 User-Lib (nach routed-Fix + Host-Neustart: `scan_skills`-Registrierung +
 Stale-Bereinigung 40 Rows), Hinweis: NextDNS-ApiKey-Rotation empfohlen
