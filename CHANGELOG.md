@@ -7,6 +7,13 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Fixed
+
+- **PSSA-Glitch im Test-Gate abgefangen (C5, #15)**: `scripts/test.ps1`
+  wiederholt `Invoke-ScriptAnalyzer`-Aufrufe (3 Versuche); der sporadische
+  "Collection was modified"-Fehler führt jetzt zu einem ehrlichen FAIL
+  statt stiller Exit 0.
+
 ### Added
 
 - **#15-Fix-Lauf (2026-09-30)**: Root-Cause der routed-Discovery-Lücke auf

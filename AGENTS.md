@@ -148,6 +148,13 @@ Erinnerung. Am Session-Ende: Verifikationspass ueber alle Gates und Claims
 der Session.
 
 Learnings (nicht aus Code ableitbar):
+- Plan-/Schaetzzahlen in Doku immer als „gemessen“ oder „geschätzt“
+  markieren (C10): Schätzflächen (z. B. „22/22 PASS“) verlieren gegen
+  Messungen („21/21 PASS, 3 Läufe“) — die Messung ist Autorität und der
+  Plan wird nachgezogen, nie umgekehrt.
+- routed-CLI: `scan` hat keinen Help-Guard (`scan --help` führt einen
+  echten, index-kürzenden Scan aus) und pruned global; Registrierung nur
+  via MCP `scan_skills` (Issue #15, upstream bshea-1/Routed#2).
 - Watchdog-Port-Erkennung MUSS `Get-NetTCPConnection -State Listen` nutzen;
   netstat-String-Matching bricht auf nicht-englischen Windows-UIs
   (`ABHOeREN` statt `LISTENING`) - ADR-001/H2.

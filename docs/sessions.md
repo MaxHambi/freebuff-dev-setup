@@ -47,7 +47,19 @@ Mirrors mit Closure-Links nachgezogen (Commit `2d09e67`, mirror-sync
 (mirror-sync: 38 Mirrors, -Check Exit 0), Mirror-Index auf geloescht
 umgestellt (35 Tombstone-Zeilen), ROADMAP-Raeumungs-Legende ergaenzt.
 
-**Offen:** Rest-P2 (C4-C6, C8, C10), #15-Vollsatz der
+**Rest-P2 teilweise erledigt (2026-09-30):** C4 — routed-Help-Falle in
+`routed-mcp.md` dokumentiert (Fehlersignaturen + 2 neue Zeilen: Prune-Reparatur,
+User-Lib-Lage). C5 — PSSA-Glitch in `scripts/test.ps1` stabilisiert:
+`Invoke-PssaWithRetry` (3 Versuche, steigendes Delay), bei hartnaeckigem
+"Collection was modified" jetzt ehrlicher FAIL statt stiller Gruen-Fall;
+Syntax-Parser OK, test.ps1 laeuft mit Retry-Funktion gruen. C10 —
+AGENTS.md-Learnings: Plan-/Schaetzzahlen-Pflicht („gemessen" vs.
+„geschätzt", Messung ist Autoritaet) + routed-Learning. Verbleibend: C6
+(destruktiver XML-Round-Trip, Operator-gefuehrt) und C8 (Drawer-
+Retrieval-Standardisierung als Vorschlag; die Praxis dieser Session folgt
+bereits dem einheitlichen Muster Wing/Room/added_by).
+
+**Offen:** C6 + C8, #15-Vollsatz der
 User-Lib (nach routed-Fix + Host-Neustart: `scan_skills`-Registrierung +
 Stale-Bereinigung 40 Rows), Hinweis: NextDNS-ApiKey-Rotation empfohlen
 (Roundtrip-Skript gab Config-Echo im lokalen Terminal aus).

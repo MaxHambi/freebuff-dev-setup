@@ -51,6 +51,13 @@ routed route --json "<prompt>"        # JSON mit selectedSkills + path
 routed --version
 ```
 
+**ACHTUNG (C4, live passiert 2026-09-29):** `routed scan --help` ist KEIN
+Help-Aufruf — die CLI startet den echten Scan (ohne Help-Guard) und pruned
+dabei den Index global (damals 2867 -> 393 Rows). **Niemals `routed scan`
+auch nicht mit `--help` anfassen**; Hilfe nur über `routed --version` oder
+den Quelltext unter `%LOCALAPPDATA%\Programs\Routed\packages\`. Registrierung
+immer via MCP `scan_skills` (upsert-only, siehe oben).
+
 - `selectedSkills[].skill.path` zeigt auf die `SKILL.md` -> direkt lesen.
 - Wrapper-Script: `hooks/route-gate.ps1 -Prompt "<task>"` (Exit 1 = Skill
   einladen, Exit 0 = kein Skill noetig, Exit 2 = routed nicht erreichbar).
@@ -63,4 +70,6 @@ routed --version
 | Skills fehlen im Index | neu installiert, nicht gescannt | `scan_skills` ausfuehren |
 | Veralteter Skill-Inhalt | Datei geaendert, Hash stale | `scan_skills`, dann `get_skill` |
 | Doppelt vergebene Namen ueber Hosts | gleicher Skill in mehreren Tools | gewuenschten `host`-Filter setzen |
+| Index-Zahl springt stark nach einem CLI-Aufruf | `routed scan` hat geprunt (globaler `removeMissingSkills`) | sofort MCP `scan_skills` laufen lassen (upsert-only, repariert die erkannten Roots); Details #15, `skills-sync.ps1` bleibt stillgelegt |
+| User-Bibliothek (`~/.agents/skills`) fehlt im Index | Detector-Kanntnis + Container-Recursion-Stopp (routed v1.6.95) | `ROUTED_CONFIG_PATH` ist gesetzt (User-Level); volle Registrierung erst nach routed-Fix (upstream bshea-1/Routed#2) + Host-Neustart via `scan_skills` |
 | Niedrige Confidence bei klarem Fall | Begriffe fehlen in Beschreibung | Skill-description schaerfen, `record_feedback` |

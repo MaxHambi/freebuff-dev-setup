@@ -92,13 +92,31 @@ if (Ensure-TestModule -Name 'PSScriptAnalyzer' -Minimum ([version]'1.21.0')) {
 	$settingsSrc = Join-Path $moduleDir 'PSScriptAnalyzerSettings.psd1'
 	$settingsTests = Join-Path $moduleDir 'tests\PSScriptAnalyzerSettings.Tests.psd1'
 
-	$srcDiagnostics = @(Invoke-ScriptAnalyzer -Path (Join-Path $moduleDir 'src') -Settings $settingsSrc -Recurse)
+	# PSSA-Glitch (Issue #15-Report, C5, 2026-09-30): Invoke-ScriptAnalyzer
+	# wirft sporadisch "Collection was modified; enumeration operation may not
+	# execute." (internes Modul-Caching, nicht unser Code) - frueher brach das
+	# die Diagnostics-Collection stumm und das Gate blieb trotz Glitch gruen.
+	# Jetzt: bis zu 2 Retries mit kurzem Delay; bleibt der Fehler, FAIL mit
+	# Befund statt stillem Exit 0.
+	function Invoke-PssaWithRetry {
+		param([hashtable]$Splat)
+		for ($attempt = 1; $attempt -le 3; $attempt++) {
+			try {
+				return @(Invoke-ScriptAnalyzer @Splat)
+			} catch {
+				if ($attempt -eq 3) { throw }
+				Start-Sleep -Milliseconds (200 * $attempt)
+			}
+		}
+	}
+
+	$srcDiagnostics = @(Invoke-PssaWithRetry -Splat @{ Path = (Join-Path $moduleDir 'src'); Settings = $settingsSrc; Recurse = $true })
 	$srcRoot = @()
-	$srcRoot += @(Invoke-ScriptAnalyzer -Path (Join-Path $moduleDir 'NextDnsManager.psd1') -Settings $settingsSrc)
-	$srcRoot += @(Invoke-ScriptAnalyzer -Path (Join-Path $moduleDir 'NextDnsManager.psm1') -Settings $settingsSrc)
-	$srcRoot += @(Invoke-ScriptAnalyzer -Path (Join-Path $moduleDir 'run.ps1') -Settings $settingsSrc)
-	$srcRoot += @(Invoke-ScriptAnalyzer -Path (Join-Path $moduleDir 'setup.ps1') -Settings $settingsSrc)
-	$testDiagnostics = @(Invoke-ScriptAnalyzer -Path (Join-Path $moduleDir 'tests') -Settings $settingsTests -Recurse)
+	$srcRoot += @(Invoke-PssaWithRetry -Splat @{ Path = (Join-Path $moduleDir 'NextDnsManager.psd1'); Settings = $settingsSrc })
+	$srcRoot += @(Invoke-PssaWithRetry -Splat @{ Path = (Join-Path $moduleDir 'NextDnsManager.psm1'); Settings = $settingsSrc })
+	$srcRoot += @(Invoke-PssaWithRetry -Splat @{ Path = (Join-Path $moduleDir 'run.ps1'); Settings = $settingsSrc })
+	$srcRoot += @(Invoke-PssaWithRetry -Splat @{ Path = (Join-Path $moduleDir 'setup.ps1'); Settings = $settingsSrc })
+	$testDiagnostics = @(Invoke-PssaWithRetry -Splat @{ Path = (Join-Path $moduleDir 'tests'); Settings = $settingsTests; Recurse = $true })
 
 	$all = @()
 	$all += $srcDiagnostics
