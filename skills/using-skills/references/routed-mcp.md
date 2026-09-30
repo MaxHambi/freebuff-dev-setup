@@ -34,8 +34,9 @@ route_skill(prompt=<Task>, topK=3)
 Regeln:
 
 - Nach dem Installieren oder Bearbeiten von Skills immer `scan_skills`
-  ausfuehren, sonst liefert der Index alte Fassungen aus. Automatisiert:
-  `hooks/skills-sync.ps1` (Snapshot-Diff + `routed scan`, siehe SKILL.md),
+  ausfuehren, sonst liefert der Index alte Fassungen aus. Nur `scan_skills`
+  (upsert-only, kein Prune) — `hooks/skills-sync.ps1` ist stillgelegt
+  (Issue #15/C1: `routed scan` pruned global, siehe SKILL.md),
 - Bei Aenderungen an Skill-Dateien an ALLEN Ablageorten pflegen (canonical
   `.gemini\config\plugins\...` + Kopie `.agents\skills\...`), dann scannen.
 - Mehrere Treffer mit aehnlichem Score: SKILL.md der Top-2 lesen und die

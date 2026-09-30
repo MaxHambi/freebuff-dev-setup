@@ -1,5 +1,27 @@
 #Requires -Version 5.1
 # Skills-Sync-Hook fuer den Skill "using-skills".
+#
+# ============================ STILLGELEGT (C1) ============================
+# Issue #15 / Report-Durchgang 2026-09-30 (Operator-Beschluss):
+# Dieser Hook ruft `routed scan` (CLI) und kann den Index dadurch EINKUERZEN:
+# `removeMissingSkills(validPaths)` pruned alle Rows, die nicht unter den
+# Environment-Pfaden des Detectors liegen — live bewiesen 2026-09-29
+# (Prune 2512 Rows, 2867 -> 393). Die User-Bibliothek ~/.agents/skills ist
+# im Detector bis routed v1.6.95 NICHT enthalten; jeder Scan-Versuch ist
+# damit keine Registrierung, sondern ein Risiko. Registrierung nur noch
+# bewusst und manuell via routed MCP `scan_skills` (upsert-only, kein
+# Prune) — siehe ADR-002 und skills/using-skills/SKILL.md.
+#
+# RE-ENABLE (nur wenn ALLES erfuellt ist):
+#   1. routed > v1.6.95 kennt ~/.agents/skills im Detector ODER es existiert
+#      eine ueberpruefte ROUTED_CONFIG_PATH-Umgebung dafuer (dokumentiert in
+#      ~/.agents/routed-environments.json).
+#   2. `routed scan` pruned nicht mehr global (upsert-only oder
+#      RemoveMissing auf die tatsaechlich gescannten Roots beschraenkt).
+#   3. Operator-Freigabe im Issue #15/#17 dokumentiert.
+#   Danach: diesen Block entfernen und Hook wieder normal nutzen.
+# ===========================================================================
+#
 # Erkennt Aenderungen an den lokalen Skills-Ordnern und registriert sie im
 # routed-Index (routed scan). Nur bei realen Aenderungen wird gescannt;
 # der Zustand liegt als Snapshot in %APPDATA%\routed\skills-sync.state.json.
@@ -12,6 +34,10 @@ param(
 	[switch]$Force,
 	[switch]$HashContent
 )
+
+# Stillgelegt (Issue #15, C1): bewusster, lauter Exit statt stiller Scan.
+Write-Host 'SYNC-STILLGELEGT (Issue #15/C1): `routed scan` pruned den Index (live bewiesen 2026-09-29: 2512 Rows). Registrierung nur via routed MCP `scan_skills` (upsert-only). Re-Enable-Kriterien stehen im Dateikopf.'
+exit 0
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest

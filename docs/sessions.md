@@ -3,6 +3,42 @@
 Kurze Summaries pro Session: was wurde geliefert, entschieden, offen gelassen.
 Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
+## 2026-09-30 - Report-Durchgang + #15-Fix-Lauf (Operator anwesend)
+
+**Report-Durchgang (Skills: `gh-review-requests` im Fallback-Modus + `status`):**
+Blueprint-Zustand (Build-Plan 6/10, keine Findings, Repo-Skills 37). Review-Queue-
+Scan fand **PR #33** (dependabot Biome 2.3.6->2.5.14, CI 3/3 gruen, offen seit
+27.09.) - Diff-Review (nur package.json + Lockfile) beim Operator. Entscheide:
+#65-Fix + Tests + Live-Roundtrip sofort; C1 mit #15 buendeln; Doku-Drift jetzt;
+C7 vorbereiten + C9; 3 neue Skill-Ordner (gh-review-requests, github-actions-
+debugger, github-issue-creator) noch nicht committen (Operator erganzt weiter).
+
+**Geliefert (Commits `0fba91a`, `03d0cd2`):** #65 gefixt (`ContentType
+application/json` bei JSON-Body in `Invoke-NextDnsHttpRequest`; 2 Contract-Tests
+ueber `InModuleScope`+`Mock Invoke-WebRequest` - der Delegate-Seam kann
+Request-Header strukturell nicht sehen; **Live-Roundtrip 374->375->374**,
+Endzustand sauber; Pester 32/32). Docs: CHANGELOG deckt AFK+#65, sessions.md-
+Offen-Zeile aktualisiert, fehlende Mirrors #1/#34/#35 nachgezogen (mirror-sync
+29/29), Tombstone-Politik im Mirror-README-Intro.
+
+**#15-Fix-Lauf (Update 11 auf #15):** Root-Cause auf Code-Ebene (routed
+v1.6.95): Detector kennt `~/.agents/skills` nicht (Scanner 396 vs. 2373 Disk);
+`crawlDirectory` stoppt an Ordnern mit eigener SKILL.md - nur 43/1968 der
+User-Lib erreichbar, Container-Bibliotheken unsichtbar; CLI-`scan` pruned
+global, **MCP `scan_skills` upsert-only live bewiesen** (Index blieb 436).
+C1: `skills-sync.ps1` stillgelegt (lauter Exit, Re-Enable-Kriterien im
+Dateikopf). Fix-Pfad aktiviert: `ROUTED_CONFIG_PATH` (User-Level, `setx`) ->
+`~/.agents/routed-environments.json` meldet die User-Lib an (Scanner 396 ->
+439, +43 Top-Level). Upstream-Report: [bshea-1/Routed#2](https://github.com/bshea-1/Routed/issues/2)
+(inkl. npm-Metadaten-Fehler `gather/routed`/`0.0.1`). #17-Kontext aktualisiert
+(Disk-vs-Index-Check, Spazaten-Sync nach routed-Fix, Re-Enable-Entscheid).
+
+**Offen:** PR #33-Merge (Diff-Review), Raeumung #1-#10/#34/#35 in der UI
+(mirror-first steht lueckenlos), Rest-P2 (C4-C6, C8, C10), #15-Vollsatz der
+User-Lib (nach routed-Fix + Host-Neustart: `scan_skills`-Registrierung +
+Stale-Bereinigung 40 Rows), Hinweis: NextDNS-ApiKey-Rotation empfohlen
+(Roundtrip-Skript gab Config-Echo im lokalen Terminal aus).
+
 ## 2026-09-29 (Abend) - AFK-Mission: Closeout-Raeumung + Write-Roundtrip (Plan rev. 3, Phasen A-D)
 
 **Geliefert Phase A:** PR #59 squash-merged (`617fd9c`, 2026-09-29T17:39:07Z, Branch lokal+remote geloescht); **22 Issues geloescht** (Los A: #21–#26, #36–#43; Los B: #28–#32, #53, #54, #56 — Kandidatenliste zaehlte real 22, nicht 19; Beschluss unberuehrt), Mirror-Tombstones `sha256:gone` gestempelt, `mirror-sync -Check` 26/26 gruen; #61/#62/#63/#64 geschlossen (Abschlusskommentare; #62 enthaelt Hook-Entscheid); Commit `137e283` (Mirror-Index komplett inkl. Tombstone-Zeilen + #61–#64, README-Hook-Landkarte „bewusst nicht registriert (Operator-Entscheid 2026-09-29)", ROADMAP Posten 5+6 abgeschlossen, `docs/plan-2026-09-29-ready-for-human.md` in-place archiviert — 5 Mirror-/ADR-Relative-Links wuerden durch Verschieben brechen, Begruendung im Archiv-Header).

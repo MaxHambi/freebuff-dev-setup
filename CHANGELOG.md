@@ -9,6 +9,15 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
+- **#15-Fix-Lauf (2026-09-30)**: Root-Cause der routed-Discovery-Lücke auf
+  Code-Ebene (routed v1.6.95): `~/.agents/skills` fehlt im Detector-Default,
+  der Scanner stoppt an Container-`SKILL.md` (nur 43/1968 User-Lib-Skills
+  erreichbar), CLI-`scan` pruned global während MCP `scan_skills`
+  upsert-only ist (live bewiesen). `skills-sync.ps1` stillgelegt (C1,
+  Re-Enable-Kriterien im Dateikopf), `ROUTED_CONFIG_PATH`-Umgebung für die
+  User-Bibliothek registriert (Scanner 396 → 439), Upstream-Report
+  [bshea-1/Routed#2](https://github.com/bshea-1/Routed/issues/2).
+
 - **AFK-Mission: Closeout-Räumung + Write-Roundtrip (2026-09-29, Plan:
   `docs/plan-2026-09-29-ready-for-human.md`, in-place archiviert)**:
   PR #59 squash-merged (`617fd9c`), 22 Issues gelöscht (Mirror-Tombstones

@@ -30,6 +30,21 @@ Disk vs. 398 discovered per MCP-Scan. Betriebsrisiko live bewiesen:
 `skills-sync.ps1` bis zur Umstellung stilllegen** (→ #17). Fix-Kriterien:
 Index-Zahl == Disk-Zahl je Root; dauerhafter Disk-vs-Index-Check (#17).
 
+**Stand 2026-09-30 (Fix-Lauf, Operator anwesend):** Root-Cause auf
+Code-Ebene bestätigt (routed v1.6.95, Quelltext-Analyse + Live-Zahlen):
+(1) `~/.agents/skills` fehlt im Detector-Default — Scanner 396 gegen
+2373 SKILL.md auf Disk (355 plugins + 40 Repo + 1 custom); (2) auch mit
+angemeldetem Root findet der Scanner nur 43 der 1968 User-Lib-Skills:
+`crawlDirectory` stoppt die Rekursion an Ordnern mit eigener SKILL.md
+(Container-Bibliotheken bleiben unsichtbar); (3) CLI-`scan` pruned global
+(`removeMissingSkills`), MCP-`scan_skills` ist upsert-only (live bewiesen:
+Index blieb nach Scan bei 436). **Umgesetzt:** `skills-sync.ps1`
+stillgelegt (C1, Re-Enable-Kriterien im Dateikopf), `ROUTED_CONFIG_PATH`
+auf User-Level gesetzt (`~/.agents/routed-environments.json`, `setx` —
+aktiv für neue Prozesse). Upstream: [bshea-1/Routed#2](https://github.com/bshea-1/Routed/issues/2).
+Offen bis routed-Fix: Index == Disk je Root (voller Aushang der
+User-Lib + Stale-Bereinigung 40 Rows); Disk-vs-Index-Check → #17.
+
 ## 2. SkillSpector-Integration (#19)
 
 **Ziel:** Risk-Scan (Security-Score, Risk-Klassen) als optionale Quelle in
@@ -45,8 +60,11 @@ Anbindung).
 
 ## 3. Skills-Sync automatisieren (#17)
 
-**Ziel:** Anbindung und Idempotenz des Skill-Syncs festschreiben (Snapshot-
-Diff via `skills-sync.ps1`, Registrierung via `routed scan`; ADR-002/012
+**Ziel:** Anbindung und Idempotenz der Index-Registrierung festschreiben
+(Registrierung ausschliesslich via MCP `scan_skills`, upsert-only;
+dauerhafter Disk-vs-Index-Check; `skills-sync.ps1` bleibt stillgelegt,
+bis routed Prune-/Discovery-Fixes bringt — siehe Posten 1 und
+[bshea-1/Routed#2](https://github.com/bshea-1/Routed/issues/2); ADR-002/012
 beachten).
 
 **Warum danach:** Automatisierung erst, wenn Index (Posten 1) und

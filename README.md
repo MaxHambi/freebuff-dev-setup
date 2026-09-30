@@ -132,8 +132,8 @@ Runtime-Logs nicht. Wenn der State-JSON versehentlich im Export-Ordner landet
 ## Skills-Verzeichnis (`skills/`)
 
 Das Repo versioniert eigene Agent Skills unter `skills/`; Deploy-Ziel ist
-`%USERPROFILE%\.agents\skills\<name>\` (Registrierung im routed-Index via
-`skills-sync.ps1` oder MCP `scan_skills`).
+`%USERPROFILE%\.agents\skills\<name>\` (Registrierung im routed-Index nur
+noch via MCP `scan_skills` — upsert-only, kein Prune).
 
 ### skills/using-skills — Meta-Skill (Gate + Router)
 
@@ -146,18 +146,17 @@ und den Interview-Funnel (skill-router); Discovery-Fallback ueber routed MCP.
 | `references/routing-reference.md` | Vollstaendiger Phasen-Baum, Kategorie-Routing, Interview-Funnel, Lifecycle |
 | `references/routed-mcp.md` | MCP-Tool-Signaturen, Standard-Workflow, CLI-Fallback, Fehlersignaturen |
 | `hooks/route-gate.ps1` | Gate-Enforcement per routed CLI. Exit `0` = kein Skill noetig, `1` = Skill-Treffer einladen, `2` = routed nicht erreichbar |
-| `hooks/skills-sync.ps1` | Snapshot-Diff ueber die Skills-Ordner (`.gemini/config/plugins`, `.agents/skills`, `.claude/skills`) + Registrierung via `routed scan`. Switches: `-Force`, `-HashContent` (SHA-256 statt Zeitstempel+Groesse) |
+| `hooks/skills-sync.ps1` | **stillgelegt (Issue #15, C1, 2026-09-30)**: `routed scan` pruned den Index global (live bewiesen 2026-09-29: −2512 Rows), die User-Bibliothek `~/.agents/skills` fehlt im Detector — der Hook liefert einen lauteren Exit 0 mit Hinweis statt zu scannen. Re-Enable-Kriterien stehen im Dateikopf; Registrierung nur via routed MCP `scan_skills` (ADR-002) |
 
 Hooks ausfuehren:
 
 ```powershell
 pwsh -File skills/using-skills/hooks/route-gate.ps1 -Prompt "<task>"
-pwsh -File skills/using-skills/hooks/skills-sync.ps1
+# skills-sync.ps1 ist stillgelegt (Issue #15/C1) - Index-Registrierung via routed MCP `scan_skills`
 ```
 
-State des Syncs: `%APPDATA%\routed\skills-sync.state.json` (nur nach
-erfolgreichem Scan geschrieben). Aenderungen an Skills immer am Deploy-Ziel
-und im Repo pflegen, danach Sync laufen lassen.
+Index-Registrierung: Aenderungen an Skills immer am Deploy-Ziel und im Repo
+pflegen, danach MCP `scan_skills` (upsert-only).
 
 ## Agent-Doku-Konvention (AGENTS.md)
 
@@ -197,7 +196,7 @@ Welcher Hook lebt wo, was loest ihn aus, welcher ist (noch) nicht aktiv:
 | `scripts/skill-history-log.ps1` | `.claude/settings.json` (Repo) | PostToolUse, Matcher `Skill` | **nicht registriert** (bewusst offen; `.claude/settings.json` existiert im Repo nicht — Ghost-Claim „aktiv" in der Doku korrigiert; Registrierung ist ein Operator-Entscheid, Anleitung im Skriptkopf) |
 | `context-trim/analyze.js` | `~/.claude/settings.json` (User) | PostToolUse, Matcher `Write\|Edit` | aktiv (externes Tool, nicht Teil des Repos) |
 | `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **bewusst nicht registriert (Operator-Entscheid 2026-09-29)** — End-of-Session-Doku-Audit läuft skill-getrieben im Session-Closeout; Anleitung bleibt: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md` |
-| `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | manuell - bewusst keine Session-Auto-Registrierung |
+| `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | skills-sync **stillgelegt** (Issue #15/C1: `routed scan`-Prune-Risiko, Re-Enable im Dateikopf); route-gate manuell - bewusst keine Session-Auto-Registrierung |
 | `node-watchdog.ps1` | Windows Scheduled Tasks (Slices T2+, `plan.md`) | Zeitplan | Betrieb statt Hook |
 
 Hinweis: **`.freebuff/` bietet kein Hook-Format** - der Ordner traegt nur
@@ -297,8 +296,8 @@ Arbeit `route_skill` aufrufen; bei Treffern die SKILL.md am gelieferten
 | `git-advanced-workflows`, `github`, `github-actions-advanced`, `github-actions-templates`, `github-presence`, `github-workflow-automation`, `gitops-workflow`, `blueprint` | Repo-Scope (`.agents/skills/`, ADR-012) | Git/GitHub-Workflows + Multi-PR-Bauplan-Generator (blueprint) |
 
 Deploy-Ziel eigener Skills: `%USERPROFILE%.agentsskills<name>`, danach
-`skills-sync.ps1` oder MCP `scan_skills` (siehe ADR-002: `scan_skills` ist
-der massgebliche Indexierungsweg).
+MCP `scan_skills` (siehe ADR-002: `scan_skills` ist der massgebliche
+Indexierungsweg; `skills-sync.ps1` ist stillgelegt, Issue #15/C1).
 
 ## Deploy & Task-Registrierung (`scripts/`)
 
