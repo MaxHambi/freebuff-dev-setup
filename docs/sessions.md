@@ -34,7 +34,7 @@ Kleine Luecke sofort nachgezogen: Mirror-Index-Zeilen #61–#64 (fehlten aus der
 
 **Entscheidungen (Operator-Walkthrough vor AFK):** Squash-Merge + Branch-Loeschung; beide Loesch-Lose; Roundtrip jetzt ausfuehren; session-end-Hook bewusst NICHT registrieren; #15 heute nur Analyse (Fix eigener Lauf).
 
-**Offen:** Fix #65 (1-Zeilen-Fix, wartet auf Operator-Ok); Phasen B/B2/C der Mission.
+**Offen:** ~~Fix #65 (1-Zeilen-Fix, wartet auf Operator-Ok); Phasen B/B2/C der Mission.~~ **Aktualisiert 2026-09-30 (Report-Durchgang):** B/B2/C erledigt (Verifikationsmatrix oben, ADR-013, C-Report auf #15); #65 gefixt und live bewiesen (374→375→374, Pester 32/32). Verbleibend: #15-Fix-Lauf (buendelt C1 skills-sync stilllegen), PR #33-Review (dependabot, CI gruen), C4–C6/C8/C10, Raeumung #34/#35/#1 mirror-first vorbereitet (Mirrors + Tombstone-Politik im Mirror-README, C9).
 
 ## 2026-09-29 - Struktur- und Ordnungs-Mission (Slices 0-9, Plan rev. 4)
 

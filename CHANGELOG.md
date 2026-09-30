@@ -9,6 +9,18 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Added
 
+- **AFK-Mission: Closeout-Räumung + Write-Roundtrip (2026-09-29, Plan:
+  `docs/plan-2026-09-29-ready-for-human.md`, in-place archiviert)**:
+  PR #59 squash-merged (`617fd9c`), 22 Issues gelöscht (Mirror-Tombstones
+  `sha256:gone`), Closures #61–#64; Denylist-Write-Roundtrip fand den
+  echten Bug #65 (fehlender Content-Type → HTTP 400 `must be object`) —
+  Fix (`ContentType application/json` bei JSON-Body in
+  `Invoke-NextDnsHttpRequest`), 2 Contract-Tests (Pester 32/32) und
+  Live-Roundtrip-Beweis (374→375→374) nachgereicht (Report-Durchgang
+  2026-09-30); Vollumsetzungs-Verifikation Plan rev. 4 (S0–S9),
+  Skill-Einsatz-Audit ADR-013, 11 Audit-Positionen (C1–C11) auf Issue
+  #15, Routed-Index repariert (2867 → 436 stale-frei).
+
 - **Struktur-und-Ordnungs-Mission (2026-09-29, Plan:
   `docs/plan-2026-09-29-struktur-ordnung.md`, rev. 3)**: Closeout der
   ready-for-human-Reste - #30 (Room-Mapping `memory_ingest` in

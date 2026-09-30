@@ -6,10 +6,17 @@ Skills-Manager-Slices leben bewusst unter `skills-manager/docs/issues/` (ihre
 Doku-Welt); dieser Ordner hier spiegelt die repo-weiten Session-Issues (Operations, MemPalace, Task-Migration, Rename). Aktualisierungen im Tracker werden
 hier nachgezogen.
 
+**Gelöschte Issues:** Wird ein Issue auf GitHub gelöscht, bleibt der Mirror
+als Quelle bestehen — sein mirror-sync-Header wird auf `sha256:gone`
+gesetzt (`scripts/mirror-sync.ps1 -Update`). Der Index vermerkt die
+Löschung mit Datum; der Mirror-Body dokumentiert Titel, Entscheidung und
+Closure-Kommentar.
+
 ## Index
 
 | Issue | Titel | Label | Status |
 |---|---|---|---|
+| [#1](https://github.com/MaxHambi/freebuff-dev-setup/issues/1) | PRD: Skills-Manager - Analyse, Gruppierung & OpenTUI-Installer | ready-for-agent | geschlossen (completed) — Slices #2–#10; Slice-Spiegel unter `skills-manager/docs/issues/` (ohne Header, dokumentierte Abweichung) |
 | #21 | Ordner D:\tools-entwicklung zu D:\freebuff-dev-setup umbenennen (Stop-the-world) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-21.md](issue-21.md), `sha256:gone` |
 | #22 | GitHub-Repo MaxHambi/tools-entwicklung zu MaxHambi/freebuff-dev-setup umbenennen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-22.md](issue-22.md), `sha256:gone` |
 | #23 | Git-Remote-URL auf neuen Repo-Namen umstellen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-23.md](issue-23.md), `sha256:gone` |
@@ -22,6 +29,8 @@ hier nachgezogen.
 | #30 | mempalace.yaml: Room-Mapping memory_ingest ergaenzen (Edit-Tool-Blockade) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-30.md](issue-30.md), `sha256:gone` |
 | #31 | Gedaechtnis-Ergaenzung: Memory-Ingest-Decision-Drawer + KG-Fakten | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-31.md](issue-31.md), `sha256:gone` |
 | #32 | Slice T2-T6: Task-Migration nie gezogen | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-32.md](issue-32.md), `sha256:gone` |
+| [#34](https://github.com/MaxHambi/freebuff-dev-setup/issues/34) | test: project-mirror E2E (Wegwerf-Issue) | needs-triage | geschlossen (completed) — Raeumungs-Kandidat (C7, 2026-09-30) |
+| [#35](https://github.com/MaxHambi/freebuff-dev-setup/issues/35) | test: DELETE-Reproduktion (Wegwerf) | – | geschlossen (completed) — Raeumungs-Kandidat (C7, 2026-09-30) |
 | #36 | PRD/Umbrella: NextDNS-Manager - Onboarding, Refactor, Verification | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-36.md](issue-36.md), `sha256:gone` |
 | #37 | Slice 1: Onboarding nextdns-manager als Modul-Projekt | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-37.md](issue-37.md), `sha256:gone` |
 | #38 | Slice 2: Core-Schicht (Api/Auth/ErrorHandling/Pagination/Config) | – | **gelöscht (2026-09-29)** — Mirror als Quelle: [issue-38.md](issue-38.md), `sha256:gone` |
