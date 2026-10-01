@@ -26,9 +26,10 @@ Fehlschlag (Backlog-Idee, Operator-Entscheid).
 run-hidden.vbs; Migration nur per XML-Round-Trip; install-task.ps1
 erzeugt nur noch Wrapper-Aktionen.
 
-**Offen:** P12 (16:30-MemoryIngest-Lauf flash-frei?) wird nach dem Lauf
-ins Audit nachgetragen und zusaetzlich gepusht; Alerting-Idee steht als
-Backlog offen.
+**Offen:** (P12 erledigt nachtraeglich am 01.10.): 16:30-MemoryIngest-Lauf
+flash-frei verifiziert (TaskInfo 0x0, Events 100/107/129/102/201 mit
+Aktion wscript.exe, Runtime-Log sauber) - Protokoll P12 + Beweisdatei im
+Audit. Alerting-Idee steht als Backlog offen.
 
 ## 2026-09-30 - Report-Durchgang + #15-Fix-Lauf (Operator anwesend)
 

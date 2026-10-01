@@ -24,8 +24,9 @@ dem Desktop. Der Fix stellt die Task-Aktion auf den flash-freien
 
 | Datei | Inhalt |
 |---|---|
-| `01-protokoll.md` | Chronologisches Protokoll aller Untersuchungsschritte (P1-P10) mit Befehl, Auszug, Zweck, Schlussfolgerung |
-| `02-beweise/` | Rohdaten: VORHER/NACHHER-XML, Watchdog-Log-Snapshot, Original-Wrapper, Task-Inventar, Smoketest |
+| `01-protokoll.md` | Chronologisches Protokoll aller Untersuchungsschritte (P1-P12; P11 Rest-Migration, P12 MemoryIngest-16:30-Nachweis) |
+| `02-beweise/` | Rohdaten: VORHER/NACHHER-XML, Watchdog-Log-Snapshot, Original-Wrapper, Task-Inventar, Smoketest, migration/ (inkl. 16:30-Verifikation) |
+| `memoryingest-1630-verifikation.ps1` | Read-only Sammler fuer den P12-Beweis (TaskInfo, Events, Runtime-Log) |
 | `03-entscheidungen.md` | Entscheidungslog E1-E6 mit Alternativen und Begruendung |
 | `04-blueprint.md` | Genehmigter Plan (v2) in der umgesetzten Fassung |
 | `05-selbstpruefung.md` | Anleitung fuer menschliche Nachpruefung ohne KI-Agent |

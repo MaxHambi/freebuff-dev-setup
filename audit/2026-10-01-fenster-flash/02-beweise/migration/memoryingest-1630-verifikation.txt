@@ -1,0 +1,43 @@
+MemoryIngest-Verifikation (P12) - erzeugt 2026-10-01 15:45:15 - Modus: Wait
+
+== 1) Get-ScheduledTaskInfo MemoryIngest ==
+
+TaskName           : MemoryIngest
+LastRunTime        : 01.10.2026 16:30:01
+LastTaskResult     : 0
+NextRunTime        : 01.10.2026 20:30:00
+NumberOfMissedRuns : 0
+LastTaskResult hex: 0x0
+
+== 2) Task-State und Aktion (Live, Wrapper-Nachweis) ==
+State: Ready
+Execute:   wscript.exe
+Arguments: //B //Nologo "C:\Users\Max Hambi\.tools\maintenance\run-hidden.vbs" "C:\Users\Max Hambi\.tools\memory-ingest\ingest.ps1"
+
+== 3) TaskScheduler-Operational-Events fuer MemoryIngest (ab 16:20) ==
+16:30:16  Id=102  Die Aufgabenplanung hat die Instanz "{a9999787-3583-4ae6-bb69-f63195717367}" der Aufgabe "\MemoryIngest" für den Benutzer "MAXHAMBI\Max Hambi" erfolgreich fertig gestellt.
+16:30:16  Id=201  Die Aufgabenplanung hat die Aufgabe "\MemoryIngest", Instanz "{a9999787-3583-4ae6-bb69-f63195717367}", Aktion "wscript.exe" mit Rückgabecode 0 erfolgreich abgeschlossen.
+16:30:01  Id=200  Die Aufgabenplanung hat die Aktion "wscript.exe" in der Instanz "{a9999787-3583-4ae6-bb69-f63195717367}" der Aufgabe "\MemoryIngest" gestartet.
+16:30:01  Id=100  Die Aufgabenplanung hat die Instanz "{a9999787-3583-4ae6-bb69-f63195717367}" der Aufgabe "\MemoryIngest" für den Benutzer "MAXHAMBI\Max Hambi" gestartet.
+16:30:01  Id=129  Die Aufgabenplanung hat die Aufgabe "\MemoryIngest", Instanz "wscript.exe" mit der Prozess-ID 8140 gestartet.
+16:30:01  Id=107  Die Aufgabenplanung hat die Instanz "{a9999787-3583-4ae6-bb69-f63195717367}" der Aufgabe "\MemoryIngest" aufgrund einer Zeitauslöserbedingung gestartet.
+
+== 4) Runtime-Log des Ingest (neueste *.log unter .tools/memory-ingest, letzte 15 Zeilen) ==
+Datei: C:\Users\Max Hambi\.tools\memory-ingest\ingest.log
+
+=======================================================
+  Done.
+  Files processed: 0
+  Files skipped (already filed): 10
+  Drawers filed: 0
+
+  Next: mempalace search "what you're looking for"
+=======================================================
+[3/3] Verify uebersprungen (kein -VerifyQuery gesetzt).
+Memory-Ingest abgeschlossen.
+**********************
+Ende der Windows PowerShell-Aufzeichnung
+Endzeit: 20261001163015
+**********************
+
+Quelle: audit/2026-10-01-fenster-flash/memoryingest-1630-verifikation.ps1 (read-only)

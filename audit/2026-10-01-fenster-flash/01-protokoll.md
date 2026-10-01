@@ -167,3 +167,29 @@ Schritte (Skript: audit/2026-10-01-fenster-flash/migrate-tasks.ps1):
   get-log -> enabled: true; erste Events fliessen (13:20:01 Watchdog-Lauf)
 - Repo-Backups task/*.xml neu exportiert (6/6 auf wscript.exe)
 - Selbstpruefung erweitert (Pruefungen 7 + 10): 22/22 PASS
+
+## P12 - Nachtrag: MemoryIngest-16:30-Lauf flash-frei (2026-10-01)
+
+Erster regelmaessiger Lauf von MemoryIngest nach der Rest-Migration
+(P11 - der 12:30-Lauf lief noch auf direktem powershell.exe).
+
+Beweis (Skript: memoryingest-1630-verifikation.ps1, Beweisdatei
+02-beweise/migration/memoryingest-1630-verifikation.txt):
+
+- Live-Aktion: `wscript.exe //B //Nologo "...run-hidden.vbs"
+  "...ingest.ps1"` (Wrapper-Nachweis)
+- 16:30:01 Task gestartet (Events 100/107/129, PID 8140, Aktion
+  wscript.exe)
+- 16:30:16 Task erfolgreich abgeschlossen, Rueckgabecode 0 (Events
+  102/201)
+- Get-ScheduledTaskInfo: LastRunTime 16:30:01, LastTaskResult 0 (0x0),
+  NumberOfMissedRuns 0
+- Runtime-Log: Ingest abgeschlossen (10 Dateien bereits gefilmt, 0 neu),
+  Endzeit 16:30:15
+
+Schluss: Auch der 4-h-Task laeuft flash-frei. Die Migration ist damit an
+allen zeitgesteuerten Vertretern durchlaufen (Watchdog 10 min,
+MemoryIngest 4 h, naechtliche Cleanups nach gleichem Muster, RoutedWatch
+AtLogon). Operative Grenze bleibt: Fensterlosigkeit ist strukturell
+bewiesen (SW_HIDE ab Prozessstart) und durch die Operator-Beobachtung
+getragen, nicht durch Screenshot-Telemetrie.
