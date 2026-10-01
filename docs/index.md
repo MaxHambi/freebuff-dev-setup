@@ -31,6 +31,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 | `docs/decisions/ADR-011-mempalace-uebersicht-navigation.md` | MemPalace-Selbstbeschreibung: Uebersichts-Datei + Navigations-Drawer „Palast-Index" | Accepted |
 | `docs/decisions/ADR-012-skills-layout-repo-scope.md` | Skills-Layout: Repo-Scope beschraenkt, User-Level-Bibliothek, Fallback-Kette | Accepted |
 | `docs/decisions/ADR-013-skill-einsatz-struktur-mission.md` | Skill-Einsatz der Struktur-Mission: geplant vs. ausgefuehrt, Auslassungen begruendet | Accepted |
+| `docs/decisions/ADR-014-task-aktionen-ueber-run-hidden-wrapper.md` | Task-Aktionen laufen ueber run-hidden.vbs statt direkt PowerShell (Fenster-Flash-Fix) | Accepted (#66) |
 
 ## Skills-Manager (`skills-manager/`)
 
