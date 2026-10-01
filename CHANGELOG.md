@@ -7,6 +7,17 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Added
+
+- **agenttrace-Session-Audit als beratende Pre-Push-Stufe**: das neue
+  `scripts/agenttrace-audit.ps1` (auch als `npm run audit:sessions`)
+  erzeugt vor jedem Push einen Health-Bericht der lokalen
+  AI-Coding-Sessions (`out/agenttrace-overview.md`, gitignored) und
+  warnt bei Health unter 70 oder kritischen Anomalien - bewusst
+  blockiert nie (advisory), Skip wenn die agenttrace-Binary fehlt,
+  abschaltbar mit `AGENTTRACE_AUDIT=0`. Schwellwerte heben, sobald die
+  Baseline steht.
+
 ### Changed
 
 - **Commit-Attribution umgestellt: kein `Co-Authored-By`, kein

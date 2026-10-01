@@ -11,4 +11,11 @@ npm run verify --silent || {
 	exit 1
 }
 
+# Advisory stage: agenttrace-Session-Audit (Bericht + Warnung, blockiert nie).
+# Abschaltbar mit AGENTTRACE_AUDIT=0.
+if [ "${AGENTTRACE_AUDIT:-1}" = "1" ] && command -v pwsh >/dev/null 2>&1; then
+	echo "pre-push: agenttrace session audit (advisory)..."
+	pwsh -NoProfile -File scripts/agenttrace-audit.ps1 || true
+fi
+
 echo "pre-push: quality gate passed."

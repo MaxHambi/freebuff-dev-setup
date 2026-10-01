@@ -198,6 +198,7 @@ Welcher Hook lebt wo, was loest ihn aus, welcher ist (noch) nicht aktiv:
 | `session-end.ps1` (session-docs-guardian) | `~/.claude/settings.json` vorgesehen | SessionEnd/Stop | **bewusst nicht registriert (Operator-Entscheid 2026-09-29)** — End-of-Session-Doku-Audit läuft skill-getrieben im Session-Closeout; Anleitung bleibt: `~/.agents/skills/session-docs-guardian/hooks/register-hook.md` |
 | `route-gate.ps1` / `skills-sync.ps1` | `skills/using-skills/hooks/` | manuell (`pwsh -File ...`) bzw. routed MCP | skills-sync **stillgelegt** (Issue #15/C1: `routed scan`-Prune-Risiko, Re-Enable im Dateikopf); route-gate manuell - bewusst keine Session-Auto-Registrierung |
 | `node-watchdog.ps1` | Windows Scheduled Tasks (Slices T2+, `plan.md`) | Zeitplan | Betrieb statt Hook |
+| `scripts/agenttrace-audit.ps1` | Git `core.hooksPath=scripts/hooks` (via pre-push), manuell: `npm run audit:sessions` | vor jedem Push | **advisory** - agenttrace-Health-Bericht nach `out/agenttrace-overview.md` (gitignored); warnt bei Health unter 70 oder kritischen Anomalien, blockiert nie. Skip, wenn die Binary fehlt; abschaltbar mit `AGENTTRACE_AUDIT=0` |
 
 Hinweis: **`.freebuff/` bietet kein Hook-Format** - der Ordner traegt nur
 die `project-id` und `skill-extensions/` (Sitzungs-Scratch, nie Quelle der
@@ -375,7 +376,10 @@ Konventions-Wächter (`scripts/check-conventions.ps1`: Claude-Bann +
 Mirror-Sync-Header), Repo-Tests (nextdns-Pester + Smokes, Watchdog-DryRun),
 Bun-Tests (skills-manager + memory-ingest) und die Drift-Checks für
 Conventional Commits + CHANGELOG. Erzwungen durch `scripts/hooks/pre-push`
-(`core.hooksPath=scripts/hooks` ist gesetzt).
+(`core.hooksPath=scripts/hooks` ist gesetzt). Beratende Zusatzstufe im
+Hook: der agenttrace-Session-Audit (`npm run audit:sessions`) erzeugt
+einen Health-Bericht der lokalen AI-Coding-Sessions und warnt bei
+kritischen Anomalien - ohne den Push je zu blockieren.
 
 Zusaetzlich (Windows, manuell): `pwsh -File node-watchdog/run-tests.ps1`
 (Watchdog-Integrationstests, 21/21 nach ADR-001-Closure) und

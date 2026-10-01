@@ -136,6 +136,7 @@ Bun/TypeScript-Teil (skills-manager) und PowerShell-Operations-Teil:
 - MemPalace-Diagnose (Consent/Binary/Suche): `pwsh -File memory-ingest/check-mempalace.ps1` (Exit 0/1/2)
 - Issue-Mirror-Sync: `pwsh -File scripts/mirror-sync.ps1 [-Update]` (SHA-256-Header je Mirror gegen GitHub-Issue-Body; `-Check` schlägt bei Drift/fehlendem Header fehl)
 - Deploy-Pipeline (Reihenfolge): `npm run deploy` → `npm run install-task` → `npm run export-tasks`
+- Session-Health-Bericht (advisory, Teil des Pre-Push-Hooks): `npm run audit:sessions` (agenttrace; Bericht in `out/agenttrace-overview.md`, Skip wenn Binary fehlt, blockiert nie)
 - **Verify (kanonisches Gate, alles oben zusammen):** `npm run verify` - der Pre-Push-Hook (`scripts/hooks/pre-push`) ruft genau diesen Befehl
 
 Quality-Gate: `scripts/hooks/pre-push` (Lint + Syntaxcheck + Tests) laeuft
