@@ -3,6 +3,33 @@
 Kurze Summaries pro Session: was wurde geliefert, entschieden, offen gelassen.
 Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
+## 2026-10-01 - Fenster-Flash: Migration abgeschlossen, Task-Regel in Doku, Session-Audits
+
+**Geliefert:** PR #66 gemerged (Task-Aktionen ueber run-hidden.vbs-Wrapper,
+squash 3a42512), PR #67 gemerged (bun.lock-Sync, 762ccd0). Alle fuenf
+Tasks live migriert (XML-Round-Trip, Trigger/Principal byte-identisch),
+TaskScheduler-Operational-Historie aktiviert, Selbstpruefung 22/22 PASS
+(audit/2026-10-01-fenster-flash/). Doku-Regel verankert: README-Abschnitt
+"Task-Regel" (Regel/Begruendung/Durchsetzung), ADR-014 mit Alternativen-
+Verwerfungen, AGENTS-Learning, 06-grenzen.md auf P11-Stand korrigiert.
+Session-Audits vor dem Push: agenttrace 0.9.0 installiert (Release-Binary
+nach %LOCALAPPDATA%, User-PATH) - --doctor: 8 Sessions gefunden (Provider
+Antigravity-CLI; Freebuff-Sessions sind NICHT abdeckbar), --overview:
+Health Ø 85.8, 5/3/0 healthy/warning/critical, Tool-Failures 44/287
+(15.3%), Trend improving, kein kritisch. Observability-Linse (Skill
+observability-and-instrumentation) als Review des Wrapper-Fixes: Signale
+vorhanden (LastTaskResult, Operational-Historie, Runtime-Logs, Selbst-
+pruefung), ehrliche Luecke: kein automatisches Alerting bei Task-
+Fehlschlag (Backlog-Idee, Operator-Entscheid).
+
+**Entscheidungen:** ADR-014 - Task-Aktionen laufen ausschliesslich ueber
+run-hidden.vbs; Migration nur per XML-Round-Trip; install-task.ps1
+erzeugt nur noch Wrapper-Aktionen.
+
+**Offen:** P12 (16:30-MemoryIngest-Lauf flash-frei?) wird nach dem Lauf
+ins Audit nachgetragen und zusaetzlich gepusht; Alerting-Idee steht als
+Backlog offen.
+
 ## 2026-09-30 - Report-Durchgang + #15-Fix-Lauf (Operator anwesend)
 
 **Report-Durchgang (Skills: `gh-review-requests` im Fallback-Modus + `status`):**
