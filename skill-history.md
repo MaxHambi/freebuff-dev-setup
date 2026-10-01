@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## session-docs-guardian - 2026-10-01 17:04
+- **Kontext/Ausloeser:** Staleness-Audit der Session-Doku: AGENTS-Learning zur Wrapper-Regel, 06-grenzen.md auf P11-Stand (Historie aktiv statt 'auf Zuruf'), Session-Summary gebaut und nach P12 geschlossen; Attribution-Konvention in 10 Dateien umgestellt
+- **Umgebung:** Branch `master` @ `2d84e3b`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** Commits e25f9cc, 9b95377, 6645a8b, ea553aa; bewusst stale gelassen: nichts
+
+
 ## observability-and-instrumentation - 2026-10-01 17:04
 - **Kontext/Ausloeser:** Linse ueber den Wrapper-Fix: On-call-Fragen (gelaufen? Ergebnis? Flash?) auf Signale gemappt (LastTaskResult, TaskScheduler-Operational, Runtime-Logs, Selbstpruefung); Luecke = kein Alerting bei Task-Fehlschlag
 - **Umgebung:** Branch `master` @ `b191170`, Host: MaxHambi
