@@ -9,6 +9,12 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Fixed
 
+- **bun.lock mit Biome-Bump aus #33 synchronisiert (CI-Fix)**: PR #33 hob
+  `@biomejs/biome` in der `package.json` auf 2.5.14, liess aber `bun.lock`
+  auf 2.3.6 zurück; CI scheiterte seither an
+  `bun install --frozen-lockfile` auf beiden OS-Matrizen. Der Commit
+  synchronisiert ausschliesslich den Lockfile.
+
 - **Scheduled-Task-Fenster-Flash behoben (2026-10-01)**: Der Task
   "Node Watchdog" startete direkt `powershell.exe -WindowStyle Hidden`;
   das conhost-Fenster blitzte dadurch alle 10 Minuten sichtbar auf
