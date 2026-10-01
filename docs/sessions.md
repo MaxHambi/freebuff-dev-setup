@@ -22,14 +22,27 @@ vorhanden (LastTaskResult, Operational-Historie, Runtime-Logs, Selbst-
 pruefung), ehrliche Luecke: kein automatisches Alerting bei Task-
 Fehlschlag (Backlog-Idee, Operator-Entscheid).
 
+**Nachlauf am 01.10. (Session-Ende):** P12 nachgetragen (16:30-Lauf
+flash-frei, Result 0x0, Events 100/107/129/102/201 belegt) - Migration
+an allen zeitgesteuerten Tasks nachgewiesen. Commit-Attribution
+umgestellt: kein Co-Authored-By, kein Generated-with-Footer (GitHub
+linkte sonst einen fremden Account als Mitautor), neu nur der Trailer
+"AI-Assisted: Codebuff (Buffy)" plus Labels agent:codebuff/
+ai-generated. .gitattributes-LF-Vertrag + einmalige EOL-Normalisierung
+(42 Dateien, per --ignore-cr-at-eol byte-identisch bewiesen).
+agenttrace-Advisory-Gate im Pre-Push-Hook (e658345): Health-Bericht
+nach out/agenttrace-overview.md, warnt bei Health < 70 bzw. kritisch,
+blockiert nie.
+
 **Entscheidungen:** ADR-014 - Task-Aktionen laufen ausschliesslich ueber
 run-hidden.vbs; Migration nur per XML-Round-Trip; install-task.ps1
 erzeugt nur noch Wrapper-Aktionen.
 
-**Offen:** (P12 erledigt nachtraeglich am 01.10.): 16:30-MemoryIngest-Lauf
-flash-frei verifiziert (TaskInfo 0x0, Events 100/107/129/102/201 mit
-Aktion wscript.exe, Runtime-Log sauber) - Protokoll P12 + Beweisdatei im
-Audit. Alerting-Idee steht als Backlog offen.
+**Offen:** Alerting bei Task-Fehlschlag (Backlog-Idee, Operator-
+Entscheid), agenttrace-Baseline schaerfen (MinHealth anheben),
+codebuff-team-Spur in den alten Commits 9b95377/33431d3/bde62c9 (nur
+per History-Rewrite + Force-Push oder GitHub Support entfernbar -
+bewusst nicht ausgefuehrt, Operator-Entscheid offen).
 
 ## 2026-09-30 - Report-Durchgang + #15-Fix-Lauf (Operator anwesend)
 
