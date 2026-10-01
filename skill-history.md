@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## docs-architect - 2026-10-01 17:04
+- **Kontext/Ausloeser:** README-Task-Regel: Wrapper-Muster, Begruendung conhost-vor-Hidden-Schalter, Durchsetzung via install-task.ps1, Verweise auf Audit-Paket und ADR-014
+- **Umgebung:** Branch `master` @ `e658345`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** README-Abschnitt plus ADR-014 gebaut (bde62c9, 33431d3); ToC und docs/index nachgezogen
+
+
 ## onboard (AI Blueprint) - 2026-09-25 05:53
 - **Kontext/Ausloeser:** Blueprint 0.12.5 Overlay (AGENTS.md, .agents/, blueprint/) eingecheckt; onboard: Commands/Standards/ai-interaction auf Bun+PowerShell-Stack gesetzt, Attribution-Regel korrigiert; blueprint-CLI 1.10.0 mit @latest nachgezogen (Installer-Versions-Bug)
 - **Umgebung:** Branch `master` @ `8d187ba`, Host: MaxHambi
