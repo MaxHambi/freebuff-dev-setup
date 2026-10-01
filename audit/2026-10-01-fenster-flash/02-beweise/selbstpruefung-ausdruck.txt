@@ -1,0 +1,22 @@
+PASS 1 Live-Task nutzt wscript.exe
+PASS 1 Arguments enthalten run-hidden.vbs
+PASS 1 Arguments enthalten node-watchdog.ps1
+PASS 1 Arguments enthalten -Apply
+PASS 2 Trigger-Intervall PT10M
+INFO Letzter Lauf: 01.10.2026 02:40:01  Ergebnis: 0x0
+INFO 2026-10-01 01:30:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 01:40:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 01:50:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 02:00:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 02:10:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 02:20:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 02:30:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 02:40:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+PASS 3 Laufabstand ca. 10 Minuten
+PASS 5 VORHER enthaelt powershell.exe
+PASS 5 NACHHER enthaelt wscript.exe
+PASS 5 beide enthaelt PT10M
+PASS 5 beide enthaelt PT5M-Limit
+PASS 6 install-task.ps1 nutzt Wrapper-Muster
+
+Ergebnis: 11 PASS, 0 FAIL

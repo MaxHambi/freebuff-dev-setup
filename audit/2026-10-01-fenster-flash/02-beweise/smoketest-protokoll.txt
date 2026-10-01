@@ -1,0 +1,6 @@
+﻿Smoketest P8 (Wrapper-Argument-Weiterreichung):
+Testaufbau: wd-smoke.ps1 mit param([switch]), Ergebnisdatei schreibt apply=$Apply.
+Aufruf: wscript.exe //B //Nologo run-hidden.vbs wd-smoke.ps1 -Apply
+Lauf 1 (param([string])): flag= (leer, String-Parameter bindet kein Switch)
+Lauf 2 (param([switch])): apply=True
+Fazit: Weiterreichung funktioniert, Watchdog deklariert [switch] (Zeile 25).

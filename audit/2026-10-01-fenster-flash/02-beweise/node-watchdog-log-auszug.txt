@@ -1,0 +1,30 @@
+2026-10-01 01:20:04 Bewertet: 376 Zielprozesse, 0 Kandidaten.
+2026-10-01 01:20:04 Fertig: alle Kandidaten beendet.
+2026-10-01 01:30:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 01:30:02 Selbstschutz: 5 geschuetzte PIDs (eigene Kette).
+2026-10-01 01:30:03 Bewertet: 389 Zielprozesse, 0 Kandidaten.
+2026-10-01 01:30:03 Fertig: alle Kandidaten beendet.
+2026-10-01 01:40:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 01:40:03 Selbstschutz: 5 geschuetzte PIDs (eigene Kette).
+2026-10-01 01:40:04 Bewertet: 382 Zielprozesse, 0 Kandidaten.
+2026-10-01 01:40:04 Fertig: alle Kandidaten beendet.
+2026-10-01 01:50:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 01:50:02 Selbstschutz: 5 geschuetzte PIDs (eigene Kette).
+2026-10-01 01:50:03 Bewertet: 381 Zielprozesse, 0 Kandidaten.
+2026-10-01 01:50:03 Fertig: alle Kandidaten beendet.
+2026-10-01 02:00:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 02:00:02 Selbstschutz: 5 geschuetzte PIDs (eigene Kette).
+2026-10-01 02:00:03 Bewertet: 381 Zielprozesse, 0 Kandidaten.
+2026-10-01 02:00:03 Fertig: alle Kandidaten beendet.
+2026-10-01 02:10:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 02:10:02 Selbstschutz: 5 geschuetzte PIDs (eigene Kette).
+2026-10-01 02:10:03 Bewertet: 382 Zielprozesse, 0 Kandidaten.
+2026-10-01 02:10:03 Fertig: alle Kandidaten beendet.
+2026-10-01 02:20:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 02:20:03 Selbstschutz: 5 geschuetzte PIDs (eigene Kette).
+2026-10-01 02:20:05 Bewertet: 380 Zielprozesse, 0 Kandidaten.
+2026-10-01 02:20:05 Fertig: alle Kandidaten beendet.
+2026-10-01 02:30:01 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+2026-10-01 02:30:02 Selbstschutz: 6 geschuetzte PIDs (eigene Kette).
+2026-10-01 02:30:03 Bewertet: 378 Zielprozesse, 0 Kandidaten.
+2026-10-01 02:30:03 Fertig: alle Kandidaten beendet.

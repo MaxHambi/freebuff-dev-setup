@@ -9,6 +9,18 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ### Fixed
 
+- **Scheduled-Task-Fenster-Flash behoben (2026-10-01)**: Der Task
+  "Node Watchdog" startete direkt `powershell.exe -WindowStyle Hidden`;
+  das conhost-Fenster blitzte dadurch alle 10 Minuten sichtbar auf
+  (wahrgenommen als ~15 Minuten). Task-Aktionen laufen jetzt ueber den
+  flash-freien `wscript.exe run-hidden.vbs`-Wrapper (SW_HIDE ab
+  Prozessstart). `run-hidden.vbs` ist ins Repo aufgenommen und reicht
+  jetzt alle Argumente weiter (vorher nur Arguments(0), `-Apply` waere
+  verloren gegangen); `install-task.ps1` erzeugt Wrapper-Aktionen fuer
+  alle Tasks inkl. AtLogon-Zweig. Live umgestellt wurde nur der
+  Stoerer-Task, per XML-Round-Trip (Trigger/Principal byte-identisch).
+  Beweiskette und Selbstpruefung: `audit/2026-10-01-fenster-flash/`.
+
 - **PSSA-Glitch im Test-Gate abgefangen (C5, #15)**: `scripts/test.ps1`
   wiederholt `Invoke-ScriptAnalyzer`-Aufrufe (3 Versuche); der sporadische
   "Collection was modified"-Fehler führt jetzt zu einem ehrlichen FAIL

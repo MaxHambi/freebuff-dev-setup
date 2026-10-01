@@ -1,0 +1,14 @@
+﻿\CreateExplorerShellUnelevatedTask | State=Ready | Trig=MSFT_TaskRegistrationTrigger | Act=C:\WINDOWS\explorer.exe /NoUACCheck
+\cua-driver-serve | State=Ready | Trig=MSFT_TaskLogonTrigger | Act=powershell.exe -NoProfile -WindowStyle Hidden -NonInteractive -Command "Start-Process -FilePath 'C:\Users\Max Hambi\AppData\Local\Programs\Cua\cua-driver\bin\cua-driver.exe' -ArgumentList 'serve' -WindowStyle Hidden -WorkingDirectory 'C:\Users\Max Hambi'"
+\Hermes_Gateway | State=Ready | Trig=MSFT_TaskLogonTrigger | Act=wscript.exe //B //Nologo "C:\Users\Max Hambi\AppData\Local\hermes\gateway-service\Hermes_Gateway.vbs"
+\MemoryIngest | State=Ready | Trig=MSFT_TaskTimeTrigger int=PT4H | Act=powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "C:\Users\Max Hambi\.tools\memory-ingest\ingest.ps1"
+\MiTeC InfoBar x64 | State=Ready | Trig=MSFT_TaskLogonTrigger | Act=D:\Program Files\MiTeC\InfoBar\InfoBar64.exe 
+\Node Watchdog | State=Ready | Trig=MSFT_TaskTimeTrigger int=PT10M | Act=wscript.exe //B //Nologo "C:\Users\Max Hambi\.tools\maintenance\run-hidden.vbs" "C:\Users\Max Hambi\.tools\node-watchdog\node-watchdog.ps1" "-Apply"
+\NpmCleanup | State=Ready | Trig=MSFT_TaskDailyTrigger | Act=powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "C:\Users\Max Hambi\.tools\maintenance\npm-cleanup.ps1"
+\OneDrive Per-Machine Standalone Update Task | State=Ready | Trig=MSFT_TaskTimeTrigger int=P1D | Act=C:\Program Files\Microsoft OneDrive\OneDriveStandaloneUpdater.exe 
+\OneDrive Reporting Task-S-1-5-21-2339127662-3271810380-2787240643-1000 | State=Ready | Trig=MSFT_TaskTimeTrigger int=P1D | Act=C:\Program Files\Microsoft OneDrive\OneDriveStandaloneUpdater.exe /reporting
+\OneDrive Startup Task-S-1-5-21-2339127662-3271810380-2787240643-1000 | State=Ready | Trig=MSFT_TaskLogonTrigger | Act=C:\Program Files\Microsoft OneDrive\26.168.0830.0006\OneDriveLauncher.exe /startInstances
+\RoutedWatch | State=Ready | Trig=MSFT_TaskLogonTrigger | Act=powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "C:\Users\Max Hambi\.tools\routed-watch\watch-wrapper.ps1"
+\ToolingCleanup | State=Ready | Trig=MSFT_TaskDailyTrigger | Act=powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "C:\Users\Max Hambi\.tools\maintenance\tooling-cleanup.ps1"
+\PowerToys\Autorun for Max Hambi | State=Ready | Trig=MSFT_TaskLogonTrigger | Act=C:\Users\Max Hambi\AppData\Local\PowerToys\PowerToys.exe 
+\SoftLanding\S-1-5-21-2339127662-3271810380-2787240643-1000\SoftLandingCreativeManagementTask | State=Ready | Trig=MSFT_TaskTrigger,MSFT_TaskTimeTrigger,MSFT_TaskTimeTrigger int=P1D | Act= 
