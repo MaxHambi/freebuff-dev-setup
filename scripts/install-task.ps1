@@ -47,11 +47,23 @@ if (-not (Test-Path $scriptPath)) {
 	exit 1
 }
 
-$action = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
+$vbsPath = Join-Path $runtimeRoot 'maintenance\run-hidden.vbs'
+if (-not (Test-Path $vbsPath)) {
+	Write-Host ("Wrapper fehlt: {0} - zuerst deploy.ps1 ausfuehren." -f $vbsPath)
+	exit 1
+}
 
-# plan.md (Task-Registrierung, bindend): der Watchdog-Task laeuft mit -Apply.
-# (T2-Abweichung: die Erstregistrierung lief ohne Flag und damit nur im DryRun.)
-if ($Task -eq 'Node Watchdog') { $action += ' -Apply' }
+# Fenster-Flash-Fix (2026-10-01): Task-Aktionen laufen ueber run-hidden.vbs
+# (wscript, SW_HIDE ab Prozessstart) statt direkt powershell.exe. Direkte
+# Konsolenaufrufe erzeugen das conhost-Fenster sichtbar, bevor -WindowStyle
+# Hidden greift. Alle Task-Argumente (inkl. Watchdog -Apply) wandern als
+# VBS-Argumente 2..n durch.
+$taskArgs = @()
+if ($Task -eq 'Node Watchdog') { $taskArgs += '-Apply' }
+
+$quotedScript = '"' + $scriptPath + '"'
+$argSuffix = ($taskArgs | ForEach-Object { '"' + $_ + '"' }) -join ' '
+$action = "wscript.exe //B //Nologo `"$vbsPath`" $quotedScript $argSuffix".Trim()
 
 Write-Host ("Registriere '{0}' -> {1}" -f $Task, $scriptPath)
 Write-Host ("Trigger-Vorlage: {0}" -f $triggerMap[$Task])
@@ -70,8 +82,8 @@ if ($trigger -eq 'AtLogon') {
 	# an und verlangt Admin ("Zugriff verweigert"). Register-ScheduledTask mit
 	# InteractiveToken-Principal registriert ohne Hoehenrecht - siehe #32 (T4).
 	$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
-	$taskAction = New-ScheduledTaskAction -Execute 'powershell.exe' `
-		-Argument ('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "{0}"' -f $scriptPath)
+	$taskAction = New-ScheduledTaskAction -Execute 'wscript.exe' `
+		-Argument ('//B //Nologo "{0}" "{1}"' -f $vbsPath, $scriptPath)
 	$logonTrigger = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"
 	$settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew `
 		-ExecutionTimeLimit (New-TimeSpan -Seconds 0) `
