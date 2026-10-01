@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## observability-and-instrumentation - 2026-10-01 17:04
+- **Kontext/Ausloeser:** Linse ueber den Wrapper-Fix: On-call-Fragen (gelaufen? Ergebnis? Flash?) auf Signale gemappt (LastTaskResult, TaskScheduler-Operational, Runtime-Logs, Selbstpruefung); Luecke = kein Alerting bei Task-Fehlschlag
+- **Umgebung:** Branch `master` @ `b191170`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** Kein Code-Change, Review-Befund in Summary/ADR-014; Alerting als Backlog offen
+
+
 ## agenttrace-session-audit - 2026-10-01 17:04
 - **Kontext/Ausloeser:** agenttrace 0.9.0 via Release-Installer nach %LOCALAPPDATA% installiert (go-Pfad veraltet, Projekt ist Rust), User-PATH ergaenzt; --doctor: 8 Sessions (Antigravity-Provider), --overview: Health 85.8, 44/287 Tool-Failures, kein kritisch; Freebuff-Sessions nicht abdeckbar - ehrlich dokumentiert
 - **Umgebung:** Branch `master` @ `b5d49a1`, Host: MaxHambi
