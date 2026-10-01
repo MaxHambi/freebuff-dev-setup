@@ -33,6 +33,13 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
 
 <!-- skill-history:entries-start -->
 
+## agenttrace-session-audit - 2026-10-01 17:04
+- **Kontext/Ausloeser:** agenttrace 0.9.0 via Release-Installer nach %LOCALAPPDATA% installiert (go-Pfad veraltet, Projekt ist Rust), User-PATH ergaenzt; --doctor: 8 Sessions (Antigravity-Provider), --overview: Health 85.8, 44/287 Tool-Failures, kein kritisch; Freebuff-Sessions nicht abdeckbar - ehrlich dokumentiert
+- **Umgebung:** Branch `master` @ `b5d49a1`, Host: MaxHambi
+- **Quelle:** manuell
+- **Ergebnis:** Befunde in Session-Summary; Muster spaeter als Advisory-Gate im pre-push-Hook (e658345) verankert
+
+
 ## docs-architect - 2026-10-01 17:04
 - **Kontext/Ausloeser:** README-Task-Regel: Wrapper-Muster, Begruendung conhost-vor-Hidden-Schalter, Durchsetzung via install-task.ps1, Verweise auf Audit-Paket und ADR-014
 - **Umgebung:** Branch `master` @ `e658345`, Host: MaxHambi
