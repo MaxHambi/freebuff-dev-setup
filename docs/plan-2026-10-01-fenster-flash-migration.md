@@ -84,8 +84,8 @@
 - [x] `current-feature.md` auf Stub zurueckgesetzt
 - [x] CHANGELOG `[Unreleased]` aktualisiert (Rest-Migration + Historie)
 - [x] Plan-Datei als ABGESCHLOSSEN markiert (in-place, mit Beweis-SHAs)
-- [ ] MemPalace-Drawer + KG-Fakt (siehe unten, offen bis MCP-Verfuegbarkeit geprueft)
-- [ ] Abschluss-Commit + Push (separates Operator-OK)
+- [x] MemPalace-Drawer `drawer_freebuff_dev_setup_decisions_58029043d55400f980d99d2d` + KG-Fakt `t_..._task_actions_require_wrapper_...` (Identity maxhambi:freebuff:freebuff-dev-setup)
+- [x] Abschluss-Commit `f319d5a`; Push steht aus (separates Operator-OK)
 
 ## Auditierbarkeits-Matrix
 
