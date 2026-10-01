@@ -31,11 +31,12 @@ Mirror-Backlog), sobald seine Umsetzung abgeschlossen ist:
 
 1. **Pre-Commit-Review**: Code-Qualität (Stil, Security, Error-Handling), Abhängigkeits- und Breaking-Change-Check der Issue-Änderungen. Kritische/high Findings zuerst fixen.
 2. **Tests**: `bun test` (Lib-Tests gegen tmp-Fixtures) – alle müssen grün sein; Lücken in kritischen Pfaden nachlegen. Danach `npm run lint` (Biome) und `bunx tsc --noEmit`.
-3. **Commits**: Conventional Commits (`<type>(skills-manager): <why>`), atomare Commits (~100 Zeilen, Formatierung nie mit Feature mischen), Body erklärt das Warum, Footer mit `Refs #<n>` und der Pflicht-Attribution:
+3. **Commits**: Conventional Commits (`<type>(skills-manager): <why>`), atomare Commits (~100 Zeilen, Formatierung nie mit Feature mischen), Body erklärt das Warum, Footer mit `Refs #<n>` und dem Pflicht-Trailer:
    ```
-   🤖 Generated with Codebuff
-   Co-Authored-By: Codebuff <noreply@codebuff.com>
+   AI-Assisted: Codebuff (Buffy)
    ```
+   Kein Co-Authored-By und kein "Generated with"-Footer (GitHub verlinkt
+   sonst fremde User-Accounts); AI-PRs tragen das Label `agent:codebuff`.
 4. **Branch**: kurzer Feature-Branch `feature/skills-manager-<thema>` (trunk-based, schnell zurück auf `master`).
 5. **Pre-Push-Gate**: `scripts/hooks/pre-push` (Lint/PS-Checks/Tests) muss durchlaufen.
 6. **PR**: Ziel `master`, Description nach dem PR-Enhance-Format (Summary, Detailed Description, Review Checklist, Risk Assessment, Test Coverage, Size Check), `Closes #<n>` im Body. Squash-Merge.

@@ -172,8 +172,7 @@ $commitArgs = @(
 	'commit',
 	'-m', $commitSubject,
 	'-m', 'Skill-Ausfuehrung protokolliert (siehe skill-history.md).',
-	'-m', 'Generated with Codebuff',
-	'-m', 'Co-Authored-By: Codebuff <noreply@codebuff.com>',
+	'-m', 'AI-Assisted: Codebuff (Buffy)',
 	'--', $HistoryFile
 )
 $out = git @commitArgs 2>&1

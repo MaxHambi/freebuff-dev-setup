@@ -7,6 +7,19 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Changed
+
+- **Commit-Attribution umgestellt: kein `Co-Authored-By`, kein
+  "Generated with"-Footer (Operator-Entscheid 2026-10-01)**: GitHub
+  verlinkte die Co-Author-E-Mail auf einen fremden Account und zeigte
+  ihn als Mitautor an - ohne Autorisierung und ohne Rechte am Repo.
+  Neu: nur noch der reine Text-Trailer `AI-Assisted: Codebuff (Buffy)`;
+  die Labels `agent:codebuff` und `ai-generated` markieren AI-assistierte
+  PRs/Issues ohne User-Link. Konvention angepasst in blueprint/context
+  (ai-interaction, coding-standards), agents-md-Skill, skill-history.md,
+  skills-manager PROCESS, worktree-fibel, docs/index und
+  scripts/skill-history-log.ps1.
+
 ### Fixed
 
 - **bun.lock mit Biome-Bump aus #33 synchronisiert (CI-Fix)**: PR #33 hob

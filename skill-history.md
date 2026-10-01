@@ -23,8 +23,8 @@ der Skill-Nutzung auditierbar, ohne andere Commits zu mischen.
   PostToolUse-Hook für das Tool `Skill`; das Hook-JSON (stdin) liefert
   Skill-Name und Argumente automatisch. Fehler blockieren nie die Session
   (Exit 0).
-- **Commit-Label:** `chore(skill-history): <skill> - <kurzkontext>` mit der
-  Pflicht-Attribution (`Co-Authored-By: Codebuff`). Gecomittet wird nur
+- **Commit-Label:** `chore(skill-history): <skill> - <kurzkontext>` mit dem
+  Pflicht-Trailer (`AI-Assisted: Codebuff (Buffy)`). Gecomittet wird nur
   `skill-history.md`, nie etwas anderes.
 - Vollständige Steuerung: `-NoCommit` (nur Eintrag), `-HistoryFile <pfad>`
   (Override für Tests).

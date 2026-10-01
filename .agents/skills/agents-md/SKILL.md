@@ -60,14 +60,16 @@ Per-file commands are faster and cheaper than full project builds. Always includ
 ```
 
 ### Commit Attribution
-Always include this section. Agents should use their own identity:
+Always include this section. Use a plain text trailer only:
 ```markdown
 ## Commit Attribution
-AI commits MUST include:
+AI commits MUST include this plain text trailer:
 ```
-Co-Authored-By: (the agent model's name and attribution byline)
+AI-Assisted: Codebuff (Buffy)
 ```
-Example: `Co-Authored-By: Claude Sonnet 4 <noreply@example.com>`
+Never use `Co-Authored-By` or "Generated with" footers: GitHub links
+Co-Author emails to user accounts and shows foreign accounts as
+co-authors without any authorization by the repository owner.
 ```
 
 ### Key Conventions
@@ -103,10 +105,12 @@ Omit these:
 Use **pnpm**: `pnpm install`, `pnpm dev`
 
 ## Commit Attribution
-AI commits MUST include:
+AI commits MUST include this plain text trailer:
 ```
-Co-Authored-By: (the agent model's name and attribution byline)
+AI-Assisted: Codebuff (Buffy)
 ```
+Never `Co-Authored-By` and no "Generated with" footer (GitHub would
+link co-author emails to user accounts).
 
 ## File-Scoped Commands
 | Task | Command |

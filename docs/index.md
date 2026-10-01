@@ -6,7 +6,7 @@ Einstieg fuer Menschen und Agenten. Lesereihenfolge je nach Ziel.
 
 | Datei | Zweck |
 |-------|-------|
-| `AGENTS.md` (Root) | Konventionen, Commands, Attribution - verbindlich |
+| `AGENTS.md` (Root) | Konventionen, Commands, AI-Assisted-Trailer - verbindlich |
 | `skills-manager/AGENTS.md` | Ordner-Kontext Skills-Manager (Bun-only, Test-Seams, State-Regeln) |
 | `memory-ingest/AGENTS.md` | Ordner-Kontext Memory-Ingest (Read-only-Contract, Live-Schutz, State-Regel, Idempotenz) |
 | `docs/agents/issue-tracker.md` | GitHub Issues als Tracker, `gh`-Workflows |

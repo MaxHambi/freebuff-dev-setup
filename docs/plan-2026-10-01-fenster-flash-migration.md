@@ -39,7 +39,7 @@
    weiteren Slices laufen auf `master` nach Pull.
 2. Beweis-Artefakte je Slice nach `audit/2026-10-01-fenster-flash/02-beweise/migration/`.
 3. Conventional Commits (`fix(tasks): ...`, `docs(audit): ...`, `chore(ops): ...`)
-   mit Footer `Generated with Codebuff` + `Co-Authored-By: Codebuff <noreply@codebuff.com>`;
+   mit Trailer `AI-Assisted: Codebuff (Buffy)`;
    nur slice-zugehoerige Pfade stagen, keine Sammel-Commits.
 4. Nach jedem Code-/Repo-Slice: `npm run verify` muss gruen sein.
 5. Rollback je Slice separat ausgewiesen; VORHER-XMLs sind die Rueckkehrebene.

@@ -126,9 +126,11 @@ needed instead).
 - Keep commits focused (one topic per commit); `Refs #<issue>` in bodies,
   `Closes #<issue>` only in PR bodies
 - feat/fix require a `CHANGELOG.md` `[Unreleased]` entry (CI drift-check)
-- **Attribution footer is mandatory** (project convention, overrides the
-  generic Blueprint default):
-  `🤖 Generated with Codebuff` + `Co-Authored-By: Codebuff <noreply@codebuff.com>`
+- **AI-Assisted-Trailer ist Pflicht** (Projekt-Konvention, ersetzt den
+  generischen Blueprint-Default). Kein `Co-Authored-By`, kein
+  "Generated with"-Footer: GitHub matcht Co-Author-E-Mails auf User-
+  Accounts und zeigt fremde Accounts als Mitautoren an. Reiner Text:
+  `AI-Assisted: Codebuff (Buffy)`
 
 ## When Stuck
 

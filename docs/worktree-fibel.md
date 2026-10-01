@@ -53,7 +53,7 @@ cd .worktrees/<topic> && git merge master --no-edit
 
 ## 5. Arbeit im Worktree (Standards)
 
-- Conventional Commits, atomar (~100 Zeilen), Attribution-Footer (siehe AGENTS.md)
+- Conventional Commits, atomar (~100 Zeilen), AI-Assisted-Trailer (siehe AGENTS.md)
 - `Refs #<issue>` im Body, `Closes #<issue>` nur im PR-Body
 - Vor jedem Push läuft das Pre-Push-Gate (`scripts/hooks/pre-push`):
   Lint + PowerShell-Syntaxcheck + Tests. Es muss grün sein, sonst Push verweigert

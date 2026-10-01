@@ -49,8 +49,12 @@
 
 - **Conventional Commits** `<type>(<scope>)?: <why>` - enforced by CI
   (`check-commits.ts`); Merge-/Revert-Subjects sind ausgenommen
-- **Attribution footer is mandatory** in every commit:
-  `🤖 Generated with Codebuff` + `Co-Authored-By: Codebuff <noreply@codebuff.com>`
+- **AI-Assisted-Trailer ist Pflicht** in jedem Commit; kein
+  `Co-Authored-By` und kein "Generated with"-Footer (GitHub verlinkt
+  sonst fremde User-Accounts):
+  `AI-Assisted: Codebuff (Buffy)`
+- AI-assistierte PRs/Issues tragen das Label `agent:codebuff`
+  (generisch: `ai-generated`) - Labels linken keine User-Accounts
 - `Refs #<issue>` in commit bodies; `Closes #<issue>` only in PR bodies
 - feat/fix commits require a `CHANGELOG.md` `[Unreleased]` entry (CI
   drift-check `check-changelog.ts` fails otherwise)
