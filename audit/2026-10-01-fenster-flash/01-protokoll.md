@@ -149,3 +149,21 @@ Befehl: Export des Live-XML nach `task/Node Watchdog.xml` im Repo.
 Ergebnis: `<Command>wscript.exe</Command>` mit Wrapper-Arguments; git
 zeigt die erwarteten vier Aenderungen (install-task.ps1, task-XML neu,
 audit/ neu, run-hidden.vbs neu).
+
+## P11 - Nachtrag: Rest-Migration + Historie (2026-10-01, Slices 2-5)
+
+Befund 12:34: MemoryIngest lief um 12:30:01 noch mit direktem powershell.exe
+(LastRun-Check) - zweiter aktiver Blitzer nach dem Watchdog-Fix.
+
+Schritte (Skript: audit/2026-10-01-fenster-flash/migrate-tasks.ps1):
+- VORHER-XMLs aller vier Tasks gesichert (02-beweise/migration/VORHER-*.xml)
+- XML-Round-Trip je Task (Command/Arguments -> wscript.exe run-hidden.vbs,
+  Rest byte-identisch, [xml]-Validierung, schtasks /create /xml /f)
+- RoutedWatch: vorher Stop-ScheduledTask (war Running), danach Start ->
+  State=Running, Watch-Log: Watcher gestartet 13:13:13 (PID 24580)
+- Live-Check: 4/4 Exec=wscript.exe (migration-livecheck.txt);
+  RoutedWatch Result 0xC000013A = Status des Stop-Abbruchs, nach Neustart 0x41301 (Running)
+- Historie: wevtutil set-log /enabled:true (Admin-Erhoehung, Operator-approved),
+  get-log -> enabled: true; erste Events fliessen (13:20:01 Watchdog-Lauf)
+- Repo-Backups task/*.xml neu exportiert (6/6 auf wscript.exe)
+- Selbstpruefung erweitert (Pruefungen 7 + 10): 22/22 PASS

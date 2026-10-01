@@ -1,0 +1,60 @@
+PASS 1 Live-Task nutzt wscript.exe
+PASS 1 Arguments enthalten run-hidden.vbs
+PASS 1 Arguments enthalten node-watchdog.ps1
+PASS 1 Arguments enthalten -Apply
+PASS 2 Trigger-Intervall PT10M
+INFO Letzter Lauf: 01.10.2026 13:20:01  Ergebnis: 0x0
+INFO 2026-10-01 12:10:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 12:20:17 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 12:30:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 12:40:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 12:50:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 13:00:05 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 13:10:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+INFO 2026-10-01 13:20:02 Start: Mode=APPLY MaxAgeHours=8 IdleCpuSeconds=120 PortStaleHours=24 Ports=3131,3132,5173,5174,3000,8080 WhitelistMuster=1
+PASS 3 Laufabstand ca. 10 Minuten
+PASS 5 VORHER enthaelt powershell.exe
+PASS 5 NACHHER enthaelt wscript.exe
+PASS 5 beide enthaelt PT10M
+PASS 5 beide enthaelt PT5M-Limit
+PASS 6 install-task.ps1 nutzt Wrapper-Muster
+PASS 7 MemoryIngest nutzt wscript.exe
+PASS 7 MemoryIngest Arguments enthalten run-hidden.vbs
+PASS 7 NpmCleanup nutzt wscript.exe
+PASS 7 NpmCleanup Arguments enthalten run-hidden.vbs
+PASS 7 ToolingCleanup nutzt wscript.exe
+PASS 7 ToolingCleanup Arguments enthalten run-hidden.vbs
+PASS 7 RoutedWatch nutzt wscript.exe
+PASS 7 RoutedWatch Arguments enthalten run-hidden.vbs
+[31;1mPropertyNotFoundException: [0mD:\freebuff-dev-setup\audit\2026-10-01-fenster-flash\99-selbstpruefung.ps1:100[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 100 | [0m . re-Object { [36;1m-not (Test-Path (Join-Path $repoTaskDir ($_.Name + '.xml'[0m .[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mDie Eigenschaft "Name" kann in diesem Objekt nicht gefunden werden. öberprÅfen Sie, ob die Eigenschaft vorhanden[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m[31;1m[36;1m     | [31;1mist.[0m
+[31;1mPropertyNotFoundException: [0mD:\freebuff-dev-setup\audit\2026-10-01-fenster-flash\99-selbstpruefung.ps1:100[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 100 | [0m . re-Object { [36;1m-not (Test-Path (Join-Path $repoTaskDir ($_.Name + '.xml'[0m .[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mDie Eigenschaft "Name" kann in diesem Objekt nicht gefunden werden. öberprÅfen Sie, ob die Eigenschaft vorhanden[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m[31;1m[36;1m     | [31;1mist.[0m
+[31;1mPropertyNotFoundException: [0mD:\freebuff-dev-setup\audit\2026-10-01-fenster-flash\99-selbstpruefung.ps1:100[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 100 | [0m . re-Object { [36;1m-not (Test-Path (Join-Path $repoTaskDir ($_.Name + '.xml'[0m .[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mDie Eigenschaft "Name" kann in diesem Objekt nicht gefunden werden. öberprÅfen Sie, ob die Eigenschaft vorhanden[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m[31;1m[36;1m     | [31;1mist.[0m
+[31;1mPropertyNotFoundException: [0mD:\freebuff-dev-setup\audit\2026-10-01-fenster-flash\99-selbstpruefung.ps1:100[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 100 | [0m . re-Object { [36;1m-not (Test-Path (Join-Path $repoTaskDir ($_.Name + '.xml'[0m .[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mDie Eigenschaft "Name" kann in diesem Objekt nicht gefunden werden. öberprÅfen Sie, ob die Eigenschaft vorhanden[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m[31;1m[36;1m     | [31;1mist.[0m
+PASS 7 Repo-Backups task\\*.xml auf wscript
+PASS 10 Historie aktiviert
+PASS 10 Events flie·en
+INFO 13:24:04 id=102
+INFO 13:24:04 id=201
+INFO 13:24:03 id=200
+
+Ergebnis: 22 PASS, 0 FAIL

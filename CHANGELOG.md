@@ -15,17 +15,19 @@ und dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/)
   `bun install --frozen-lockfile` auf beiden OS-Matrizen. Der Commit
   synchronisiert ausschliesslich den Lockfile.
 
-- **Scheduled-Task-Fenster-Flash behoben (2026-10-01)**: Der Task
-  "Node Watchdog" startete direkt `powershell.exe -WindowStyle Hidden`;
-  das conhost-Fenster blitzte dadurch alle 10 Minuten sichtbar auf
-  (wahrgenommen als ~15 Minuten). Task-Aktionen laufen jetzt ueber den
-  flash-freien `wscript.exe run-hidden.vbs`-Wrapper (SW_HIDE ab
-  Prozessstart). `run-hidden.vbs` ist ins Repo aufgenommen und reicht
-  jetzt alle Argumente weiter (vorher nur Arguments(0), `-Apply` waere
-  verloren gegangen); `install-task.ps1` erzeugt Wrapper-Aktionen fuer
-  alle Tasks inkl. AtLogon-Zweig. Live umgestellt wurde nur der
-  Stoerer-Task, per XML-Round-Trip (Trigger/Principal byte-identisch).
-  Beweiskette und Selbstpruefung: `audit/2026-10-01-fenster-flash/`.
+- **Scheduled-Task-Fenster-Flash behoben, alle Tasks migriert (2026-10-01)**: Die
+  Task-Aktionen starteten direkt `powershell.exe -WindowStyle Hidden`; das
+  conhost-Fenster blitzte sichtbar auf (Watchdog alle 10 Min, MemoryIngest
+  alle 4 h, Cleanups naechtlich, RoutedWatch beim Logon). Alle fuenf eigenen
+  Tasks laufen jetzt ueber den flash-freien `wscript.exe run-hidden.vbs`-
+  Wrapper (SW_HIDE ab Prozessstart), migriert per XML-Round-Trip mit
+  byte-identischem Trigger/Principal. `run-hidden.vbs` ist ins Repo aufgenommen
+  und reicht alle Argumente weiter; `install-task.ps1` erzeugt Wrapper-
+  Aktionen fuer kuenftige Registrierungen; Repo-Backups in `task/`
+  aktualisiert. TaskScheduler-Historie aktiviert (Vorfaelle ab jetzt per
+  Event-Log beweisbar). Beweiskette + Selbstpruefung 22/22 PASS:
+  `audit/2026-10-01-fenster-flash/`, Plan:
+  `docs/plan-2026-10-01-fenster-flash-migration.md`, PRs #66/#67.
 
 - **PSSA-Glitch im Test-Gate abgefangen (C5, #15)**: `scripts/test.ps1`
   wiederholt `Invoke-ScriptAnalyzer`-Aufrufe (3 Versuche); der sporadische

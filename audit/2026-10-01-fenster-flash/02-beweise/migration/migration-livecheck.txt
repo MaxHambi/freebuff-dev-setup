@@ -1,0 +1,4 @@
+MemoryIngest | Exec=wscript.exe | State=Ready | LastRun=01.10.2026 12:30:01 | Result=0x0
+NpmCleanup | Exec=wscript.exe | State=Ready | LastRun=01.10.2026 03:00:01 | Result=0x0
+ToolingCleanup | Exec=wscript.exe | State=Ready | LastRun=01.10.2026 04:00:01 | Result=0x0
+RoutedWatch | Exec=wscript.exe | State=Ready | LastRun=01.10.2026 10:49:42 | Result=0xC000013A

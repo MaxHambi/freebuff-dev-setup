@@ -84,6 +84,43 @@ if (Test-Path $install) {
 	Write-Host ("INFO Repo nicht am erwarteten Ort: {0} (Pruefung 6 uebersprungen)" -f $install)
 }
 
+# 7) Rest-Migration (Blueprint-Slices 2-4): alle vier Tasks via Wrapper
+$migrationTasks = @('MemoryIngest', 'NpmCleanup', 'ToolingCleanup', 'RoutedWatch')
+foreach ($name in $migrationTasks) {
+	$t7 = Get-ScheduledTask -TaskName $name -ErrorAction SilentlyContinue
+	if ($t7) {
+		Assert-True ("7 {0} nutzt wscript.exe" -f $name) ($t7.Actions[0].Execute -eq 'wscript.exe') ("stattdessen: {0}" -f $t7.Actions[0].Execute)
+		$args7 = $t7.Actions[0].Arguments
+		Assert-True ("7 {0} Arguments enthalten run-hidden.vbs" -f $name) ($args7 -match 'run-hidden\.vbs') $args7
+	} else {
+		Assert-True ("7 {0} vorhanden" -f $name) $false 'Task nicht gefunden'
+	}
+}
+$repoTaskDir = Join-Path $repoRoot 'task'
+$missingBackups = @($migrationTasks | Where-Object { -not (Test-Path (Join-Path $repoTaskDir ($_.Name + '.xml'))) })
+if ($missingBackups.Count -eq 0) {
+	$stale = @()
+	foreach ($name in $migrationTasks) {
+		$bk = Get-Content (Join-Path $repoTaskDir ($name + '.xml')) -Raw
+		if ($bk -notmatch '<Command>wscript\.exe</Command>') { $stale += $name }
+	}
+	Assert-True '7 Repo-Backups task\\*.xml auf wscript' ($stale.Count -eq 0) ("stale: {0}" -f ($stale -join ','))
+} else {
+	Assert-True '7 Repo-Backups vorhanden' $false ($missingBackups -join ',')
+}
+
+# 10) TaskScheduler-Historie aktiv
+$logStatus = wevtutil.exe get-log 'Microsoft-Windows-TaskScheduler/Operational' 2>$null
+$enabledLine = $logStatus | Select-String 'enabled: true'
+Assert-True '10 Historie aktiviert' ($null -ne $enabledLine) ($logStatus | Select-String 'enabled' | ForEach-Object Line)
+$evts = Get-WinEvent -LogName 'Microsoft-Windows-TaskScheduler/Operational' -MaxEvents 3 -ErrorAction SilentlyContinue
+if ($evts) {
+	Assert-True '10 Events fließen' ($evts.Count -gt 0) 'keine Events im Log'
+	$evts | ForEach-Object { Write-Host ("INFO {0} id={1}" -f $_.TimeCreated.ToString('HH:mm:ss'), $_.Id) }
+} else {
+	Write-Host 'INFO Historie aktiv, noch keine Events (naechster Task-Lauf liefert sie)'
+}
+
 Write-Host ''
 Write-Host ("Ergebnis: {0} PASS, {1} FAIL" -f $pass, $fail)
 if ($fail -gt 0) { exit 1 }

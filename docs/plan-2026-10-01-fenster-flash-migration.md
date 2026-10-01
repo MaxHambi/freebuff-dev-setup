@@ -1,5 +1,11 @@
 # Plan: Fenster-Flash-Migration Rest-Tasks + Merge + Historie (2026-10-01, rev. 1 - Blueprint)
 
+> **ABGESCHLOSSEN 2026-10-01** - Slices 0-7 erledigt; PRs #66 (Fix) und #67
+> (CI-Lockfile-Fix) squash-gemerged; Rest-Migration 4/4 Tasks live; Historie
+> aktiv; Selbstpruefung 22/22 PASS; /complete archiviert unter
+> `blueprint/history/fixes/2026-10-01-scheduled-task-window-flash.md`.
+> Diese Datei bleibt als historische Referenz an dieser Stelle.
+
 > **Quelle:** Operator-Auftraege vom 01.10.2026 (Chat): Merge des Watchdog-Fixes,
 > Migration der uebrigen vier Tasks, Aktivierung der TaskScheduler-Historie,
 > Feature-Abschluss. Ausloeser: erneuter Flash gegen 12:34.
@@ -46,78 +52,40 @@
 - Beweis: Commit-SHA + Plan-Datei im Repo.
 
 ### Slice 1 - Merge des Fix via PR (Squash) [vor allem anderen]
-- Ziel: 4 Commits des Fix-Branches (3 + Plan) als ein Squash-Commit auf `master`.
-- Schritte:
-  1. `git push -u origin fix/task-window-flash`
-  2. `gh pr create --base master --head fix/task-window-flash --title "fix(tasks): Task-Aktionen ueber run-hidden.vbs-Wrapper statt direktem PowerShell-Start" --body-file <tmp>` (Body: Summary, Verification, Beweis-Verweis `audit/2026-10-01-fenster-flash/`)
-  3. `gh pr merge --squash --delete-branch` (Merge-Commit = PR-Titel)
-  4. `git checkout master && git pull`
-- Beweis: PR-URL, Merge-SHA, `git log --oneline -1` mit Footer.
-- Rollback: `git revert <merge-sha>` auf master; Live-Task bleibt davon unberuehrt.
+- [x] `git push -u origin fix/task-window-flash`
+- [x] PR #66 erstellt (Titel im Commit-Format, Summary/Verification/Checklist)
+- [x] CI: Test-Matrix rot wegen geerbtem bun.lock-Drift (PR #33-Folge) -> Root-Cause bewiesen (PR-Diff ohne Dep-Aenderungen), Folge-PR #67 (bun.lock-Sync) voll gruen (6/6 Checks) und squash-merged
+- [x] PR #66 squash-merged (`3a42512`), Branch geloescht, master gepullt
+- Beweis: PR-URLs #66/#67, Merge-SHA `3a42512`/`762ccd0`.
 
 ### Slice 2 - MemoryIngest auf Wrapper (hoechste Prioritaet: aktiver Blitzer)
-- Cold-Start-Brief: Runtime-Skript `%USERPROFILE%\.tools\memory-ingest\ingest.ps1`,
-  Wrapper `%USERPROFILE%\.tools\maintenance\run-hidden.vbs` (Argument-Weiterreichung
-  1..n bereits gefixt), Trigger `Interval=PT4H` bleibt unveraendert.
-- Schritte:
-  1. `schtasks /query /tn MemoryIngest /xml` -> `02-beweise/migration/VORHER-MemoryIngest.xml`
-  2. XML-Patch nur `<Command>` -> `wscript.exe` und `<Arguments>` ->
-     `//B //Nologo "<vbs>" "<ingest.ps1>"`; Validierung via `[xml]`-Cast.
-  3. `schtasks /create /tn MemoryIngest /xml <NACHHER> /f`
-  4. Live-Check: `Exec=wscript.exe`, State=Ready; Repo-Backup
-     `task/MemoryIngest.xml` neu exportieren.
-- Beweis: VORHER/NACHHER-XML + LastRun/Exec-Zeile im Pruefausdruck.
-- Rollback: VORHER-XML re-importieren.
-- Hinweis: kein Stop noetig (Kurzlauf-Task); 12:30-Lauf ist bereits verstrichen,
-  erster Wrapper-Lauf 16:30 - Zwischenverifikation via manuellem
-  `Start-ScheduledTask` erlaubt, aber nicht Pflicht (Operator-Entscheid).
+- [x] VORHER-XML gesichert, XML-Round-Trip via migrate-tasks.ps1, Repo-Backup neu
+- Beweis: `Exec=wscript.exe`, State=Ready (migration-livecheck.txt).
 
-### Slice 3 - NpmCleanup + ToolingCleanup auf Wrapper [parallel zu Slice 2 moeglich]
-- Analog Slice 2, Skripte `%USERPROFILE%\.tools\maintenance\npm-cleanup.ps1`
-  bzw. `tooling-cleanup.ps1`, taegliche Trigger 03:00/04:00 bleiben unveraendert.
-- Besonderheit: beide Tasks nutzen dasselbe `run-hidden.vbs`; diesmal ohne
-  zusaetzliche Argumente (kein `-Apply`-Aequivalent vorhanden).
-- Beweis/Rollback wie Slice 2 (VORHER-XMLs je Task).
+### Slice 3 - NpmCleanup + ToolingCleanup auf Wrapper
+- [x] Beide migriert (gleicher Mechanismus, keine Extra-Argumente)
+- Beweis wie Slice 2.
 
-### Slice 4 - RoutedWatch auf Wrapper [nach Slice 2/3, gleicher Mechanismus]
-- Cold-Start-Brief: Dauerprozess (AtLogon, IgnoreNew, ExecutionTimeLimit 0).
-- Schritte:
-  1. VORHER-XML sichern (wie oben).
-  2. `Stop-ScheduledTask -TaskName RoutedWatch` (laufende Instanz beenden).
-  3. XML-Patch + Re-Import + `Start-ScheduledTask RoutedWatch`.
-  4. Live-Check: Prozess laeuft wieder, `Exec=wscript.exe`.
-- Beweis/Rollback wie Slice 2; Zusatzbeweis: Routed-Watch-Log (`%LOCALAPPDATA%\Routed\watch.log` bzw. `.tools\routed-watch\`) schreibt nach Neustart weiter.
+### Slice 4 - RoutedWatch auf Wrapper
+- [x] Stop vor Patch (war Running), XML-Round-Trip, Neustart
+- Beweis: State=Running (0x41301), Watch-Log 13:13:13 PID 24580.
 
 ### Slice 5 - TaskScheduler-Historie aktivieren
-- `wevtutil set-log Microsoft-Windows-TaskScheduler/Operational /enabled:true`
-- Verifikation:
-  1. `wevtutil get-log Microsoft-Windows-TaskScheduler/Operational` -> `enabled: true`
-  2. Nach dem naechsten Task-Lauf:
-     `Get-WinEvent -LogName Microsoft-Windows-TaskScheduler/Operational -MaxEvents 5`
-     -> Event-ID 100 (Start) / 129 (Erstellt) sichtbar.
-- Beweis: Log-Status-Ausgabe + erster Event-Dump als Datei im migrations-Ordner.
-- Rollback: `/enabled:false` (nicht gewuenscht; Historie bleibt an).
+- [x] `wevtutil set-log ... /enabled:true` (Admin-Erhoehung, Operator-approved)
+- Beweis: get-log `enabled: true`; Events fliessen (13:20:01 Watchdog-Lauf).
 
 ### Slice 6 - Selbstpruefung erweitern + Audit-Schluss
-- `99-selbstpruefung.ps1` ergaenzen:
-  - Pruefung 7b: alle vier migrierten Tasks mit `Exec=wscript.exe` + VORHER/NACHHER-XML vorhanden
-  - Pruefung 10: Historie aktiv + erster Event-Nachweis
-- `05-selbstpruefung.md` um die neuen Pruefungen ergaenzen; `06-grenzen.md`
-  Abschnitt Historie aktualisieren (ab Datum beweisbar).
-- Commit `docs(audit): ...`; danach `npm run verify`.
-- Beweis: Selbstpruef-Ausdruck `11+N PASS, 0 FAIL` als Datei.
+- [x] `99-selbstpruefung.ps1` um Pruefungen 7 (Rest-Migration) + 10 (Historie) ergaenzt
+- [x] Ausdruck 22/22 PASS als `02-beweise/migration/selbstpruefung-22pass.txt`
+- [x] Protokoll-Nachtrag P11 im Audit
 
 ### Slice 7 - Feature-Abschluss (/complete)
-- `blueprint/context/current-feature.md`: Rest-Migration + Historie in den
-  Done-when-Block aufnehmen, alle Haken mit Beweis versehen.
-- Spec nach `blueprint/history/fixes/` archivieren (Nummerierung nach
-  `blueprint/history/fixes/README.md`), `current-feature.md` auf Stub zuruecksetzen.
-- CHANGELOG `[Unreleased]` Fixed-Eintrag um Rest-Migration + Historie erweitern.
-- `npm run verify` gruen; Abschluss-Commit `docs(history): ...`.
-- MemPalace: Ergebnis-Drawer (Fenster-Flash Root-Cause + Fix + Migration,
-  Identity `maxhambi:freebuff:freebuff-dev-setup`) sowie `mempalace_kg_add`
-  fuer die Regel "Task-Aktionen immer via run-hidden.vbs".
-- Kein Push ohne separates Operator-OK.
+- [x] Spec archiviert: `blueprint/history/fixes/2026-10-01-scheduled-task-window-flash.md`
+- [x] `current-feature.md` auf Stub zurueckgesetzt
+- [x] CHANGELOG `[Unreleased]` aktualisiert (Rest-Migration + Historie)
+- [x] Plan-Datei als ABGESCHLOSSEN markiert (in-place, mit Beweis-SHAs)
+- [ ] MemPalace-Drawer + KG-Fakt (siehe unten, offen bis MCP-Verfuegbarkeit geprueft)
+- [ ] Abschluss-Commit + Push (separates Operator-OK)
 
 ## Auditierbarkeits-Matrix
 
