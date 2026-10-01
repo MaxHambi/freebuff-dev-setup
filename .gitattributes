@@ -1,0 +1,15 @@
+# Zeilenenden-Vertrag (Befund ea553aa): rein kosmetische Whole-File-Diffs
+# durch gemischte CRLF/LF-Blobs vermeiden. Im Repo gilt LF fuer alle
+# Textdateien, auch im Working Tree (eol=lf) - PowerShell, bun und schtasks
+# akzeptieren LF alle.
+* text=auto eol=lf
+
+# Binaerdateien explizit aus der Normalisierung raus:
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.woff binary
+*.woff2 binary
