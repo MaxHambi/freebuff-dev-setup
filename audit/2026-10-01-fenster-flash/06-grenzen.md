@@ -39,12 +39,12 @@ nicht.
   conhost/wscript aendern. Die Selbstpruefung (05/99) prueft den
   Ist-Zustand jederzeit nach.
 
-## Historie aktivieren (optional, auf Zuruf)
+## Historie (seit P11 aktiv)
 
-Damit kuenftige Vorfuelle beweisbar sind:
+Damit kuenftige Vorfuelle beweisbar sind. Aktiviert 2026-10-01 im
+Rest-Migrations-Nachtrag (P11, Admin-Erhoehung Operator-approved);
+erste Events fliessen seit 13:20. Nachkommando zur Verifikation:
 
 ```powershell
-wevtutil set-log Microsoft-Windows-TaskScheduler/Operational /enabled:true
+wevtutil get-log Microsoft-Windows-TaskScheduler/Operational   # enabled: true
 ```
-
-(read-only fuer den Fix nicht erforderlich; ausfuehrbar von dir.)

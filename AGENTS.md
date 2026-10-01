@@ -148,6 +148,12 @@ Erinnerung. Am Session-Ende: Verifikationspass ueber alle Gates und Claims
 der Session.
 
 Learnings (nicht aus Code ableitbar):
+- Task-Fenster-Flash: Task-Aktionen nie direkt `powershell.exe
+  -WindowStyle Hidden` starten (conhost-Fenster entsteht, bevor der
+  Schalter verarbeitet wird); immer `wscript.exe //B //Nologo
+  run-hidden.vbs <skript.ps1> [args]` - install-task.ps1 erzeugt nur
+  noch Wrapper-Aktionen, Migration nur per XML-Round-Trip (ADR-014,
+  audit/2026-10-01-fenster-flash).
 - Plan-/Schaetzzahlen in Doku immer als „gemessen“ oder „geschätzt“
   markieren (C10): Schätzflächen (z. B. „22/22 PASS“) verlieren gegen
   Messungen („21/21 PASS, 3 Läufe“) — die Messung ist Autorität und der
