@@ -24,8 +24,8 @@ Migration durch direkte Aufrufe ersetzt worden. Vollstaendige Beweiskette:
 - [x] Wrapper-Smoketest: `apply=True` (Switch-Bindung bewiesen)
 - [x] Live-Task "Node Watchdog" per XML-Round-Trip umgestellt (Trigger/Principal/Settings byte-identisch), VORHER/NACHHER-XML im Audit
 - [x] `task/Node Watchdog.xml` aktualisiert
-- [ ] `npm run verify` gruen
-- [ ] Erster regelmaessiger Lauf nach dem Patch: Logzeile + LastTaskResult 0x0
+- [x] `npm run verify` gruen (41/41 Bun-Tests, tsc, Biome, Syntaxcheck, Konventionen, Drift-Checks)
+- [x] Erster regelmaessiger Lauf nach dem Patch: `02:40:01 Start: Mode=APPLY` (Flag via Wrapper durchgereicht) + `LastTaskResult 0x0`
 
 **Nicht Teil des Fixes:** Live-Umstellung der vier uebrigen Tasks (nur
 Repo-Muster, Ausrollen per `install-task.ps1 -Register` auf Zuruf);
