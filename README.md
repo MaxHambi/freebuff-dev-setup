@@ -4,7 +4,7 @@ Windows Scheduled Tasks & Watchdogs as code - plus Skills-Manager fuer die
 persoenliche Agent-Skills-Bibliothek und Memory-Ingest fuer das
 MemPalace-Gedaechtnis.
 
-**Inhalt:** [Skills-Manager](#skills-manager-skills-manager) · [Node-Watchdog](#node-watchdog-node-watchdog) · [Memory-Ingest](#memory-ingest-memory-ingest) · [Skills-Verzeichnis](#skills-verzeichnis-skills) · [Lokale Skill-Architektur](#lokale-skill-architektur) · [Deploy & Task-Registrierung](#deploy--task-registrierung-scripts-) · [Qualitätsgate](#qualitätsgate)
+**Inhalt:** [Skills-Manager](#skills-manager-skills-manager) · [Node-Watchdog](#node-watchdog-node-watchdog) · [Memory-Ingest](#memory-ingest-memory-ingest) · [Skills-Verzeichnis](#skills-verzeichnis-skills) · [Lokale Skill-Architektur](#lokale-skill-architektur) · [Deploy & Task-Registrierung](#deploy--task-registrierung-scripts-) · [Task-Regel: run-hidden.vbs](#task-regel-task-aktionen-laufen-ueber-run-hiddenvbs) · [Qualitätsgate](#qualitätsgate)
 
 | Bereich | Inhalt | Doku |
 |---------|--------|------|
@@ -333,6 +333,39 @@ Konventionen: Runtime-Pfade zeigen immer auf `%USERPROFILE%\.tools`, nie ins Rep
 Die exportierten XMLs enthalten absolute Pfade dieses Rechners und dienen nur als
 Backup - nie als Installationsquelle. Destruktive Schritte (Überschreiben mit
 `-Force`, Task-Neuregistrierung) erst nach einem Report-/DryRun-Lauf ausführen.
+
+## Task-Regel: Task-Aktionen laufen ueber run-hidden.vbs
+
+**Regel:** Jede Aktion eines Scheduled Tasks in dieser Suite startet das
+PowerShell-Skript niemals direkt, sondern immer ueber den Wrapper:
+
+```text
+wscript.exe //B //Nologo "%USERPROFILE%\.tools\maintenance\run-hidden.vbs" "<skript.ps1>" [argumente]
+```
+
+**Warum:** PowerShell ist eine Konsolenanwendung; Windows erzeugt das
+conhost-Fenster, bevor der Schalter `-WindowStyle Hidden` verarbeitet wird -
+der Flash war also schon passiert, wenn PowerShell ihn versteckt haette.
+`WScript.Shell.Run cmd, 0, True` (SW_HIDE) startet den Kindprozess ab dem
+ersten Befehl ohne Fenster; `//B //Nologo` haelt auch wscript selbst still.
+Der Wrapper reicht alle Argumente gequoted durch (inkl. Watchdog-`-Apply`)
+und wartet synchron, damit ExecutionTimeLimit und IgnoreNew weiter greifen.
+
+**Durchsetzung:**
+
+- `scripts/install-task.ps1` erzeugt nur noch Wrapper-Aktionen - neue
+  Registrierungen koennen den Fehler nicht wieder einfuehren.
+- Die XML-Backups in `task/` zeigen `<Command>wscript.exe</Command>`; bei
+  manueller GUI-Wiederherstellung gilt der Wrapper unverändert.
+- Migration bestehender Tasks nur per XML-Round-Trip: Command/Arguments
+  patchen, Trigger/Principal/Settings byte-identisch lassen.
+
+**Verifikation:** `Get-ScheduledTaskInfo` (LastTaskResult) plus die
+aktivierte TaskScheduler-Operational-Historie; die Beweiskette der
+Ursache und der Migration liegt in
+[audit/2026-10-01-fenster-flash/](audit/2026-10-01-fenster-flash/00-INDEX.md)
+(Protokoll, Entscheidungslog, Selbstpruefung 22/22 PASS).
+Entscheidungshintergrund: [ADR-014](docs/decisions/ADR-014-task-aktionen-ueber-run-hidden-wrapper.md).
 
 ## Qualitätsgate
 
