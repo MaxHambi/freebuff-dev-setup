@@ -3,6 +3,49 @@
 Kurze Summaries pro Session: was wurde geliefert, entschieden, offen gelassen.
 Neue Eintraege oben. Detailtiefe lebt in PRs/Issues/ADRs - hier nur Kontext.
 
+## 2026-10-02 - Verifikation der Operator-Session 2026-10-01 (Cross-Projekt-Push auf master)
+
+**Anlass:** Der Operator pushte am 01.10. aus einem anderen Freebuff-Projekt
+direkt auf master (20 Commits, `40d6341..38ad825`). Auftrag: Arbeit
+verifizieren, Doku nachziehen, Projektstand berichten.
+
+**Verifiziert (Diff je Commit gelesen, Gates live gelaufen):**
+
+- PR #66 (squash `3a42512`): Fenster-Flash-Fix - Task-Aktionen laufen ueber
+  `wscript.exe //B //Nologo run-hidden.vbs` (SW_HIDE ab Prozessstart);
+  Wrapper reicht jetzt ALLE Argumente quoted durch (Watchdog-`-Apply`
+  kam bewiesenermassen an, Log 02:40:01 Mode=APPLY, Result 0x0);
+  `install-task.ps1` erzeugt nur noch Wrapper-Aktionen; alle fuenf Tasks
+  per XML-Round-Trip migriert (Trigger/Principal byte-identisch);
+  Beweiskette `audit/2026-10-01-fenster-flash/` inkl. P12 (16:30-Lauf
+  flash-frei). ADR-014 Accepted, konsistent mit README-Task-Regel,
+  AGENTS-Learning und 06-grenzen.md (P11-Stand).
+- PR #67 (squash `762ccd0`): `bun.lock` mit Biome-2.5.14-Bump aus #33
+  synchronisiert (CI brach sonst an `bun install --frozen-lockfile`).
+- `e658345`: agenttrace-Session-Audit als beratende Pre-Push-Stufe
+  (`scripts/agenttrace-audit.ps1`, `npm run audit:sessions`); advisory,
+  blockiert nie, Skip ohne Binary, `AGENTTRACE_AUDIT=0` schaltet ab -
+  Verkettung im `scripts/hooks/pre-push` bestaetigt.
+- `6645a8b`: Commit-Attribution umgestellt - nur noch der Trailer
+  `AI-Assisted: Codebuff (Buffy)`, kein `Co-Authored-By`/"Generated with"
+  (GitHub verlinkte sonst einen fremden Account als Mitautor). Konvention
+  in blueprint/context (ai-interaction, coding-standards) nachgezogen.
+- `25d28a7` + `a3c0ae2`: `.gitattributes`-LF-Vertrag + 42 Dateien EOL-
+  normalisiert (Diff rein EOL, Gates gruen). Skill-History-Eintraege
+  (`b5d49a1`..`6d23b39`) dokumentieren neue User-Level-Skills.
+- `38ad825`: Issue #68 (Session-Restpunkte) gespiegelt; mirror-sync-Header
+  sauber, Mirror-Index-Zeile vorhanden.
+- Konventionen: alle 20 Commits Conventional-Commits-konform; CHANGELOG
+  `[Unreleased]` deckt feat/fix ab; check-commits/check-changelog gruen.
+- `npm run verify` auf `38ad825`: Exit 0 (41/41 Tests, Lint, Syntaxcheck,
+  Doku-Gates). Keine offenen PRs; offene Issues: #15, #17, #19, #65, #68.
+
+**Ergaenzt:** ROADMAP-Verweis auf #68 als Posten 7; dieser Session-
+Eintrag; MemPalace-Decision-Drawer zum Verifikationsstand.
+
+**Offen:** #68-Checkliste (Task-Alerting, agenttrace-Baseline,
+Co-Author-Spur-Entscheid - Operator), ROADMAP-Posten 1-4.
+
 ## 2026-10-01 - Fenster-Flash: Migration abgeschlossen, Task-Regel in Doku, Session-Audits
 
 **Geliefert:** PR #66 gemerged (Task-Aktionen ueber run-hidden.vbs-Wrapper,

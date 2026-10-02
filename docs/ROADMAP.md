@@ -83,6 +83,19 @@ entfernen.
 **Abhaengigkeiten:** keiner (Einsatz-getrieben). **Groesse:** klein
 (nach Einsatz).
 
+## 7. Session-Restpunkte 2026-10-01 (#68)
+
+**Ziel:** Drei bewusst offengebliebene Restpunkte der Fenster-Flash-
+Session abarbeiten (Checkliste auf #68): Task-Fail-Alerting (taeglicher
+Check aller eigenen Tasks, Warn-Event bei `LastTaskResult` ungleich 0),
+agenttrace-Baseline schaerfen (`MinHealth` 70 in
+`scripts/agenttrace-audit.ps1` anhand gesammelter Berichte anheben) und
+codebuff-team-Spur in gepushten Commits entfernen (reiner Operator-
+Entscheid: History-Rewrite + Force-Push vs. GitHub Support).
+
+**Abhaengigkeiten:** keine. **Groesse:** klein-mittel; je Punkt eigener
+Branch/PR (ADR-003), Details und Nicht-Ziele auf #68.
+
 ## 5. Session-Doku-Hook entscheiden (#62-Follow-up) — ✅ entschieden 2026-09-29
 
 **Entscheid (Operator, AFK-Mission 2026-09-29):** Hook **bewusst nicht
