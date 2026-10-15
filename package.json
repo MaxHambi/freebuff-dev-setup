@@ -19,7 +19,7 @@
 		"verify": "npm run lint --silent && bunx tsc --noEmit && npm run syntaxcheck --silent && pwsh -NoProfile -File scripts/check-conventions.ps1 && npm run test:repo --silent && bun test && bun run skills-manager/scripts/check-commits.ts --base origin/master && bun run skills-manager/scripts/check-changelog.ts --base origin/master"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.14",
+		"@biomejs/biome": "2.5.15",
 		"@types/bun": "latest"
 	},
 	"packageManager": "npm@10.9.0",
